@@ -339,6 +339,9 @@
 //   overlay-canvas → preview de formas em construção
 //   cursor-canvas  → cursor customizado de calibração
 // ═══════════════════════════════════════════════════════
+
+console.log("Checando API do Electron:", window.electronAPI);
+
 const wrap   = document.getElementById('canvas-wrap');
 const mainC  = document.getElementById('main-canvas');
 const heatC  = document.getElementById('heat-canvas');   // NOVO
@@ -382,18 +385,26 @@ const COLORS = { floor: '#aaaaaa', wifi: '#4a6aff', calib: '#ffb940' };
 // ═══════════════════════════════════════════════════════
 // MÓDULO 2 — SCANNER ENGINE (preservado integralmente)
 // ═══════════════════════════════════════════════════════
+
 async function scanWifi() {
+  // 1. Verifica se a ponte do Electron está disponível
   if (window.electronAPI && window.electronAPI.wifiScan) {
-    return await window.electronAPI.wifiScan();
+    try {
+      // 2. Chama o hardware real definido no main.js
+      return await window.electronAPI.wifiScan();
+    } catch (e) {
+      console.error("Erro no scan real:", e);
+      return { ssid: 'Erro IPC', rssi: -100, band: '' };
+    }
   }
+
+  // 3. Fallback: Se abrir no Chrome (fora do Electron), ele avisa
+  console.warn("Electron não detectado. Usando simulação.");
   await new Promise(r => setTimeout(r, 420));
-  const rssi = Math.round(-45 - Math.random() * 50);
-  const bands = ['2.4GHz', '5GHz', '5GHz'];
-  const ssids = ['CORP-WIFI', 'CORP-WIFI-5G', 'GUEST-NET', 'IOT-NET'];
   return {
-    ssid: ssids[Math.floor(Math.random() * ssids.length)],
-    rssi,
-    band: bands[Math.floor(Math.random() * bands.length)]
+    ssid: 'MODO-DEMO',
+    rssi: Math.round(-50 - Math.random() * 40),
+    band: '5GHz'
   };
 }
 

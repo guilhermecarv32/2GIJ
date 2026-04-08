@@ -10,8 +10,9 @@ function createWindow() {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: false
+      contextIsolation: false, // Mudança aqui
+      nodeIntegration: true,   // Mudança aqui
+      sandbox: false
     }
   });
   win.loadFile('index.html');
@@ -36,5 +37,3 @@ ipcMain.handle('wifi-scan', async () => {
 });
 
 app.whenReady().then(createWindow);
-
-//teste

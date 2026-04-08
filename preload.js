@@ -1,7 +1,8 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
 
-contextBridge.exposeInWorld('electronAPI', {
-  wifiScan: () => ipcRenderer.invoke('wifi-scan')
-});
+// Injeção direta (Modo de compatibilidade)
+window.electronAPI = {
+    wifiScan: () => ipcRenderer.invoke('wifi-scan')
+};
 
-//teste
+console.log("Ponte injetada com sucesso no modo de compatibilidade!");

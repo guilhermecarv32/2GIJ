@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "electron": "^41.2.0",
     "node-wifi": "^2.0.16"
+  },
+  "devDependencies": {
+    "electron": "^41.2.0"
   }
 }
