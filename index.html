@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2GIJ — v1.1: Canvas + Survey + Heatmap + Network Selector</title>
+<title>2GIJ — v1.0: Canvas + Survey + Heatmap</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: sans-serif; background: transparent; }
@@ -23,7 +23,7 @@
   .tb-label { font-size: 11px; color: #555; padding: 0 4px; white-space: nowrap; }
 
   /* ── SURVEY TOOLBAR ── */
-  #survey-bar { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: #0e0e0e; border-bottom: 0.5px solid #1e1e1e; flex-wrap: wrap; }
+  #survey-bar { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: #0e0e0e; border-bottom: 0.5px solid #1e1e1e; }
   .sv-btn { height: 26px; padding: 0 14px; border-radius: 5px; border: 0.5px solid #333; background: transparent; cursor: pointer; font-size: 12px; font-weight: 500; color: #666; transition: all .15s; white-space: nowrap; }
   .sv-btn:hover { border-color: #444; color: #999; }
   .sv-btn.start  { border-color: #1a5a1a; color: #4aaa4a; }
@@ -48,72 +48,7 @@
   #scan-indicator { font-size: 11px; color: #4a6aff; opacity: 0; transition: opacity .3s; }
   #scan-indicator.visible { opacity: 1; }
 
-  /* ── NETWORK SELECTOR BAR (módulo 4 — novo) ── */
-  #network-bar {
-    display: flex; align-items: center; gap: 8px; padding: 5px 12px;
-    background: #0c0c0f; border-bottom: 0.5px solid #1a1a22;
-    flex-wrap: wrap; transition: background .4s;
-  }
-  #network-bar .tb-label { color: #4a4a6a; }
-
-  .net-btn {
-    height: 24px; padding: 0 10px; border-radius: 5px;
-    border: 0.5px solid #2a2a4a; background: transparent;
-    cursor: pointer; font-size: 11px; font-weight: 500; color: #5a5a8a;
-    transition: all .15s; white-space: nowrap; display: flex; align-items: center; gap: 5px;
-  }
-  .net-btn:hover { background: #0e0e1e; color: #8a8acc; border-color: #3a3a6a; }
-  .net-btn.scanning { color: #4a6aff; border-color: #2a4a8a; animation: pulse 1.2s ease-in-out infinite; }
-  .net-btn:disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
-
-  #net-ssid-select {
-    height: 24px; padding: 0 8px; border-radius: 5px;
-    border: 0.5px solid #2a2a4a; background: #0a0a14;
-    color: #7a7aaa; font-size: 11px; cursor: pointer;
-    min-width: 160px; max-width: 220px;
-    outline: none; transition: border-color .15s;
-  }
-  #net-ssid-select:focus { border-color: #4a4a8a; }
-  #net-ssid-select option { background: #0d0d1a; color: #9a9acc; }
-
-  .net-sep { display: flex; align-items: center; color: #2a2a3a; font-size: 11px; padding: 0 2px; }
-
-  #net-manual-input {
-    height: 24px; padding: 0 8px; border-radius: 5px;
-    border: 0.5px solid #1e1e3a; background: #080810;
-    color: #7a7aaa; font-size: 11px; width: 150px;
-    outline: none; transition: border-color .15s;
-  }
-  #net-manual-input:focus { border-color: #4a4a8a; }
-  #net-manual-input::placeholder { color: #2a2a4a; }
-
-  .net-apply-btn {
-    height: 24px; padding: 0 10px; border-radius: 5px;
-    border: 0.5px solid #2a4a2a; background: transparent;
-    cursor: pointer; font-size: 11px; color: #5a8a5a;
-    transition: all .15s;
-  }
-  .net-apply-btn:hover { background: #0a1a0a; color: #7aaa7a; border-color: #3a6a3a; }
-
-  #net-target-display {
-    display: flex; align-items: center; gap: 6px; margin-left: auto;
-    font-size: 11px;
-  }
-  #net-target-badge {
-    display: none; align-items: center; gap: 5px;
-    background: #0a0a1e; border: 0.5px solid #2a2a6a;
-    border-radius: 4px; padding: 2px 8px;
-    font-size: 11px; color: #6a6aaa;
-  }
-  #net-target-badge.active { display: flex; }
-  #net-target-badge .badge-ssid { color: #8a8aff; font-weight: 600; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  #net-target-badge .badge-clear { background: none; border: none; cursor: pointer; color: #3a3a5a; font-size: 12px; padding: 0 0 0 4px; transition: color .15s; }
-  #net-target-badge .badge-clear:hover { color: #aa4a4a; }
-
-  #net-warn { font-size: 11px; color: #8a6a00; display: none; }
-  #net-warn.visible { display: block; }
-
-  /* ── HEATMAP BAR (módulo 3 — preservado) ── */
+  /* ── HEATMAP BAR (MÓDULO 3 — nova barra) ── */
   #heatmap-bar { display: flex; align-items: center; gap: 8px; padding: 5px 12px; background: #080808; border-bottom: 0.5px solid #161616; flex-wrap: wrap; }
   .hm-btn { height: 24px; padding: 0 12px; border-radius: 5px; border: 0.5px solid #2a3a4a; background: transparent; cursor: pointer; font-size: 11px; font-weight: 500; color: #4a7aaa; transition: all .15s; white-space: nowrap; }
   .hm-btn:hover { background: #0e1a2a; color: #6a9acc; }
@@ -143,6 +78,7 @@
   #canvas-wrap.tool-calibrate { cursor: none; }
   #canvas-wrap.tool-survey    { cursor: cell; }
   #main-canvas    { position: absolute; top: 0; left: 0; }
+  /* NOVO: canvas do heatmap entre planta e overlay */
   #heat-canvas    { position: absolute; top: 0; left: 0; pointer-events: none; }
   #overlay-canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
   #cursor-canvas  { position: absolute; top: 0; left: 0; pointer-events: none; }
@@ -161,7 +97,7 @@
   .status-val { color: #666; font-variant-numeric: tabular-nums; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: #2a6a2a; }
 
-  /* ── MODALS ── */
+  /* ── MODALS (todos preservados) ── */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; z-index: 999; }
   .modal-bg.hidden { display: none; }
   .modal-box { background: #141414; border: 0.5px solid #2a2a2a; border-radius: 12px; padding: 24px; width: 340px; }
@@ -187,17 +123,7 @@
   .sp-toast { position: absolute; background: rgba(10,10,30,.88); border: 0.5px solid #4a6aff44; border-radius: 5px; padding: 3px 7px; font-size: 11px; color: #8aaaff; pointer-events: none; white-space: nowrap; animation: toast-up 1.8s ease-out forwards; }
   @keyframes toast-up { 0%{opacity:1;transform:translateY(0)} 70%{opacity:1} 100%{opacity:0;transform:translateY(-28px)} }
 
-  /* ── ALERTA DE SSID DIVERGENTE no modal de scan (módulo 4) ── */
-  #scan-ssid-mismatch-alert {
-    display: none; align-items: center; gap: 6px;
-    background: #1e1200; border: 0.5px solid #5a3a00;
-    border-radius: 5px; padding: 6px 10px; margin-bottom: 10px;
-    font-size: 11px; color: #aaaa30; line-height: 1.5;
-  }
-  #scan-ssid-mismatch-alert.visible { display: flex; }
-  #scan-ssid-mismatch-alert .alert-icon { font-size: 13px; flex-shrink: 0; }
-
-  /* ── MODAL RELATÓRIO (módulo 3) ── */
+  /* ── MODAL RELATÓRIO (MÓDULO 3) ── */
   #modal-report-box { width: 420px; max-width: 96vw; }
   #report-preview-wrap { width: 100%; aspect-ratio: 16/9; background: #0a0a0a; border: 0.5px solid #222; border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
   #report-preview { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -282,33 +208,7 @@
     </div>
   </div>
 
-  <!-- ══ NETWORK SELECTOR BAR (módulo 4 — novo) ══ -->
-  <div id="network-bar">
-    <span class="tb-label">ALVO</span>
-
-    <button class="net-btn" id="net-refresh" title="Escanear redes ao alcance">↻ Atualizar Redes</button>
-
-    <select id="net-ssid-select" title="Selecione a rede alvo">
-      <option value="">— selecione uma rede —</option>
-    </select>
-    <button class="net-apply-btn" id="net-apply-select">✓ Usar</button>
-
-    <div class="net-sep">ou</div>
-
-    <input type="text" id="net-manual-input" placeholder="SSID oculto / manual" maxlength="64" title="Digite o SSID manualmente para redes ocultas">
-    <button class="net-apply-btn" id="net-apply-manual">✓ Definir</button>
-
-    <div id="net-target-display">
-      <span id="net-warn">⚠ selecione uma rede antes de iniciar</span>
-      <div id="net-target-badge">
-        <span>Alvo:</span>
-        <span class="badge-ssid" id="net-target-ssid-label">—</span>
-        <button class="badge-clear" id="net-clear-target" title="Limpar alvo">✕</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ HEATMAP BAR (módulo 3 — preservado) ══ -->
+  <!-- ══ HEATMAP BAR (módulo 3 — nova barra) ══ -->
   <div id="heatmap-bar">
     <span class="tb-label">HEATMAP</span>
     <button class="hm-btn" id="hm-render" disabled title="Renderizar heatmap IDW (H)">⬡ Renderizar</button>
@@ -341,7 +241,7 @@
   <!-- ══ CANVAS ══ -->
   <div id="canvas-wrap" class="tool-pencil">
     <canvas id="main-canvas"></canvas>
-    <canvas id="heat-canvas"></canvas>
+    <canvas id="heat-canvas"></canvas><!-- MÓDULO 3: camada do heatmap -->
     <canvas id="overlay-canvas"></canvas>
     <canvas id="cursor-canvas"></canvas>
     <div id="info-panel">
@@ -353,15 +253,12 @@
       <div class="info-row" id="inf-rssi-row" style="display:none">
         <span>Último RSSI</span><span class="info-val" id="inf-rssi">—</span>
       </div>
-      <div class="info-row">
-        <span>Rede Alvo</span><span class="info-val" id="inf-target">—</span>
-      </div>
     </div>
   </div>
 
   <!-- ══ STATUS BAR ══ -->
   <div id="status-bar">
-    <div class="status-item"><div class="dot"></div><span>2GIJ v1.1</span></div>
+    <div class="status-item"><div class="dot"></div><span>2GIJ v1.0</span></div>
     <div class="status-item"><span>Camada:</span><span class="status-val" id="st-layer">Planta</span></div>
     <div class="status-item"><span>Ferramenta:</span><span class="status-val" id="st-tool">Lápis</span></div>
     <div class="status-item"><span>Objetos:</span><span class="status-val" id="st-count">0</span></div>
@@ -382,18 +279,11 @@
   </div>
 </div>
 
-<!-- ══ MODAL: SCAN (preservado + alerta de SSID divergente) ══ -->
+<!-- ══ MODAL: SCAN (preservado) ══ -->
 <div class="modal-bg hidden" id="modal-scan-bg">
   <div class="modal-box">
     <h3>Registrar Ponto de Coleta</h3>
     <p id="scan-modal-coord" style="color:#444;font-size:11px;margin-bottom:12px"></p>
-
-    <!-- MÓDULO 4: alerta de divergência de SSID -->
-    <div id="scan-ssid-mismatch-alert">
-      <span class="alert-icon">⚠</span>
-      <span id="scan-ssid-mismatch-text"></span>
-    </div>
-
     <div id="scan-result-block">
       <div class="modal-rssi" id="scan-rssi-display">—</div>
       <div class="rssi-bar-wrap"><div class="rssi-bar" id="scan-rssi-bar" style="width:0%"></div></div>
@@ -427,7 +317,7 @@
   </div>
 </div>
 
-<!-- ══ MODAL: RELATÓRIO DE IMAGEM (módulo 3 — preservado) ══ -->
+<!-- ══ MODAL: RELATÓRIO DE IMAGEM (módulo 3 — novo) ══ -->
 <div class="modal-bg hidden" id="modal-report-bg">
   <div class="modal-box" id="modal-report-box">
     <h3>Relatório de Imagem — 2GIJ</h3>
@@ -443,22 +333,27 @@
 
 <script>
 // ═══════════════════════════════════════════════════════
-// CANVAS SETUP — 4 camadas (preservado integralmente)
+// CANVAS SETUP — 4 camadas:
+//   main-canvas  → fundo escuro + grid + planta + scan markers
+//   heat-canvas  → heatmap IDW (módulo 3, transparente por padrão)
+//   overlay-canvas → preview de formas em construção
+//   cursor-canvas  → cursor customizado de calibração
 // ═══════════════════════════════════════════════════════
+
 console.log("Checando API do Electron:", window.electronAPI);
 
 const wrap   = document.getElementById('canvas-wrap');
 const mainC  = document.getElementById('main-canvas');
-const heatC  = document.getElementById('heat-canvas');
+const heatC  = document.getElementById('heat-canvas');   // NOVO
 const ovC    = document.getElementById('overlay-canvas');
 const curC   = document.getElementById('cursor-canvas');
 const mCtx   = mainC.getContext('2d');
-const hCtx   = heatC.getContext('2d');
+const hCtx   = heatC.getContext('2d');                   // NOVO
 const ovCtx  = ovC.getContext('2d');
 const curCtx = curC.getContext('2d');
 
 // ═══════════════════════════════════════════════════════
-// ESTADO GLOBAL (preservado + módulo 4)
+// ESTADO GLOBAL — PROJETO
 // ═══════════════════════════════════════════════════════
 const state = {
   project: {
@@ -468,181 +363,51 @@ const state = {
     drawings:   [],
     scanPoints: []
   },
+  // módulo 1
   tool: 'pencil', layer: 'floor',
   zoom: 1, panX: 0, panY: 0,
   drawing: false, panning: false, lastPan: null,
   currentPath: [], startPt: null,
   calibMode: false, calibPts: [],
   mouseX: 0, mouseY: 0,
+  // módulo 2
   surveyStatus: 'idle',
   pendingPoint: null, lastRssi: null,
+  // módulo 3 — heatmap
   heatVisible: false,
   hmOpacity: 0.55,
   hmRadius:  130,
-  hmPower:   2.0,
-  // MÓDULO 4 — seletor de rede
-  targetSSID: null,
-  availableNetworks: []
+  hmPower:   2.0
 };
 
 const COLORS = { floor: '#aaaaaa', wifi: '#4a6aff', calib: '#ffb940' };
 
 // ═══════════════════════════════════════════════════════
-// MÓDULO 4 — BACK-END BRIDGE
-//
-// getNetworks() → equivale ao ipcMain.handle('get-networks')
-//   Retorna lista de { ssid, rssi, band } ordenada por RSSI desc.
-//   No Electron real: await window.electronAPI.getNetworks()
-//
-// scanWifi(targetSSID?) → equivale ao ipcMain.handle('wifi-scan') refatorado
-//   Se targetSSID fornecido, filtra e retorna dados só dessa rede.
-//   Rede não encontrada → { error: 'Rede fora de alcance' }
-//   No Electron real: await window.electronAPI.wifiScan(targetSSID)
+// MÓDULO 2 — SCANNER ENGINE (preservado integralmente)
 // ═══════════════════════════════════════════════════════
 
-// Pool simulado de redes (estável entre calls para simular vizinhança real)
-const _DEMO_POOL = [
-  { ssid: 'M_Souza_EXT',   rssi: -42, band: '5GHz'   },
-  { ssid: 'NETvirtua_8A',  rssi: -58, band: '2.4GHz' },
-  { ssid: 'CLARO_4G_Res',  rssi: -63, band: '2.4GHz' },
-  { ssid: 'iPhone de Ana', rssi: -71, band: '5GHz'   },
-  { ssid: 'GuestWifi',     rssi: -79, band: '2.4GHz' },
-  { ssid: 'IoT_Sensor_1',  rssi: -83, band: '2.4GHz' },
-];
-
-async function getNetworks() {
-  // Electron real: delega ao main.js via IPC
-  if (window.electronAPI && window.electronAPI.getNetworks) {
-    try { return await window.electronAPI.getNetworks(); }
-    catch (e) { console.error("Erro get-networks IPC:", e); return []; }
-  }
-  // Fallback simulado: jitter de ±3 dBm + ordena por sinal
-  await new Promise(r => setTimeout(r, 600));
-  return _DEMO_POOL
-    .map(n => ({ ...n, rssi: n.rssi + Math.round((Math.random() - 0.5) * 6) }))
-    .sort((a, b) => b.rssi - a.rssi);
-}
-
-async function scanWifi(targetSSID) {
-  // Electron real: delega ao main.js via IPC (com parâmetro opcional)
+async function scanWifi() {
+  // 1. Verifica se a ponte do Electron está disponível
   if (window.electronAPI && window.electronAPI.wifiScan) {
-    try { return await window.electronAPI.wifiScan(targetSSID || null); }
-    catch (e) { console.error("Erro wifi-scan IPC:", e); return { ssid: 'Erro IPC', rssi: -100, band: '' }; }
-  }
-  // Fallback simulado
-  await new Promise(r => setTimeout(r, 420));
-  const networks = _DEMO_POOL.map(n => ({
-    ...n, rssi: n.rssi + Math.round((Math.random() - 0.5) * 8)
-  }));
-  if (targetSSID) {
-    const found = networks.find(n => n.ssid.toLowerCase() === targetSSID.toLowerCase());
-    if (!found) return { error: 'Rede fora de alcance', ssid: targetSSID, rssi: null, band: '' };
-    return found;
-  }
-  // Sem alvo: comportamento legado — retorna mais forte (modo demo)
-  return { ssid: 'MODO-DEMO', rssi: Math.round(-50 - Math.random() * 40), band: '5GHz' };
-}
-
-// ═══════════════════════════════════════════════════════
-// MÓDULO 4 — INTERFACE: Seletor de Rede
-// ═══════════════════════════════════════════════════════
-
-function updateTargetUI() {
-  const badge    = document.getElementById('net-target-badge');
-  const badgeLbl = document.getElementById('net-target-ssid-label');
-  const warn     = document.getElementById('net-warn');
-  const infTarget= document.getElementById('inf-target');
-
-  if (state.targetSSID) {
-    badge.classList.add('active');
-    badgeLbl.textContent = state.targetSSID;
-    badgeLbl.title       = state.targetSSID;
-    warn.classList.remove('visible');
-    infTarget.textContent = state.targetSSID;
-    infTarget.style.color = '#8a8aff';
-  } else {
-    badge.classList.remove('active');
-    badgeLbl.textContent  = '—';
-    infTarget.textContent = '—';
-    infTarget.style.color = '';
-    if (state.surveyStatus === 'running' || state.surveyStatus === 'paused') {
-      warn.classList.add('visible');
-    } else {
-      warn.classList.remove('visible');
+    try {
+      // 2. Chama o hardware real definido no main.js
+      return await window.electronAPI.wifiScan();
+    } catch (e) {
+      console.error("Erro no scan real:", e);
+      return { ssid: 'Erro IPC', rssi: -100, band: '' };
     }
   }
+
+  // 3. Fallback: Se abrir no Chrome (fora do Electron), ele avisa
+  console.warn("Electron não detectado. Usando simulação.");
+  await new Promise(r => setTimeout(r, 420));
+  return {
+    ssid: 'MODO-DEMO',
+    rssi: Math.round(-50 - Math.random() * 40),
+    band: '5GHz'
+  };
 }
 
-async function refreshNetworks() {
-  const btn    = document.getElementById('net-refresh');
-  const select = document.getElementById('net-ssid-select');
-
-  btn.classList.add('scanning');
-  btn.disabled    = true;
-  select.disabled = true;
-  setStatus('Escaneando redes disponíveis…', '#5a5aaa');
-
-  let networks = [];
-  try { networks = await getNetworks(); state.availableNetworks = networks; }
-  catch (e) { setStatus('Erro ao listar redes.', '#aa4a4a'); }
-
-  // limpa opções (preserva placeholder)
-  while (select.options.length > 1) select.remove(1);
-
-  if (networks.length === 0) {
-    const opt = new Option('Nenhuma rede encontrada', ''); opt.disabled = true;
-    select.add(opt);
-    setStatus('Nenhuma rede detectada.', '#666');
-  } else {
-    networks.forEach(n => {
-      const lbl = `${n.ssid}  (${n.rssi} dBm · ${n.band})`;
-      select.add(new Option(lbl, n.ssid));
-    });
-    setStatus(`${networks.length} redes encontradas — selecione o alvo.`, '#5a5aaa');
-  }
-
-  btn.classList.remove('scanning');
-  btn.disabled    = false;
-  select.disabled = false;
-}
-
-function applySelectTarget() {
-  const ssid = document.getElementById('net-ssid-select').value.trim();
-  if (!ssid) { setStatus('Selecione uma rede na lista antes de confirmar.', '#aaaa30'); return; }
-  state.targetSSID = ssid;
-  document.getElementById('net-manual-input').value = '';
-  updateTargetUI();
-  setStatus(`Rede alvo definida: "${ssid}"`, '#8a8aff');
-}
-
-function applyManualTarget() {
-  const ssid = document.getElementById('net-manual-input').value.trim();
-  if (!ssid) { setStatus('Digite o SSID no campo manual antes de confirmar.', '#aaaa30'); return; }
-  state.targetSSID = ssid;
-  document.getElementById('net-ssid-select').value = '';
-  updateTargetUI();
-  setStatus(`Rede alvo (manual) definida: "${ssid}"`, '#8a8aff');
-}
-
-function clearTarget() {
-  state.targetSSID = null;
-  document.getElementById('net-ssid-select').value = '';
-  document.getElementById('net-manual-input').value = '';
-  updateTargetUI();
-  setStatus('Rede alvo removida.', '#666');
-}
-
-document.getElementById('net-refresh').onclick      = refreshNetworks;
-document.getElementById('net-apply-select').onclick = applySelectTarget;
-document.getElementById('net-apply-manual').onclick = applyManualTarget;
-document.getElementById('net-clear-target').onclick = clearTarget;
-document.getElementById('net-manual-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') applyManualTarget();
-});
-
-// ═══════════════════════════════════════════════════════
-// MÓDULO 2 — QUALIDADE DE SINAL (preservado)
-// ═══════════════════════════════════════════════════════
 function rssiQuality(rssi) {
   if (rssi >= -50) return { label: 'Excelente', color: '#22cc88', pct: 100 };
   if (rssi >= -60) return { label: 'Bom',       color: '#66bb22', pct: 78  };
@@ -654,440 +419,562 @@ function rssiQuality(rssi) {
 function rssiToColor(rssi) { return rssiQuality(rssi).color; }
 
 // ═══════════════════════════════════════════════════════
-// MÓDULO 3 — PALETA IDW (preservada integralmente)
+// MÓDULO 3 — PALETA IDW
+// Gradiente contínuo de 6 stops mapeado de dBm para RGB.
+// t=0 → −90 dBm (crítico/roxo); t=1 → −30 dBm (excelente/ciano)
 // ═══════════════════════════════════════════════════════
 function heatColor(t) {
+  // [threshold_t, r, g, b]
   const stops = [
-    [0.00, 120, 10,120],[0.18,180,20,20],[0.38,210,80,0],
-    [0.55,180,170,10],[0.75,50,180,50],[1.00,20,210,140],
+    [0.00,  120,  10, 120],  // roxo escuro   — crítico
+    [0.18,  180,  20,  20],  // vermelho       — muito fraco
+    [0.38,  210,  80,   0],  // laranja        — fraco
+    [0.55,  180, 170,  10],  // amarelo-verde  — regular
+    [0.75,   50, 180,  50],  // verde          — bom
+    [1.00,   20, 210, 140],  // ciano-verde    — excelente
   ];
   t = Math.max(0, Math.min(1, t));
   let i = 0;
-  while (i < stops.length - 2 && t > stops[i+1][0]) i++;
-  const [t0,r0,g0,b0] = stops[i], [t1,r1,g1,b1] = stops[i+1];
+  while (i < stops.length - 2 && t > stops[i + 1][0]) i++;
+  const [t0, r0, g0, b0] = stops[i];
+  const [t1, r1, g1, b1] = stops[i + 1];
   const f = (t - t0) / (t1 - t0);
-  return [Math.round(r0+f*(r1-r0)), Math.round(g0+f*(g1-g0)), Math.round(b0+f*(b1-b0))];
+  return [
+    Math.round(r0 + f * (r1 - r0)),
+    Math.round(g0 + f * (g1 - g0)),
+    Math.round(b0 + f * (b1 - b0))
+  ];
 }
+
+// Normaliza dBm para [0,1] na faixa −90..−30
 function rssiToT(rssi) { return Math.max(0, Math.min(1, (rssi + 90) / 60)); }
 
 // ═══════════════════════════════════════════════════════
-// MÓDULO 3 — RENDER HEATMAP IDW (preservado integralmente)
+// MÓDULO 3 — RENDER HEATMAP (IDW)
+//
+// Pipeline de performance:
+//   1. Trabalha em resolução 1/SCALE (canvas offscreen)
+//   2. Calcula IDW pixel-a-pixel dentro do raio de influência
+//   3. Alpha de borda usa curva quadrática (fade suave)
+//   4. Upscala + aplica CSS filter:blur() para efeito "nuvem"
 // ═══════════════════════════════════════════════════════
 function renderHeatmap() {
   const pts = state.project.scanPoints;
   if (pts.length === 0) return;
+
   const W = heatC.width, H = heatC.height;
-  const SCALE = 4;
-  const sw = Math.ceil(W/SCALE), sh = Math.ceil(H/SCALE);
-  const off = document.createElement('canvas');
-  off.width = sw; off.height = sh;
+  const SCALE = 4; // resolução de trabalho = 1/4
+  const sw = Math.ceil(W / SCALE), sh = Math.ceil(H / SCALE);
+
+  // canvas offscreen em baixa resolução
+  const off  = document.createElement('canvas');
+  off.width  = sw; off.height = sh;
   const octx = off.getContext('2d');
   const img  = octx.createImageData(sw, sh);
   const data = img.data;
-  const sPts = pts.map(p => { const [sx,sy]=toScreen(p.x,p.y); return {sx:sx/SCALE,sy:sy/SCALE,t:rssiToT(p.rssi)}; });
-  const radius = state.hmRadius / SCALE, power = state.hmPower;
+
+  // pré-projeta todos os pontos para coordenadas de tela (÷SCALE)
+  const sPts = pts.map(p => {
+    const [sx, sy] = toScreen(p.x, p.y);
+    return { sx: sx / SCALE, sy: sy / SCALE, t: rssiToT(p.rssi) };
+  });
+
+  const radius = state.hmRadius / SCALE;
+  const power  = state.hmPower;
+
   for (let py = 0; py < sh; py++) {
     for (let px = 0; px < sw; px++) {
-      let wSum=0,vSum=0,minDist=Infinity;
+
+      let wSum = 0, vSum = 0, minDist = Infinity;
+
       for (const sp of sPts) {
-        const dx=px-sp.sx, dy=py-sp.sy, dist=Math.sqrt(dx*dx+dy*dy);
-        if (dist<0.8){wSum=1;vSum=sp.t;minDist=0;break;}
-        if (dist>radius*2.8) continue;
-        const w=1/Math.pow(dist,power); wSum+=w; vSum+=w*sp.t;
-        if (dist<minDist) minDist=dist;
+        const dx = px - sp.sx, dy = py - sp.sy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // ponto exatamente sobre o pixel
+        if (dist < 0.8) { wSum = 1; vSum = sp.t; minDist = 0; break; }
+
+        // ignora pixels muito além do raio (otimização crítica)
+        if (dist > radius * 2.8) continue;
+
+        const w = 1 / Math.pow(dist, power);
+        wSum += w;
+        vSum += w * sp.t;
+        if (dist < minDist) minDist = dist;
       }
-      if (wSum===0) continue;
-      const t=vSum/wSum, [R,G,B]=heatColor(t);
-      const norm=Math.max(0,1-minDist/(radius*2.8)), alpha=Math.round(norm*norm*255);
-      const idx=(py*sw+px)*4;
-      data[idx]=R; data[idx+1]=G; data[idx+2]=B; data[idx+3]=alpha;
+
+      if (wSum === 0) continue; // nenhum ponto próximo → transparente
+
+      const t = vSum / wSum;
+      const [R, G, B] = heatColor(t);
+
+      // fade de borda: alpha máximo no centro, dissolve nas bordas (quadrático)
+      const norm  = Math.max(0, 1 - minDist / (radius * 2.8));
+      const alpha = Math.round(norm * norm * 255);
+
+      const idx = (py * sw + px) * 4;
+      data[idx]     = R;
+      data[idx + 1] = G;
+      data[idx + 2] = B;
+      data[idx + 3] = alpha;
     }
   }
-  octx.putImageData(img,0,0);
-  hCtx.clearRect(0,0,W,H);
+
+  octx.putImageData(img, 0, 0);
+
+  // aplica no heat-canvas real com blur para suavidade "fluida"
+  hCtx.clearRect(0, 0, W, H);
   hCtx.save();
-  hCtx.globalAlpha=state.hmOpacity;
-  const blurPx=Math.max(2,Math.round(state.hmRadius*0.16));
-  hCtx.filter=`blur(${blurPx}px)`;
-  hCtx.drawImage(off,0,0,W,H);
-  hCtx.filter='none';
+  hCtx.globalAlpha = state.hmOpacity;
+  const blurPx = Math.max(2, Math.round(state.hmRadius * 0.16));
+  hCtx.filter = `blur(${blurPx}px)`;
+  hCtx.drawImage(off, 0, 0, W, H);
+  hCtx.filter = 'none';
   hCtx.restore();
-  state.heatVisible=true;
+
+  state.heatVisible = true;
   document.getElementById('hm-render').classList.add('active');
-  document.getElementById('hm-clear').disabled=false;
-  setStatus(`Heatmap renderizado — ${pts.length} pts, raio ${state.hmRadius}px, p=${state.hmPower}`,'#4a8aaa');
+  document.getElementById('hm-clear').disabled = false;
+  setStatus(`Heatmap renderizado — ${pts.length} pts, raio ${state.hmRadius}px, p=${state.hmPower}`, '#4a8aaa');
 }
 
 function clearHeatmap() {
-  hCtx.clearRect(0,0,heatC.width,heatC.height);
-  state.heatVisible=false;
+  hCtx.clearRect(0, 0, heatC.width, heatC.height);
+  state.heatVisible = false;
   document.getElementById('hm-render').classList.remove('active');
-  document.getElementById('hm-clear').disabled=true;
+  document.getElementById('hm-clear').disabled = true;
   setStatus('Heatmap removido');
 }
 
 // ═══════════════════════════════════════════════════════
-// MÓDULO 3 — SNAPSHOT / RELATÓRIO (preservado + rede alvo no watermark)
+// MÓDULO 3 — SNAPSHOT / RELATÓRIO
+// Composição offline em 2× resolução:
+//   fundo + grid + planta + heatmap + scan markers + watermark
 // ═══════════════════════════════════════════════════════
 function generateReport() {
-  const W=mainC.width, H=mainC.height, DPR=2;
-  const out=document.createElement('canvas');
-  out.width=W*DPR; out.height=H*DPR;
-  const ctx=out.getContext('2d');
-  ctx.scale(DPR,DPR);
-  ctx.fillStyle='#0a0a0a'; ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=0.5;
-  const gS=50*state.zoom, gx=state.panX%gS, gy=state.panY%gS;
-  for (let x=gx;x<W;x+=gS){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-  for (let y=gy;y<H;y+=gS){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  ctx.save(); ctx.translate(state.panX,state.panY); ctx.scale(state.zoom,state.zoom);
-  state.project.drawings.forEach(g=>drawGeometry(ctx,g));
-  ctx.restore();
-  if (state.heatVisible) ctx.drawImage(heatC,0,0);
-  state.project.scanPoints.forEach(pt=>drawScanPoint(ctx,pt));
+  const W = mainC.width, H = mainC.height;
+  const DPR = 2;
+  const out = document.createElement('canvas');
+  out.width  = W * DPR;
+  out.height = H * DPR;
+  const ctx  = out.getContext('2d');
+  ctx.scale(DPR, DPR);
+
+  // 1. fundo
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, W, H);
+
+  // 2. grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 0.5;
+  const gS = 50 * state.zoom;
+  const gx = state.panX % gS, gy = state.panY % gS;
+  for (let x = gx; x < W; x += gS) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = gy; y < H; y += gS) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // 3. planta
   ctx.save();
-  ctx.font='10px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.textAlign='right';
-  const targetLabel = state.targetSSID ? `  •  Alvo: ${state.targetSSID}` : '';
-  ctx.fillText(`2GIJ Site Survey  •  ${state.project.scanPoints.length} pts${targetLabel}  •  ${new Date().toLocaleString('pt-BR')}`,W-10,H-8);
+  ctx.translate(state.panX, state.panY);
+  ctx.scale(state.zoom, state.zoom);
+  state.project.drawings.forEach(g => drawGeometry(ctx, g));
   ctx.restore();
-  window._reportCanvas=out;
-  document.getElementById('report-preview').src=out.toDataURL('image/png');
-  const pts=state.project.scanPoints;
-  const avg=pts.length?(pts.reduce((a,p)=>a+p.rssi,0)/pts.length).toFixed(1):'—';
-  document.getElementById('report-meta').innerHTML=
-    `Dimensão: <b style="color:#aaa">${W*DPR} × ${H*DPR} px</b> &nbsp;•&nbsp; `+
-    `Pontos: <b style="color:#aaa">${pts.length}</b> &nbsp;•&nbsp; `+
-    `RSSI médio: <b style="color:${rssiQuality(parseFloat(avg)||0).color}">${avg} dBm</b><br>`+
-    `Rede alvo: <b style="color:#8a8aff">${state.targetSSID||'—'}</b> &nbsp;•&nbsp; `+
-    `Heatmap: <b style="color:#aaa">${state.heatVisible?'incluído':'não renderizado'}</b>`;
+
+  // 4. heatmap (se visível — copia diretamente do heat-canvas)
+  if (state.heatVisible) {
+    ctx.drawImage(heatC, 0, 0);
+  }
+
+  // 5. scan markers
+  state.project.scanPoints.forEach(pt => drawScanPoint(ctx, pt));
+
+  // 6. watermark
+  ctx.save();
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.textAlign = 'right';
+  ctx.fillText(
+    `2GIJ Site Survey  •  ${state.project.scanPoints.length} pts  •  ${new Date().toLocaleString('pt-BR')}`,
+    W - 10, H - 8
+  );
+  ctx.restore();
+
+  // exibe preview no modal
+  window._reportCanvas = out;
+  document.getElementById('report-preview').src = out.toDataURL('image/png');
+
+  const pts = state.project.scanPoints;
+  const avg = pts.length
+    ? (pts.reduce((a, p) => a + p.rssi, 0) / pts.length).toFixed(1)
+    : '—';
+  document.getElementById('report-meta').innerHTML =
+    `Dimensão: <b style="color:#aaa">${W * DPR} × ${H * DPR} px</b> &nbsp;•&nbsp; ` +
+    `Pontos: <b style="color:#aaa">${pts.length}</b> &nbsp;•&nbsp; ` +
+    `RSSI médio: <b style="color:${rssiQuality(parseFloat(avg)||0).color}">${avg} dBm</b><br>` +
+    `Heatmap: <b style="color:#aaa">${state.heatVisible ? 'incluído' : 'não renderizado'}</b>`;
+
   document.getElementById('modal-report-bg').classList.remove('hidden');
-  setStatus('Relatório gerado — escolha o formato para salvar','#4a9a4a');
+  setStatus('Relatório gerado — escolha o formato para salvar', '#4a9a4a');
 }
 
 // ═══════════════════════════════════════════════════════
-// RESIZE (preservado)
+// RESIZE — inclui heat-canvas
 // ═══════════════════════════════════════════════════════
 function resize() {
-  const r=wrap.getBoundingClientRect();
-  [mainC,heatC,ovC,curC].forEach(c=>{c.width=r.width;c.height=r.height;});
+  const r = wrap.getBoundingClientRect();
+  [mainC, heatC, ovC, curC].forEach(c => { c.width = r.width; c.height = r.height; });
   redraw();
-  if (state.heatVisible) renderHeatmap();
+  if (state.heatVisible) renderHeatmap(); // re-renderiza ao redimensionar
 }
 
 // ═══════════════════════════════════════════════════════
 // SISTEMA DE COORDENADAS (preservado)
 // ═══════════════════════════════════════════════════════
-function toWorld(cx,cy)  { return [(cx-state.panX)/state.zoom,(cy-state.panY)/state.zoom]; }
-function toScreen(wx,wy) { return [wx*state.zoom+state.panX, wy*state.zoom+state.panY]; }
-function toCM(wx,wy) {
-  if (!state.project.scaleRatio) return [`${wx.toFixed(0)}px`,`${wy.toFixed(0)}px`];
-  return [(wx*state.project.scaleRatio).toFixed(1),(wy*state.project.scaleRatio).toFixed(1)];
+function toWorld(cx, cy)  { return [(cx - state.panX) / state.zoom, (cy - state.panY) / state.zoom]; }
+function toScreen(wx, wy) { return [wx * state.zoom + state.panX,   wy * state.zoom + state.panY]; }
+function toCM(wx, wy) {
+  if (!state.project.scaleRatio) return [`${wx.toFixed(0)}px`, `${wy.toFixed(0)}px`];
+  return [(wx * state.project.scaleRatio).toFixed(1), (wy * state.project.scaleRatio).toFixed(1)];
 }
 
 // ═══════════════════════════════════════════════════════
-// DESENHO (preservado integralmente)
+// DESENHO: GRID (preservado)
 // ═══════════════════════════════════════════════════════
 function drawGrid(ctx) {
-  const gridSize=50, w=ctx.canvas.width, h=ctx.canvas.height;
-  ctx.save(); ctx.strokeStyle='rgba(255,255,255,0.045)'; ctx.lineWidth=0.5;
-  const sx=state.panX%(gridSize*state.zoom), sy=state.panY%(gridSize*state.zoom);
-  for (let x=sx;x<w;x+=gridSize*state.zoom){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
-  for (let y=sy;y<h;y+=gridSize*state.zoom){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  const gridSize = 50;
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+  ctx.lineWidth = 0.5;
+  const sx = state.panX % (gridSize * state.zoom);
+  const sy = state.panY % (gridSize * state.zoom);
+  for (let x = sx; x < w; x += gridSize * state.zoom) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for (let y = sy; y < h; y += gridSize * state.zoom) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
   ctx.restore();
 }
-function drawGeometry(ctx,g) {
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: GEOMETRIAS (preservado, agora aceita ctx externo)
+// ═══════════════════════════════════════════════════════
+function drawGeometry(ctx, g) {
   ctx.save();
-  ctx.strokeStyle=g.layer==='floor'?COLORS.floor:COLORS.wifi;
-  ctx.lineWidth=(g.layer==='floor'?1.5:2)/state.zoom;
-  ctx.lineCap='round'; ctx.lineJoin='round';
-  if (g.type==='pencil'&&g.points.length>1){
-    ctx.beginPath(); ctx.moveTo(g.points[0][0],g.points[0][1]);
-    for(let i=1;i<g.points.length;i++) ctx.lineTo(g.points[i][0],g.points[i][1]);
+  ctx.strokeStyle = g.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+  ctx.lineWidth   = (g.layer === 'floor' ? 1.5 : 2) / state.zoom;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (g.type === 'pencil' && g.points.length > 1) {
+    ctx.beginPath();
+    ctx.moveTo(g.points[0][0], g.points[0][1]);
+    for (let i = 1; i < g.points.length; i++) ctx.lineTo(g.points[i][0], g.points[i][1]);
     ctx.stroke();
-  } else if (g.type==='line'){ctx.beginPath();ctx.moveTo(g.x1,g.y1);ctx.lineTo(g.x2,g.y2);ctx.stroke();}
-  else if (g.type==='rect'){ctx.strokeRect(g.x,g.y,g.w,g.h);}
-  else if (g.type==='circle'){ctx.beginPath();ctx.arc(g.cx,g.cy,g.r,0,Math.PI*2);ctx.stroke();}
+  } else if (g.type === 'line') {
+    ctx.beginPath(); ctx.moveTo(g.x1,g.y1); ctx.lineTo(g.x2,g.y2); ctx.stroke();
+  } else if (g.type === 'rect') {
+    ctx.strokeRect(g.x, g.y, g.w, g.h);
+  } else if (g.type === 'circle') {
+    ctx.beginPath(); ctx.arc(g.cx, g.cy, g.r, 0, Math.PI*2); ctx.stroke();
+  }
   ctx.restore();
 }
-function drawScanPoint(ctx,pt) {
-  const [sx,sy]=toScreen(pt.x,pt.y);
-  const r=Math.max(4,8*Math.min(state.zoom,2)), col=rssiToColor(pt.rssi);
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: SCAN POINTS (preservado, agora aceita ctx externo)
+// ═══════════════════════════════════════════════════════
+function drawScanPoint(ctx, pt) {
+  const [sx, sy] = toScreen(pt.x, pt.y);
+  const r = Math.max(4, 8 * Math.min(state.zoom, 2));
+  const col = rssiToColor(pt.rssi);
   ctx.save();
-  ctx.beginPath();ctx.arc(sx,sy,r+4,0,Math.PI*2);ctx.fillStyle=col+'22';ctx.fill();
-  ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=col+'cc';ctx.fill();
-  ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke();
-  ctx.beginPath();ctx.arc(sx,sy,2,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
-  if(state.zoom>=0.5){
-    ctx.font=`${Math.max(9,10*Math.min(state.zoom,1.5))}px sans-serif`;
-    ctx.fillStyle='#ccc';ctx.textAlign='center';
-    ctx.fillText(`${pt.rssi} dBm`,sx,sy-r-5);
-    if(pt.ssid&&state.zoom>=0.8){
-      ctx.font=`${Math.max(8,9*Math.min(state.zoom,1.5))}px sans-serif`;
-      ctx.fillStyle='#666';ctx.fillText(pt.ssid,sx,sy-r-15);
+  ctx.beginPath(); ctx.arc(sx, sy, r + 4, 0, Math.PI*2);
+  ctx.fillStyle = col + '22'; ctx.fill();
+  ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI*2);
+  ctx.fillStyle = col + 'cc'; ctx.fill();
+  ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.stroke();
+  ctx.beginPath(); ctx.arc(sx, sy, 2, 0, Math.PI*2);
+  ctx.fillStyle = '#fff'; ctx.fill();
+  if (state.zoom >= 0.5) {
+    ctx.font = `${Math.max(9, 10 * Math.min(state.zoom, 1.5))}px sans-serif`;
+    ctx.fillStyle = '#ccc'; ctx.textAlign = 'center';
+    ctx.fillText(`${pt.rssi} dBm`, sx, sy - r - 5);
+    if (pt.ssid && state.zoom >= 0.8) {
+      ctx.font = `${Math.max(8, 9 * Math.min(state.zoom, 1.5))}px sans-serif`;
+      ctx.fillStyle = '#666';
+      ctx.fillText(pt.ssid, sx, sy - r - 15);
     }
   }
   ctx.restore();
 }
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: CALIBRAÇÃO (preservado)
+// ═══════════════════════════════════════════════════════
 function drawCalibLine(ctx) {
-  if(state.calibPts.length===0) return;
-  ctx.save(); ctx.strokeStyle=COLORS.calib; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
-  const [sx,sy]=toScreen(state.calibPts[0][0],state.calibPts[0][1]);
-  ctx.beginPath(); ctx.moveTo(sx,sy);
-  if(state.calibPts.length===2){const [ex,ey]=toScreen(state.calibPts[1][0],state.calibPts[1][1]);ctx.lineTo(ex,ey);}
-  else{ctx.lineTo(state.mouseX,state.mouseY);}
+  if (state.calibPts.length === 0) return;
+  ctx.save();
+  ctx.strokeStyle = COLORS.calib; ctx.lineWidth = 1.5; ctx.setLineDash([5,3]);
+  const [sx, sy] = toScreen(state.calibPts[0][0], state.calibPts[0][1]);
+  ctx.beginPath(); ctx.moveTo(sx, sy);
+  if (state.calibPts.length === 2) {
+    const [ex, ey] = toScreen(state.calibPts[1][0], state.calibPts[1][1]);
+    ctx.lineTo(ex, ey);
+  } else { ctx.lineTo(state.mouseX, state.mouseY); }
   ctx.stroke(); ctx.setLineDash([]);
-  state.calibPts.forEach(([px,py])=>{
-    const [scx,scy]=toScreen(px,py);
-    ctx.beginPath();ctx.arc(scx,scy,4,0,Math.PI*2);ctx.fillStyle=COLORS.calib;ctx.fill();
+  state.calibPts.forEach(([px,py]) => {
+    const [scx, scy] = toScreen(px, py);
+    ctx.beginPath(); ctx.arc(scx, scy, 4, 0, Math.PI*2);
+    ctx.fillStyle = COLORS.calib; ctx.fill();
   });
   ctx.restore();
 }
+
+// ═══════════════════════════════════════════════════════
+// REDRAW COMPLETO (preservado — heatC fica separado)
+// ═══════════════════════════════════════════════════════
 function redraw() {
-  const w=mainC.width, h=mainC.height;
-  mCtx.clearRect(0,0,w,h); mCtx.fillStyle='#0a0a0a'; mCtx.fillRect(0,0,w,h);
+  const w = mainC.width, h = mainC.height;
+  mCtx.clearRect(0, 0, w, h);
+  mCtx.fillStyle = '#0a0a0a';
+  mCtx.fillRect(0, 0, w, h);
   drawGrid(mCtx);
-  mCtx.save(); mCtx.translate(state.panX,state.panY); mCtx.scale(state.zoom,state.zoom);
-  state.project.drawings.forEach(g=>drawGeometry(mCtx,g));
+  mCtx.save();
+  mCtx.translate(state.panX, state.panY);
+  mCtx.scale(state.zoom, state.zoom);
+  state.project.drawings.forEach(g => drawGeometry(mCtx, g));
   mCtx.restore();
-  state.project.scanPoints.forEach(pt=>drawScanPoint(mCtx,pt));
+  state.project.scanPoints.forEach(pt => drawScanPoint(mCtx, pt));
   updateInfo();
 }
-function drawOverlay(wx,wy) {
-  ovCtx.clearRect(0,0,ovC.width,ovC.height);
-  if(!state.drawing||!state.startPt) return;
-  const [sx,sy]=toScreen(state.startPt[0],state.startPt[1]), [ex,ey]=toScreen(wx,wy);
-  ovCtx.save(); ovCtx.strokeStyle=state.layer==='floor'?COLORS.floor:COLORS.wifi;
-  ovCtx.lineWidth=1.5; ovCtx.lineCap='round'; ovCtx.lineJoin='round';
-  if(state.tool==='line'){ovCtx.beginPath();ovCtx.moveTo(sx,sy);ovCtx.lineTo(ex,ey);ovCtx.stroke();}
-  else if(state.tool==='rect'){ovCtx.strokeRect(sx,sy,ex-sx,ey-sy);}
-  else if(state.tool==='circle'){const r=Math.sqrt((ex-sx)**2+(ey-sy)**2);ovCtx.beginPath();ovCtx.arc(sx,sy,r,0,Math.PI*2);ovCtx.stroke();}
+
+// ═══════════════════════════════════════════════════════
+// OVERLAY, CURSOR (preservados)
+// ═══════════════════════════════════════════════════════
+function drawOverlay(wx, wy) {
+  ovCtx.clearRect(0, 0, ovC.width, ovC.height);
+  if (!state.drawing || !state.startPt) return;
+  const [sx, sy] = toScreen(state.startPt[0], state.startPt[1]);
+  const [ex, ey] = toScreen(wx, wy);
+  ovCtx.save();
+  ovCtx.strokeStyle = state.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+  ovCtx.lineWidth = 1.5; ovCtx.lineCap = 'round'; ovCtx.lineJoin = 'round';
+  if (state.tool === 'line') {
+    ovCtx.beginPath(); ovCtx.moveTo(sx,sy); ovCtx.lineTo(ex,ey); ovCtx.stroke();
+  } else if (state.tool === 'rect') {
+    ovCtx.strokeRect(sx, sy, ex-sx, ey-sy);
+  } else if (state.tool === 'circle') {
+    const r = Math.sqrt((ex-sx)**2+(ey-sy)**2);
+    ovCtx.beginPath(); ovCtx.arc(sx,sy,r,0,Math.PI*2); ovCtx.stroke();
+  }
   ovCtx.restore();
 }
-function drawCursor(mx,my) {
-  curCtx.clearRect(0,0,curC.width,curC.height);
-  if(!state.calibMode) return;
-  curCtx.save(); curCtx.strokeStyle=COLORS.calib; curCtx.lineWidth=1; curCtx.setLineDash([4,3]);
-  curCtx.beginPath();curCtx.moveTo(mx,0);curCtx.lineTo(mx,curC.height);curCtx.stroke();
-  curCtx.beginPath();curCtx.moveTo(0,my);curCtx.lineTo(curC.width,my);curCtx.stroke();
+
+function drawCursor(mx, my) {
+  curCtx.clearRect(0, 0, curC.width, curC.height);
+  if (!state.calibMode) return;
+  curCtx.save();
+  curCtx.strokeStyle = COLORS.calib; curCtx.lineWidth = 1; curCtx.setLineDash([4,3]);
+  curCtx.beginPath(); curCtx.moveTo(mx,0); curCtx.lineTo(mx,curC.height); curCtx.stroke();
+  curCtx.beginPath(); curCtx.moveTo(0,my); curCtx.lineTo(curC.width,my);  curCtx.stroke();
   curCtx.setLineDash([]);
-  curCtx.beginPath();curCtx.arc(mx,my,5,0,Math.PI*2);curCtx.strokeStyle=COLORS.calib;curCtx.stroke();
+  curCtx.beginPath(); curCtx.arc(mx, my, 5, 0, Math.PI*2);
+  curCtx.strokeStyle = COLORS.calib; curCtx.stroke();
   curCtx.restore();
 }
-function showToast(sx,sy,rssi) {
-  const q=rssiQuality(rssi), el=document.createElement('div');
-  el.className='sp-toast'; el.textContent=`${rssi} dBm — ${q.label}`;
-  el.style.color=q.color; el.style.borderColor=q.color+'44';
-  el.style.left=(sx-40)+'px'; el.style.top=(sy-36)+'px';
-  wrap.appendChild(el); setTimeout(()=>el.remove(),1900);
-}
-function showToastError(cx,cy,msg) {
-  const el=document.createElement('div');
-  el.className='sp-toast'; el.textContent=`⚠ ${msg}`;
-  el.style.color='#cc7700'; el.style.borderColor='#cc770044';
-  el.style.left=(cx-60)+'px'; el.style.top=(cy-36)+'px';
-  wrap.appendChild(el); setTimeout(()=>el.remove(),2200);
+
+// ═══════════════════════════════════════════════════════
+// TOAST (preservado)
+// ═══════════════════════════════════════════════════════
+function showToast(sx, sy, rssi) {
+  const q = rssiQuality(rssi);
+  const el = document.createElement('div');
+  el.className = 'sp-toast';
+  el.textContent = `${rssi} dBm — ${q.label}`;
+  el.style.color = q.color; el.style.borderColor = q.color + '44';
+  el.style.left = (sx - 40) + 'px'; el.style.top = (sy - 36) + 'px';
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 1900);
 }
 
 // ═══════════════════════════════════════════════════════
-// UTILITÁRIOS (preservados)
+// UTILITÁRIOS (preservados + novo rssiClass)
 // ═══════════════════════════════════════════════════════
 function getPos(e) {
-  const r=wrap.getBoundingClientRect();
-  return [(e.clientX||e.touches?.[0]?.clientX||0)-r.left,(e.clientY||e.touches?.[0]?.clientY||0)-r.top];
+  const r = wrap.getBoundingClientRect();
+  return [(e.clientX||e.touches?.[0]?.clientX||0) - r.left,
+          (e.clientY||e.touches?.[0]?.clientY||0) - r.top];
 }
-function rssiClass(rssi) { if(rssi>=-55)return'hi'; if(rssi>=-75)return'warn'; return'bad'; }
+function rssiClass(rssi) {
+  if (rssi >= -55) return 'hi';
+  if (rssi >= -75) return 'warn';
+  return 'bad';
+}
 
 function updateInfo() {
-  const [wx,wy]=toWorld(state.mouseX,state.mouseY), cm=toCM(wx,wy);
-  document.getElementById('inf-pos').textContent=state.project.scaleRatio?`${cm[0]}, ${cm[1]} cm`:`${wx.toFixed(0)}, ${wy.toFixed(0)} px`;
-  document.getElementById('inf-zoom').textContent=Math.round(state.zoom*100)+'%';
-  document.getElementById('inf-scale').textContent=state.project.scaleRatio?state.project.scaleRatio.toFixed(4)+' cm/px':'—';
-  document.getElementById('inf-geom').textContent=state.project.drawings.length;
-  document.getElementById('inf-wifi').textContent=state.project.scanPoints.length;
-  document.getElementById('st-count').textContent=state.project.drawings.length;
-  if(state.lastRssi!==null){
-    const el=document.getElementById('inf-rssi');
-    el.textContent=state.lastRssi+' dBm'; el.className='info-val '+rssiClass(state.lastRssi);
-    document.getElementById('inf-rssi-row').style.display='';
+  const [wx,wy] = toWorld(state.mouseX, state.mouseY);
+  const cm = toCM(wx, wy);
+  document.getElementById('inf-pos').textContent = state.project.scaleRatio
+    ? `${cm[0]}, ${cm[1]} cm` : `${wx.toFixed(0)}, ${wy.toFixed(0)} px`;
+  document.getElementById('inf-zoom').textContent  = Math.round(state.zoom*100) + '%';
+  document.getElementById('inf-scale').textContent = state.project.scaleRatio
+    ? state.project.scaleRatio.toFixed(4) + ' cm/px' : '—';
+  document.getElementById('inf-geom').textContent  = state.project.drawings.length;
+  document.getElementById('inf-wifi').textContent  = state.project.scanPoints.length;
+  document.getElementById('st-count').textContent  = state.project.drawings.length;
+  if (state.lastRssi !== null) {
+    const el = document.getElementById('inf-rssi');
+    el.textContent = state.lastRssi + ' dBm';
+    el.className = 'info-val ' + rssiClass(state.lastRssi);
+    document.getElementById('inf-rssi-row').style.display = '';
   }
-  const calibLabel=document.getElementById('calib-label');
-  if(state.project.scaleRatio){calibLabel.textContent=state.project.scaleRatio.toFixed(3)+' cm/px';calibLabel.style.color='#ffb940';}
-  else{calibLabel.textContent='Calibrar';calibLabel.style.color='';}
-  document.getElementById('survey-count').textContent=state.project.scanPoints.length+' ponto'+(state.project.scanPoints.length!==1?'s':'');
-  document.getElementById('hm-render').disabled=state.project.scanPoints.length===0;
-  // MÓDULO 4: rede alvo no info panel
-  const infTarget=document.getElementById('inf-target');
-  infTarget.textContent=state.targetSSID||'—';
-  infTarget.style.color=state.targetSSID?'#8a8aff':'';
+  const calibLabel = document.getElementById('calib-label');
+  if (state.project.scaleRatio) {
+    calibLabel.textContent = state.project.scaleRatio.toFixed(3) + ' cm/px';
+    calibLabel.style.color = '#ffb940';
+  } else {
+    calibLabel.textContent = 'Calibrar'; calibLabel.style.color = '';
+  }
+  document.getElementById('survey-count').textContent =
+    state.project.scanPoints.length + ' ponto' +
+    (state.project.scanPoints.length !== 1 ? 's' : '');
+  // habilita botão de render quando há pontos
+  document.getElementById('hm-render').disabled = state.project.scanPoints.length === 0;
 }
 
-function setStatus(msg,color) {
-  const el=document.getElementById('st-msg'); el.textContent=msg; el.style.color=color||'#4a8a4a';
+function setStatus(msg, color) {
+  const el = document.getElementById('st-msg');
+  el.textContent = msg; el.style.color = color || '#4a8a4a';
 }
 
 // ═══════════════════════════════════════════════════════
-// SURVEY STATE MACHINE (preservada + módulo 4: aviso sem alvo)
+// SURVEY STATE MACHINE (preservada)
 // ═══════════════════════════════════════════════════════
 function setSurveyStatus(s) {
-  state.surveyStatus=s;
-  const dot=document.getElementById('sv-dot'), label=document.getElementById('sv-state-label');
-  const btnStart=document.getElementById('sv-start'), btnPause=document.getElementById('sv-pause');
-  const btnStop=document.getElementById('sv-stop'), btnUndo=document.getElementById('sv-undo');
-  dot.className='sv-dot'; btnStart.classList.remove('running'); btnPause.classList.remove('paused');
-  if(s==='idle'){
-    dot.classList.add('idle'); label.textContent='Aguardando'; label.style.color='#444';
-    btnStart.disabled=false; btnPause.disabled=true; btnStop.disabled=true; btnUndo.disabled=true;
-    wrap.className='tool-'+state.tool;
-    document.getElementById('net-warn').classList.remove('visible');
-  } else if(s==='running'){
-    dot.classList.add('running'); label.textContent='Coletando'; label.style.color='#3aaa3a';
-    btnStart.disabled=true; btnStart.classList.add('running');
-    btnPause.disabled=false; btnStop.disabled=false;
-    btnUndo.disabled=state.project.scanPoints.length===0;
-    wrap.className='tool-survey';
-    document.getElementById('st-tool').textContent='Survey';
-    if(!state.targetSSID) document.getElementById('net-warn').classList.add('visible');
-  } else if(s==='paused'){
-    dot.classList.add('paused'); label.textContent='Pausado'; label.style.color='#aaaa30';
-    btnStart.disabled=true; btnPause.disabled=false; btnPause.classList.add('paused');
-    btnStop.disabled=false; btnUndo.disabled=state.project.scanPoints.length===0;
-    wrap.className='tool-'+state.tool;
-  } else if(s==='done'){
-    dot.classList.add('done'); label.textContent='Finalizado'; label.style.color='#4a6aff';
-    btnStart.disabled=false; btnPause.disabled=true; btnStop.disabled=true;
-    btnUndo.disabled=state.project.scanPoints.length===0;
-    wrap.className='tool-'+state.tool;
-    document.getElementById('net-warn').classList.remove('visible');
+  state.surveyStatus = s;
+  const dot = document.getElementById('sv-dot');
+  const label = document.getElementById('sv-state-label');
+  const btnStart = document.getElementById('sv-start');
+  const btnPause = document.getElementById('sv-pause');
+  const btnStop  = document.getElementById('sv-stop');
+  const btnUndo  = document.getElementById('sv-undo');
+  dot.className = 'sv-dot';
+  btnStart.classList.remove('running');
+  btnPause.classList.remove('paused');
+  if (s === 'idle') {
+    dot.classList.add('idle');
+    label.textContent = 'Aguardando'; label.style.color = '#444';
+    btnStart.disabled = false; btnPause.disabled = true;
+    btnStop.disabled  = true;  btnUndo.disabled  = true;
+    wrap.className = 'tool-' + state.tool;
+  } else if (s === 'running') {
+    dot.classList.add('running');
+    label.textContent = 'Coletando'; label.style.color = '#3aaa3a';
+    btnStart.disabled = true; btnStart.classList.add('running');
+    btnPause.disabled = false; btnStop.disabled = false;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-survey';
+    document.getElementById('st-tool').textContent = 'Survey';
+  } else if (s === 'paused') {
+    dot.classList.add('paused');
+    label.textContent = 'Pausado'; label.style.color = '#aaaa30';
+    btnStart.disabled = true;
+    btnPause.disabled = false; btnPause.classList.add('paused');
+    btnStop.disabled  = false;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-' + state.tool;
+  } else if (s === 'done') {
+    dot.classList.add('done');
+    label.textContent = 'Finalizado'; label.style.color = '#4a6aff';
+    btnStart.disabled = false; btnPause.disabled = true;
+    btnStop.disabled  = true;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-' + state.tool;
   }
 }
 
 // ═══════════════════════════════════════════════════════
-// SURVEY CLICK → SCAN → MODAL
-// MÓDULO 4: bloqueia sem targetSSID; passa targetSSID ao scan;
-//           exibe alerta se SSID detectado ≠ alvo.
+// SURVEY CLICK → SCAN → MODAL (preservado)
 // ═══════════════════════════════════════════════════════
-async function handleSurveyClick(cx,cy) {
-  if(state.surveyStatus!=='running') return;
-
-  // MÓDULO 4 — Blindagem: requer rede alvo
-  if(!state.targetSSID){
-    setStatus('⚠ Selecione uma rede antes de iniciar o Survey.','#aaaa30');
-    document.getElementById('net-warn').classList.add('visible');
-    const bar=document.getElementById('network-bar');
-    bar.style.background='#1a1a00';
-    setTimeout(()=>{bar.style.background='';},600);
-    return;
-  }
-
-  const [wx,wy]=toWorld(cx,cy);
-  state.pendingPoint={wx,wy,cx,cy};
-  const ind=document.getElementById('scan-indicator');
+async function handleSurveyClick(cx, cy) {
+  if (state.surveyStatus !== 'running') return;
+  const [wx, wy] = toWorld(cx, cy);
+  state.pendingPoint = { wx, wy, cx, cy };
+  const ind = document.getElementById('scan-indicator');
   ind.classList.add('visible');
-  setStatus(`Escaneando "${state.targetSSID}"…`,'#4a6aff');
-
+  setStatus('Escaneando sinal Wi-Fi…', '#4a6aff');
   let result;
-  try { result=await scanWifi(state.targetSSID); }  // MÓDULO 4: passa SSID alvo
-  catch(e){ result={ssid:'ERRO',rssi:-999,band:''}; }
+  try { result = await scanWifi(); }
+  catch(e) { result = { ssid: 'ERRO', rssi: -999, band: '' }; }
   ind.classList.remove('visible');
-
-  // MÓDULO 4: rede fora de alcance
-  if(result.error){
-    setStatus(`⚠ ${result.error}: "${state.targetSSID}"`,'#cc7700');
-    showToastError(cx,cy,result.error);
-    state.pendingPoint=null;
-    return;
-  }
-
-  state.lastRssi=result.rssi;
-  const q=rssiQuality(result.rssi);
-  const coordText=state.project.scaleRatio
-    ?`x: ${(wx*state.project.scaleRatio).toFixed(1)} cm, y: ${(wy*state.project.scaleRatio).toFixed(1)} cm`
-    :`x: ${wx.toFixed(1)} px, y: ${wy.toFixed(1)} px`;
-
-  document.getElementById('scan-modal-coord').textContent='📍 '+coordText;
-  document.getElementById('scan-rssi-display').textContent=result.rssi+' dBm';
-  document.getElementById('scan-rssi-display').style.color=q.color;
-  document.getElementById('scan-rssi-bar').style.width=q.pct+'%';
-  document.getElementById('scan-rssi-bar').style.background=q.color;
-  document.getElementById('scan-rssi-quality').textContent=q.label;
-  document.getElementById('scan-ssid').value=result.ssid||'';
-  document.getElementById('scan-rssi-edit').value=result.rssi;
-  document.getElementById('scan-band').value=result.band||'';
-
-  // MÓDULO 4: alerta de divergência de SSID
-  const mismatchAlert=document.getElementById('scan-ssid-mismatch-alert');
-  const mismatchText=document.getElementById('scan-ssid-mismatch-text');
-  const detectedSSID=(result.ssid||'').trim();
-  if(detectedSSID && detectedSSID.toLowerCase()!==state.targetSSID.toLowerCase()){
-    mismatchText.textContent=`SSID detectado ("${detectedSSID}") difere da rede alvo ("${state.targetSSID}"). Verifique antes de salvar.`;
-    mismatchAlert.classList.add('visible');
-  } else {
-    mismatchAlert.classList.remove('visible');
-  }
-
+  state.lastRssi = result.rssi;
+  const q = rssiQuality(result.rssi);
+  const coordText = state.project.scaleRatio
+    ? `x: ${(wx * state.project.scaleRatio).toFixed(1)} cm, y: ${(wy * state.project.scaleRatio).toFixed(1)} cm`
+    : `x: ${wx.toFixed(1)} px, y: ${wy.toFixed(1)} px`;
+  document.getElementById('scan-modal-coord').textContent = '📍 ' + coordText;
+  document.getElementById('scan-rssi-display').textContent = result.rssi + ' dBm';
+  document.getElementById('scan-rssi-display').style.color = q.color;
+  document.getElementById('scan-rssi-bar').style.width    = q.pct + '%';
+  document.getElementById('scan-rssi-bar').style.background = q.color;
+  document.getElementById('scan-rssi-quality').textContent  = q.label;
+  document.getElementById('scan-ssid').value      = result.ssid || '';
+  document.getElementById('scan-rssi-edit').value = result.rssi;
+  document.getElementById('scan-band').value       = result.band || '';
   document.getElementById('modal-scan-bg').classList.remove('hidden');
 }
 
 // ═══════════════════════════════════════════════════════
-// SALVAR PONTO (preservado + registra targetSSID no ponto)
+// SALVAR PONTO — re-renderiza heatmap se visível
 // ═══════════════════════════════════════════════════════
 function saveScanPoint() {
-  if(!state.pendingPoint) return;
-  const rssi=parseInt(document.getElementById('scan-rssi-edit').value)||state.lastRssi||-80;
-  const ssid=document.getElementById('scan-ssid').value.trim()||'Unknown';
-  const band=document.getElementById('scan-band').value;
-  const {wx,wy,cx,cy}=state.pendingPoint;
-  state.project.scanPoints.push({
-    id:Date.now(), x:wx, y:wy, rssi, ssid, band,
-    targetSSID: state.targetSSID||null,  // MÓDULO 4: persiste alvo no ponto
-    timestamp:new Date().toISOString()
-  });
-  state.pendingPoint=null; state.lastRssi=rssi;
-  document.getElementById('sv-undo').disabled=false;
-  document.getElementById('scan-ssid-mismatch-alert').classList.remove('visible');
-  if(state.heatVisible) renderHeatmap();
+  if (!state.pendingPoint) return;
+  const rssi = parseInt(document.getElementById('scan-rssi-edit').value) || state.lastRssi || -80;
+  const ssid = document.getElementById('scan-ssid').value.trim() || 'Unknown';
+  const band = document.getElementById('scan-band').value;
+  const { wx, wy, cx, cy } = state.pendingPoint;
+  state.project.scanPoints.push({ id: Date.now(), x: wx, y: wy, rssi, ssid, band, timestamp: new Date().toISOString() });
+  state.pendingPoint = null; state.lastRssi = rssi;
+  document.getElementById('sv-undo').disabled = false;
+  // re-renderiza heatmap automaticamente se já estava visível
+  if (state.heatVisible) renderHeatmap();
   redraw();
-  showToast(cx,cy,rssi);
-  setStatus(`Ponto #${state.project.scanPoints.length} salvo — ${rssi} dBm`,rssiQuality(rssi).color);
+  showToast(cx, cy, rssi);
+  setStatus(`Ponto #${state.project.scanPoints.length} salvo — ${rssi} dBm`, rssiQuality(rssi).color);
   document.getElementById('modal-scan-bg').classList.add('hidden');
 }
 
 // ═══════════════════════════════════════════════════════
-// UNDO (preservado)
+// UNDO — limpa heatmap se visível (será re-renderizado no próximo clique)
 // ═══════════════════════════════════════════════════════
 function undoLastScanPoint() {
-  if(state.project.scanPoints.length===0) return;
-  const removed=state.project.scanPoints.pop();
-  if(state.heatVisible){
-    if(state.project.scanPoints.length>0) renderHeatmap();
+  if (state.project.scanPoints.length === 0) return;
+  const removed = state.project.scanPoints.pop();
+  if (state.heatVisible) {
+    if (state.project.scanPoints.length > 0) renderHeatmap();
     else clearHeatmap();
   }
   redraw();
-  document.getElementById('sv-undo').disabled=state.project.scanPoints.length===0;
-  setStatus(`Ponto removido (${removed.rssi} dBm)`,'#aaaa30');
+  document.getElementById('sv-undo').disabled = state.project.scanPoints.length === 0;
+  setStatus(`Ponto removido (${removed.rssi} dBm)`, '#aaaa30');
 }
 
 // ═══════════════════════════════════════════════════════
-// RESUMO SURVEY (preservado + rede alvo no sumário)
+// RESUMO SURVEY (preservado)
 // ═══════════════════════════════════════════════════════
 function showSurveySummary() {
-  const pts=state.project.scanPoints;
-  if(pts.length===0){setStatus('Survey finalizado sem pontos coletados.','#666');setSurveyStatus('done');return;}
-  const avg=pts.reduce((a,p)=>a+p.rssi,0)/pts.length;
-  const best=pts.reduce((a,p)=>p.rssi>a.rssi?p:a);
-  const worst=pts.reduce((a,p)=>p.rssi<a.rssi?p:a);
-  document.getElementById('summary-text').innerHTML=
-    `<b style="color:#ccc">${pts.length} pontos coletados</b><br>`+
-    (state.targetSSID?`Rede alvo: <span style="color:#8a8aff">${state.targetSSID}</span><br>`:'')+ 
-    `RSSI médio: <span style="color:${rssiQuality(Math.round(avg)).color}">${avg.toFixed(1)} dBm</span><br>`+
-    `Melhor sinal: <span style="color:#3aaa3a">${best.rssi} dBm</span> — ${best.ssid}<br>`+
+  const pts = state.project.scanPoints;
+  if (pts.length === 0) { setStatus('Survey finalizado sem pontos coletados.', '#666'); setSurveyStatus('done'); return; }
+  const avg  = pts.reduce((a,p) => a + p.rssi, 0) / pts.length;
+  const best = pts.reduce((a,p) => p.rssi > a.rssi ? p : a);
+  const worst= pts.reduce((a,p) => p.rssi < a.rssi ? p : a);
+  document.getElementById('summary-text').innerHTML =
+    `<b style="color:#ccc">${pts.length} pontos coletados</b><br>` +
+    `RSSI médio: <span style="color:${rssiQuality(Math.round(avg)).color}">${avg.toFixed(1)} dBm</span><br>` +
+    `Melhor sinal: <span style="color:#3aaa3a">${best.rssi} dBm</span> — ${best.ssid}<br>` +
     `Pior sinal: <span style="color:#aa3a3a">${worst.rssi} dBm</span> — ${worst.ssid}`;
-  const listEl=document.getElementById('summary-list');
-  listEl.innerHTML=pts.map((p,i)=>
-    `<div style="padding:3px 0;border-bottom:0.5px solid #1a1a1a">`+
-    `#${i+1} &nbsp;<span style="color:${rssiToColor(p.rssi)}">${p.rssi} dBm</span>`+
-    ` &nbsp;${p.ssid} &nbsp;<span style="color:#333">${p.band}</span>`+
-    ` &nbsp;<span style="color:#2a2a2a">${new Date(p.timestamp).toLocaleTimeString('pt-BR')}</span></div>`
+  const listEl = document.getElementById('summary-list');
+  listEl.innerHTML = pts.map((p,i) =>
+    `<div style="padding:3px 0;border-bottom:0.5px solid #1a1a1a">
+      #${i+1} &nbsp;<span style="color:${rssiToColor(p.rssi)}">${p.rssi} dBm</span>
+      &nbsp;${p.ssid} &nbsp;<span style="color:#333">${p.band}</span>
+      &nbsp;<span style="color:#2a2a2a">${new Date(p.timestamp).toLocaleTimeString('pt-BR')}</span>
+    </div>`
   ).join('');
   document.getElementById('modal-summary-bg').classList.remove('hidden');
   setSurveyStatus('done');
@@ -1096,255 +983,259 @@ function showSurveySummary() {
 // ═══════════════════════════════════════════════════════
 // EVENTOS DE MOUSE (preservados)
 // ═══════════════════════════════════════════════════════
-wrap.addEventListener('mousedown',e=>{
-  const [cx,cy]=getPos(e), [wx,wy]=toWorld(cx,cy);
-  if(state.surveyStatus==='running'&&e.button===0){handleSurveyClick(cx,cy);return;}
-  if(state.tool==='pan'||e.button===1){state.panning=true;state.lastPan=[cx,cy];wrap.classList.add('panning');return;}
-  if(state.calibMode){
-    state.calibPts.push([wx,wy]);
-    if(state.calibPts.length===2){
-      const dx=state.calibPts[1][0]-state.calibPts[0][0], dy=state.calibPts[1][1]-state.calibPts[0][1];
-      window._calibPixDist=Math.sqrt(dx*dx+dy*dy);
-      document.getElementById('modal-calib-input').value='';
-      document.getElementById('modal-title').textContent='Calibrar Espaço';
-      document.getElementById('modal-desc').textContent=`Distância: ${window._calibPixDist.toFixed(1)} px. Valor real em cm:`;
+wrap.addEventListener('mousedown', e => {
+  const [cx, cy] = getPos(e); const [wx, wy] = toWorld(cx, cy);
+  if (state.surveyStatus === 'running' && e.button === 0) { handleSurveyClick(cx, cy); return; }
+  if (state.tool === 'pan' || e.button === 1) { state.panning = true; state.lastPan = [cx, cy]; wrap.classList.add('panning'); return; }
+  if (state.calibMode) {
+    state.calibPts.push([wx, wy]);
+    if (state.calibPts.length === 2) {
+      const dx = state.calibPts[1][0] - state.calibPts[0][0];
+      const dy = state.calibPts[1][1] - state.calibPts[0][1];
+      window._calibPixDist = Math.sqrt(dx*dx + dy*dy);
+      document.getElementById('modal-calib-input').value = '';
+      document.getElementById('modal-title').textContent = 'Calibrar Espaço';
+      document.getElementById('modal-desc').textContent = `Distância: ${window._calibPixDist.toFixed(1)} px. Valor real em cm:`;
       document.getElementById('modal-calib-bg').classList.remove('hidden');
     }
-    ovCtx.clearRect(0,0,ovC.width,ovC.height); drawCalibLine(ovCtx); return;
+    ovCtx.clearRect(0, 0, ovC.width, ovC.height); drawCalibLine(ovCtx); return;
   }
-  if(state.tool==='pencil'){state.drawing=true;state.currentPath=[[wx,wy]];}
-  else if(['line','rect','circle'].includes(state.tool)){state.drawing=true;state.startPt=[wx,wy];}
+  if (state.tool === 'pencil') { state.drawing = true; state.currentPath = [[wx, wy]]; }
+  else if (['line','rect','circle'].includes(state.tool)) { state.drawing = true; state.startPt = [wx, wy]; }
 });
 
-wrap.addEventListener('mousemove',e=>{
-  const [cx,cy]=getPos(e); state.mouseX=cx; state.mouseY=cy;
-  const [wx,wy]=toWorld(cx,cy);
-  if(state.panning&&state.lastPan){
-    state.panX+=cx-state.lastPan[0]; state.panY+=cy-state.lastPan[1]; state.lastPan=[cx,cy];
+wrap.addEventListener('mousemove', e => {
+  const [cx, cy] = getPos(e); state.mouseX = cx; state.mouseY = cy;
+  const [wx, wy] = toWorld(cx, cy);
+  if (state.panning && state.lastPan) {
+    state.panX += cx - state.lastPan[0]; state.panY += cy - state.lastPan[1]; state.lastPan = [cx, cy];
     redraw(); return;
   }
-  drawCursor(cx,cy); updateInfo();
-  if(state.calibMode){ovCtx.clearRect(0,0,ovC.width,ovC.height);drawCalibLine(ovCtx);return;}
-  if(!state.drawing) return;
-  if(state.tool==='pencil'){
-    state.currentPath.push([wx,wy]);
-    mCtx.save(); mCtx.translate(state.panX,state.panY); mCtx.scale(state.zoom,state.zoom);
-    const pts=state.currentPath;
-    if(pts.length>1){
-      mCtx.beginPath(); mCtx.strokeStyle=state.layer==='floor'?COLORS.floor:COLORS.wifi;
-      mCtx.lineWidth=1.5/state.zoom; mCtx.lineCap='round'; mCtx.lineJoin='round';
-      mCtx.moveTo(pts[pts.length-2][0],pts[pts.length-2][1]);
-      mCtx.lineTo(pts[pts.length-1][0],pts[pts.length-1][1]); mCtx.stroke();
+  drawCursor(cx, cy); updateInfo();
+  if (state.calibMode) { ovCtx.clearRect(0, 0, ovC.width, ovC.height); drawCalibLine(ovCtx); return; }
+  if (!state.drawing) return;
+  if (state.tool === 'pencil') {
+    state.currentPath.push([wx, wy]);
+    mCtx.save(); mCtx.translate(state.panX, state.panY); mCtx.scale(state.zoom, state.zoom);
+    const pts = state.currentPath;
+    if (pts.length > 1) {
+      mCtx.beginPath(); mCtx.strokeStyle = state.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+      mCtx.lineWidth = 1.5 / state.zoom; mCtx.lineCap = 'round'; mCtx.lineJoin = 'round';
+      mCtx.moveTo(pts[pts.length-2][0], pts[pts.length-2][1]);
+      mCtx.lineTo(pts[pts.length-1][0], pts[pts.length-1][1]); mCtx.stroke();
     }
     mCtx.restore();
-  } else {drawOverlay(wx,wy);}
+  } else { drawOverlay(wx, wy); }
 });
 
-wrap.addEventListener('mouseup',e=>{
-  if(state.panning){state.panning=false;wrap.classList.remove('panning');return;}
-  if(!state.drawing) return;
-  const [cx,cy]=getPos(e), [wx,wy]=toWorld(cx,cy);
-  if(state.tool==='pencil'&&state.currentPath.length>1){
-    state.project.drawings.push({id:Date.now(),type:'pencil',layer:state.layer,points:[...state.currentPath]});setStatus('Traçado adicionado');
-  } else if(state.tool==='line'&&state.startPt){
-    state.project.drawings.push({id:Date.now(),type:'line',layer:state.layer,x1:state.startPt[0],y1:state.startPt[1],x2:wx,y2:wy});setStatus('Linha adicionada');
-  } else if(state.tool==='rect'&&state.startPt){
-    state.project.drawings.push({id:Date.now(),type:'rect',layer:state.layer,x:state.startPt[0],y:state.startPt[1],w:wx-state.startPt[0],h:wy-state.startPt[1]});setStatus('Retângulo adicionado');
-  } else if(state.tool==='circle'&&state.startPt){
-    const r=Math.sqrt((wx-state.startPt[0])**2+(wy-state.startPt[1])**2);
-    state.project.drawings.push({id:Date.now(),type:'circle',layer:state.layer,cx:state.startPt[0],cy:state.startPt[1],r});setStatus('Círculo adicionado');
+wrap.addEventListener('mouseup', e => {
+  if (state.panning) { state.panning = false; wrap.classList.remove('panning'); return; }
+  if (!state.drawing) return;
+  const [cx, cy] = getPos(e); const [wx, wy] = toWorld(cx, cy);
+  if (state.tool === 'pencil' && state.currentPath.length > 1) {
+    state.project.drawings.push({ id: Date.now(), type: 'pencil', layer: state.layer, points: [...state.currentPath] }); setStatus('Traçado adicionado');
+  } else if (state.tool === 'line' && state.startPt) {
+    state.project.drawings.push({ id: Date.now(), type: 'line', layer: state.layer, x1: state.startPt[0], y1: state.startPt[1], x2: wx, y2: wy }); setStatus('Linha adicionada');
+  } else if (state.tool === 'rect' && state.startPt) {
+    state.project.drawings.push({ id: Date.now(), type: 'rect', layer: state.layer, x: state.startPt[0], y: state.startPt[1], w: wx-state.startPt[0], h: wy-state.startPt[1] }); setStatus('Retângulo adicionado');
+  } else if (state.tool === 'circle' && state.startPt) {
+    const r = Math.sqrt((wx-state.startPt[0])**2+(wy-state.startPt[1])**2);
+    state.project.drawings.push({ id: Date.now(), type: 'circle', layer: state.layer, cx: state.startPt[0], cy: state.startPt[1], r }); setStatus('Círculo adicionado');
   }
-  state.drawing=false; state.currentPath=[]; state.startPt=null;
-  ovCtx.clearRect(0,0,ovC.width,ovC.height); redraw();
+  state.drawing = false; state.currentPath = []; state.startPt = null;
+  ovCtx.clearRect(0, 0, ovC.width, ovC.height); redraw();
 });
 
-wrap.addEventListener('wheel',e=>{
+wrap.addEventListener('wheel', e => {
   e.preventDefault();
-  const [cx,cy]=getPos(e), [wx,wy]=toWorld(cx,cy);
-  const d=e.deltaY>0?0.85:1.18;
-  state.zoom=Math.max(0.1,Math.min(20,state.zoom*d));
-  state.panX=cx-wx*state.zoom; state.panY=cy-wy*state.zoom;
-  redraw(); if(state.heatVisible) renderHeatmap();
-},{passive:false});
+  const [cx, cy] = getPos(e); const [wx, wy] = toWorld(cx, cy);
+  const d = e.deltaY > 0 ? 0.85 : 1.18;
+  state.zoom = Math.max(0.1, Math.min(20, state.zoom * d));
+  state.panX = cx - wx * state.zoom; state.panY = cy - wy * state.zoom;
+  redraw();
+  if (state.heatVisible) renderHeatmap(); // re-renderiza no zoom
+}, { passive: false });
 
-wrap.addEventListener('mouseleave',()=>{
-  state.panning=false; wrap.classList.remove('panning');
-  curCtx.clearRect(0,0,curC.width,curC.height);
+wrap.addEventListener('mouseleave', () => {
+  state.panning = false; wrap.classList.remove('panning');
+  curCtx.clearRect(0, 0, curC.width, curC.height);
 });
 
 // ═══════════════════════════════════════════════════════
 // TOOLBAR — FERRAMENTAS (preservado)
 // ═══════════════════════════════════════════════════════
-function setTool(tool,label) {
-  state.tool=tool;
-  document.querySelectorAll('.tb-btn[id^=btn-]').forEach(b=>b.classList.remove('active'));
-  const map={pencil:'btn-pencil',line:'btn-line',rect:'btn-rect',circle:'btn-circle',pan:'btn-pan',select:'btn-select'};
-  if(map[tool]) document.getElementById(map[tool]).classList.add('active');
-  if(state.surveyStatus!=='running') wrap.className='tool-'+tool;
-  document.getElementById('st-tool').textContent=label;
+function setTool(tool, label) {
+  state.tool = tool;
+  document.querySelectorAll('.tb-btn[id^=btn-]').forEach(b => b.classList.remove('active'));
+  const map = { pencil:'btn-pencil', line:'btn-line', rect:'btn-rect', circle:'btn-circle', pan:'btn-pan', select:'btn-select' };
+  if (map[tool]) document.getElementById(map[tool]).classList.add('active');
+  if (state.surveyStatus !== 'running') wrap.className = 'tool-' + tool;
+  document.getElementById('st-tool').textContent = label;
 }
-document.getElementById('btn-pencil').onclick=()=>setTool('pencil','Lápis');
-document.getElementById('btn-line').onclick=()=>setTool('line','Linha');
-document.getElementById('btn-rect').onclick=()=>setTool('rect','Retângulo');
-document.getElementById('btn-circle').onclick=()=>setTool('circle','Círculo');
-document.getElementById('btn-select').onclick=()=>setTool('select','Seleção');
-document.getElementById('btn-pan').onclick=()=>setTool('pan','Mover');
-document.getElementById('btn-zoom-in').onclick=()=>{
-  const cx=mainC.width/2, cy=mainC.height/2, [wx,wy]=toWorld(cx,cy);
-  state.zoom=Math.min(20,state.zoom*1.3); state.panX=cx-wx*state.zoom; state.panY=cy-wy*state.zoom;
-  redraw(); if(state.heatVisible) renderHeatmap();
+document.getElementById('btn-pencil').onclick = () => setTool('pencil', 'Lápis');
+document.getElementById('btn-line').onclick   = () => setTool('line',   'Linha');
+document.getElementById('btn-rect').onclick   = () => setTool('rect',   'Retângulo');
+document.getElementById('btn-circle').onclick = () => setTool('circle', 'Círculo');
+document.getElementById('btn-select').onclick = () => setTool('select', 'Seleção');
+document.getElementById('btn-pan').onclick    = () => setTool('pan',    'Mover');
+
+document.getElementById('btn-zoom-in').onclick = () => {
+  const cx = mainC.width/2, cy = mainC.height/2, [wx,wy] = toWorld(cx,cy);
+  state.zoom = Math.min(20, state.zoom*1.3); state.panX = cx - wx*state.zoom; state.panY = cy - wy*state.zoom;
+  redraw(); if (state.heatVisible) renderHeatmap();
 };
-document.getElementById('btn-zoom-out').onclick=()=>{
-  const cx=mainC.width/2, cy=mainC.height/2, [wx,wy]=toWorld(cx,cy);
-  state.zoom=Math.max(0.1,state.zoom*0.77); state.panX=cx-wx*state.zoom; state.panY=cy-wy*state.zoom;
-  redraw(); if(state.heatVisible) renderHeatmap();
+document.getElementById('btn-zoom-out').onclick = () => {
+  const cx = mainC.width/2, cy = mainC.height/2, [wx,wy] = toWorld(cx,cy);
+  state.zoom = Math.max(0.1, state.zoom*0.77); state.panX = cx - wx*state.zoom; state.panY = cy - wy*state.zoom;
+  redraw(); if (state.heatVisible) renderHeatmap();
 };
-document.getElementById('btn-fit').onclick=()=>{state.zoom=1;state.panX=0;state.panY=0;redraw();if(state.heatVisible)renderHeatmap();};
-document.getElementById('btn-layer-floor').onclick=()=>{
-  state.layer='floor';
+document.getElementById('btn-fit').onclick = () => {
+  state.zoom=1; state.panX=0; state.panY=0; redraw();
+  if (state.heatVisible) renderHeatmap();
+};
+
+document.getElementById('btn-layer-floor').onclick = () => {
+  state.layer = 'floor';
   document.getElementById('btn-layer-floor').classList.add('active');
   document.getElementById('btn-layer-wifi').classList.remove('active');
-  document.getElementById('st-layer').textContent='Planta';
+  document.getElementById('st-layer').textContent = 'Planta';
 };
-document.getElementById('btn-layer-wifi').onclick=()=>{
-  state.layer='wifi';
+document.getElementById('btn-layer-wifi').onclick = () => {
+  state.layer = 'wifi';
   document.getElementById('btn-layer-wifi').classList.add('active');
   document.getElementById('btn-layer-floor').classList.remove('active');
-  document.getElementById('st-layer').textContent='Wi-Fi';
+  document.getElementById('st-layer').textContent = 'Wi-Fi';
 };
-document.getElementById('btn-calib').onclick=()=>{
-  state.calibMode=!state.calibMode; state.calibPts=[];
-  document.getElementById('btn-calib').classList.toggle('active',state.calibMode);
-  if(state.calibMode){wrap.classList.add('tool-calibrate');setStatus('Calibração: clique em 2 pontos','#ffb940');}
-  else{wrap.className='tool-'+state.tool;ovCtx.clearRect(0,0,ovC.width,ovC.height);curCtx.clearRect(0,0,curC.width,curC.height);}
+
+document.getElementById('btn-calib').onclick = () => {
+  state.calibMode = !state.calibMode; state.calibPts = [];
+  document.getElementById('btn-calib').classList.toggle('active', state.calibMode);
+  if (state.calibMode) { wrap.classList.add('tool-calibrate'); setStatus('Calibração: clique em 2 pontos', '#ffb940'); }
+  else { wrap.className = 'tool-' + state.tool; ovCtx.clearRect(0,0,ovC.width,ovC.height); curCtx.clearRect(0,0,curC.width,curC.height); }
 };
-document.getElementById('btn-clear').onclick=()=>{
-  if(state.project.drawings.length+state.project.scanPoints.length===0) return;
-  state.project.drawings=[]; state.project.scanPoints=[];
+
+document.getElementById('btn-clear').onclick = () => {
+  if (state.project.drawings.length + state.project.scanPoints.length === 0) return;
+  state.project.drawings = []; state.project.scanPoints = [];
   clearHeatmap(); redraw(); setSurveyStatus('idle'); setStatus('Canvas limpo');
 };
-document.getElementById('btn-export').onclick=exportProject;
+document.getElementById('btn-export').onclick = exportProject;
 
 function exportProject() {
-  const data=JSON.stringify({...state.project,targetSSID:state.targetSSID},null,2);
-  const blob=new Blob([data],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download=`2gij-${Date.now()}.json`; a.click();
-  setStatus('Projeto exportado','#4a9eff');
+  const data = JSON.stringify(state.project, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = `2gij-${Date.now()}.json`; a.click();
+  setStatus('Projeto exportado', '#4a9eff');
 }
 
 // ═══════════════════════════════════════════════════════
-// SURVEY BOTÕES (preservados + MÓDULO 4: bloqueio sem alvo)
+// SURVEY BOTÕES (preservados)
 // ═══════════════════════════════════════════════════════
-document.getElementById('sv-start').onclick=()=>{
-  // MÓDULO 4 — Blindagem obrigatória
-  if(!state.targetSSID){
-    setStatus('⚠ Selecione uma rede alvo antes de iniciar o Survey.','#aaaa30');
-    document.getElementById('net-warn').classList.add('visible');
-    const bar=document.getElementById('network-bar');
-    bar.style.background='#1a1a00';
-    setTimeout(()=>{bar.style.background='';},800);
-    return;
-  }
-  setSurveyStatus('running');
-  setStatus(`Survey iniciado — alvo: "${state.targetSSID}" — clique no mapa para coletar`,'#3aaa3a');
+document.getElementById('sv-start').onclick = () => { setSurveyStatus('running'); setStatus('Survey iniciado — clique no mapa para coletar pontos', '#3aaa3a'); };
+document.getElementById('sv-pause').onclick = () => {
+  if (state.surveyStatus === 'running') { setSurveyStatus('paused'); setStatus('Survey pausado', '#aaaa30'); document.getElementById('sv-pause').textContent = '▶ Retomar'; }
+  else if (state.surveyStatus === 'paused') { setSurveyStatus('running'); setStatus('Survey retomado', '#3aaa3a'); document.getElementById('sv-pause').textContent = '⏸ Pausar'; }
 };
-document.getElementById('sv-pause').onclick=()=>{
-  if(state.surveyStatus==='running'){setSurveyStatus('paused');setStatus('Survey pausado','#aaaa30');document.getElementById('sv-pause').textContent='▶ Retomar';}
-  else if(state.surveyStatus==='paused'){setSurveyStatus('running');setStatus('Survey retomado','#3aaa3a');document.getElementById('sv-pause').textContent='⏸ Pausar';}
-};
-document.getElementById('sv-stop').onclick=()=>{document.getElementById('sv-pause').textContent='⏸ Pausar';showSurveySummary();};
-document.getElementById('sv-undo').onclick=undoLastScanPoint;
+document.getElementById('sv-stop').onclick  = () => { document.getElementById('sv-pause').textContent = '⏸ Pausar'; showSurveySummary(); };
+document.getElementById('sv-undo').onclick  = undoLastScanPoint;
 
 // ═══════════════════════════════════════════════════════
-// HEATMAP BAR HANDLERS (módulo 3 — preservados)
+// HEATMAP BAR HANDLERS (módulo 3 — novos)
 // ═══════════════════════════════════════════════════════
-document.getElementById('hm-render').onclick=renderHeatmap;
-document.getElementById('hm-clear').onclick=clearHeatmap;
-document.getElementById('hm-snap').onclick=generateReport;
-document.getElementById('hm-opacity').oninput=function(){
-  state.hmOpacity=this.value/100;
-  document.getElementById('hm-opacity-val').textContent=this.value+'%';
-  if(state.heatVisible) renderHeatmap();
+document.getElementById('hm-render').onclick = renderHeatmap;
+document.getElementById('hm-clear').onclick  = clearHeatmap;
+document.getElementById('hm-snap').onclick   = generateReport;
+
+document.getElementById('hm-opacity').oninput = function () {
+  state.hmOpacity = this.value / 100;
+  document.getElementById('hm-opacity-val').textContent = this.value + '%';
+  if (state.heatVisible) renderHeatmap();
 };
-document.getElementById('hm-radius').oninput=function(){
-  state.hmRadius=parseInt(this.value);
-  document.getElementById('hm-radius-val').textContent=this.value+'px';
-  if(state.heatVisible) renderHeatmap();
+document.getElementById('hm-radius').oninput = function () {
+  state.hmRadius = parseInt(this.value);
+  document.getElementById('hm-radius-val').textContent = this.value + 'px';
+  if (state.heatVisible) renderHeatmap();
 };
-document.getElementById('hm-power').oninput=function(){
-  state.hmPower=parseFloat(this.value);
-  document.getElementById('hm-power-val').textContent=parseFloat(this.value).toFixed(1);
-  if(state.heatVisible) renderHeatmap();
+document.getElementById('hm-power').oninput = function () {
+  state.hmPower = parseFloat(this.value);
+  document.getElementById('hm-power-val').textContent = parseFloat(this.value).toFixed(1);
+  if (state.heatVisible) renderHeatmap();
 };
 
 // ═══════════════════════════════════════════════════════
-// MODAIS (preservados)
+// MODAIS (preservados + novos do módulo 3)
 // ═══════════════════════════════════════════════════════
-document.getElementById('modal-calib-ok').onclick=()=>{
-  const val=parseFloat(document.getElementById('modal-calib-input').value);
-  if(val>0&&window._calibPixDist>0){
-    state.project.scaleRatio=val/window._calibPixDist;
-    setStatus(`Calibrado: 1px = ${state.project.scaleRatio.toFixed(4)} cm`,'#ffb940');
+document.getElementById('modal-calib-ok').onclick = () => {
+  const val = parseFloat(document.getElementById('modal-calib-input').value);
+  if (val > 0 && window._calibPixDist > 0) {
+    state.project.scaleRatio = val / window._calibPixDist;
+    setStatus(`Calibrado: 1px = ${state.project.scaleRatio.toFixed(4)} cm`, '#ffb940');
   }
   document.getElementById('modal-calib-bg').classList.add('hidden');
-  state.calibMode=false; state.calibPts=[];
+  state.calibMode = false; state.calibPts = [];
   document.getElementById('btn-calib').classList.remove('active');
-  wrap.className='tool-'+state.tool;
+  wrap.className = 'tool-' + state.tool;
   ovCtx.clearRect(0,0,ovC.width,ovC.height); curCtx.clearRect(0,0,curC.width,curC.height); updateInfo();
 };
-document.getElementById('modal-calib-cancel').onclick=()=>{
+document.getElementById('modal-calib-cancel').onclick = () => {
   document.getElementById('modal-calib-bg').classList.add('hidden');
-  state.calibPts=[]; ovCtx.clearRect(0,0,ovC.width,ovC.height);
+  state.calibPts = []; ovCtx.clearRect(0,0,ovC.width,ovC.height);
 };
-document.getElementById('modal-calib-input').addEventListener('keydown',e=>{
-  if(e.key==='Enter') document.getElementById('modal-calib-ok').click();
-  if(e.key==='Escape') document.getElementById('modal-calib-cancel').click();
+document.getElementById('modal-calib-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter')  document.getElementById('modal-calib-ok').click();
+  if (e.key === 'Escape') document.getElementById('modal-calib-cancel').click();
 });
-document.getElementById('modal-scan-ok').onclick=saveScanPoint;
-document.getElementById('modal-scan-cancel').onclick=()=>{
-  document.getElementById('modal-scan-bg').classList.add('hidden');
-  document.getElementById('scan-ssid-mismatch-alert').classList.remove('visible');
-  state.pendingPoint=null; setStatus('Ponto descartado','#666');
+
+document.getElementById('modal-scan-ok').onclick     = saveScanPoint;
+document.getElementById('modal-scan-cancel').onclick = () => {
+  document.getElementById('modal-scan-bg').classList.add('hidden'); state.pendingPoint = null; setStatus('Ponto descartado', '#666');
 };
-document.getElementById('summary-close').onclick=()=>document.getElementById('modal-summary-bg').classList.add('hidden');
-document.getElementById('summary-export').onclick=()=>{exportProject();document.getElementById('modal-summary-bg').classList.add('hidden');};
-document.getElementById('report-close').onclick=()=>document.getElementById('modal-report-bg').classList.add('hidden');
-document.getElementById('report-dl-png').onclick=()=>{
-  if(!window._reportCanvas) return;
-  const a=document.createElement('a'); a.href=window._reportCanvas.toDataURL('image/png');
-  a.download=`2gij-survey-${Date.now()}.png`; a.click();
+document.getElementById('summary-close').onclick  = () => document.getElementById('modal-summary-bg').classList.add('hidden');
+document.getElementById('summary-export').onclick = () => { exportProject(); document.getElementById('modal-summary-bg').classList.add('hidden'); };
+
+// modal relatório — módulo 3
+document.getElementById('report-close').onclick = () => document.getElementById('modal-report-bg').classList.add('hidden');
+document.getElementById('report-dl-png').onclick = () => {
+  if (!window._reportCanvas) return;
+  const a = document.createElement('a');
+  a.href = window._reportCanvas.toDataURL('image/png');
+  a.download = `2gij-survey-${Date.now()}.png`; a.click();
 };
-document.getElementById('report-dl-jpg').onclick=()=>{
-  if(!window._reportCanvas) return;
-  const a=document.createElement('a'); a.href=window._reportCanvas.toDataURL('image/jpeg',0.95);
-  a.download=`2gij-survey-${Date.now()}.jpg`; a.click();
+document.getElementById('report-dl-jpg').onclick = () => {
+  if (!window._reportCanvas) return;
+  const a = document.createElement('a');
+  a.href = window._reportCanvas.toDataURL('image/jpeg', 0.95);
+  a.download = `2gij-survey-${Date.now()}.jpg`; a.click();
 };
 
 // ═══════════════════════════════════════════════════════
-// ATALHOS DE TECLADO (preservados + H)
+// ATALHOS DE TECLADO (preservados + H para heatmap)
 // ═══════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
-  if(e.key==='p'||e.key==='P') setTool('pencil','Lápis');
-  if(e.key==='l'||e.key==='L') setTool('line','Linha');
-  if(e.key==='r'||e.key==='R') setTool('rect','Retângulo');
-  if(e.key==='c'||e.key==='C') setTool('circle','Círculo');
-  if(e.key==='v'||e.key==='V') setTool('select','Seleção');
-  if(e.key===' '){e.preventDefault();setTool('pan','Mover');}
-  if(e.key==='+'||e.key==='=') document.getElementById('btn-zoom-in').click();
-  if(e.key==='-') document.getElementById('btn-zoom-out').click();
-  if(e.key==='h'||e.key==='H'){if(state.project.scanPoints.length>0){state.heatVisible?clearHeatmap():renderHeatmap();}}
-  if(e.key==='z'&&(e.ctrlKey||e.metaKey)){
-    if(state.surveyStatus==='running'||state.surveyStatus==='paused'){undoLastScanPoint();}
-    else if(state.project.drawings.length>0){state.project.drawings.pop();redraw();setStatus('Desfeito');}
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (e.key === 'p' || e.key === 'P') setTool('pencil','Lápis');
+  if (e.key === 'l' || e.key === 'L') setTool('line','Linha');
+  if (e.key === 'r' || e.key === 'R') setTool('rect','Retângulo');
+  if (e.key === 'c' || e.key === 'C') setTool('circle','Círculo');
+  if (e.key === 'v' || e.key === 'V') setTool('select','Seleção');
+  if (e.key === ' ') { e.preventDefault(); setTool('pan','Mover'); }
+  if (e.key === '+' || e.key === '=') document.getElementById('btn-zoom-in').click();
+  if (e.key === '-') document.getElementById('btn-zoom-out').click();
+  if (e.key === 'h' || e.key === 'H') { // NOVO: atalho heatmap
+    if (state.project.scanPoints.length > 0) {
+      state.heatVisible ? clearHeatmap() : renderHeatmap();
+    }
   }
-  if(e.key==='Escape'){
-    state.drawing=false; state.currentPath=[]; state.startPt=null;
-    if(state.calibMode) document.getElementById('btn-calib').click();
+  if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
+    if (state.surveyStatus === 'running' || state.surveyStatus === 'paused') { undoLastScanPoint(); }
+    else if (state.project.drawings.length > 0) { state.project.drawings.pop(); redraw(); setStatus('Desfeito'); }
+  }
+  if (e.key === 'Escape') {
+    state.drawing = false; state.currentPath = []; state.startPt = null;
+    if (state.calibMode) document.getElementById('btn-calib').click();
     ovCtx.clearRect(0,0,ovC.width,ovC.height);
     document.getElementById('modal-scan-bg').classList.add('hidden');
-    document.getElementById('scan-ssid-mismatch-alert').classList.remove('visible');
     document.getElementById('modal-calib-bg').classList.add('hidden');
     document.getElementById('modal-report-bg').classList.add('hidden');
   }
@@ -1353,12 +1244,11 @@ document.addEventListener('keydown',e=>{
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
-const ro=new ResizeObserver(resize);
+const ro = new ResizeObserver(resize);
 ro.observe(wrap);
 resize();
 setSurveyStatus('idle');
-updateTargetUI();
-setStatus('Pronto — defina a rede alvo, desenhe a planta e colete pontos Wi-Fi (H = heatmap)');
+setStatus('Pronto — desenhe a planta, colete pontos Wi-Fi e renderize o heatmap (H)');
 </script>
 </body>
 </html>
