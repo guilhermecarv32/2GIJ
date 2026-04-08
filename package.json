@@ -1,0 +1,16 @@
+{
+  "name": "2gij",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "electron": "^41.2.0",
+    "node-wifi": "^2.0.16"
+  }
+}
