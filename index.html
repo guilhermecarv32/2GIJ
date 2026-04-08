@@ -3,1103 +3,1103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2GIJ v1.0 — Site Survey Wi-Fi</title>
+<title>2GIJ — v0.2: Canvas + Motor de Scan Wi-Fi</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: sans-serif; background: transparent; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: sans-serif; background: transparent; }
 
-/* ── APP SHELL ── */
-#app { width: 100%; height: 660px; display: flex; flex-direction: column; background: #0d0d0d; border-radius: 12px; overflow: hidden; border: 0.5px solid #2a2a2a; }
+  /* ── APP SHELL ── */
+  #app { width: 100%; height: 620px; display: flex; flex-direction: column; background: #0d0d0d; border-radius: 12px; overflow: hidden; border: 0.5px solid #2a2a2a; }
 
-/* ── TOOLBAR PRINCIPAL ── */
-#toolbar { display: flex; align-items: center; gap: 6px; padding: 7px 12px; background: #111; border-bottom: 0.5px solid #252525; flex-wrap: wrap; }
-.tb-group { display: flex; align-items: center; gap: 4px; padding: 0 6px; border-right: 0.5px solid #2a2a2a; }
-.tb-group:last-child { border-right: none; margin-left: auto; }
-.tb-btn { width: 30px; height: 30px; border-radius: 6px; border: 0.5px solid transparent; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #888; transition: all .15s; font-size: 14px; }
-.tb-btn:hover { background: #1e1e1e; color: #ccc; border-color: #333; }
-.tb-btn.active { background: #1a2a3a; color: #4a9eff; border-color: #2a4a6a; }
-.tb-btn.calib { color: #f0a030; }
-.tb-btn.calib.active { background: #2a1a00; color: #ffb940; border-color: #5a3a00; }
-.tb-label { font-size: 10px; color: #444; padding: 0 4px; white-space: nowrap; letter-spacing: .04em; }
+  /* ── TOOLBAR ── */
+  #toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #111; border-bottom: 0.5px solid #252525; flex-wrap: wrap; }
+  .tb-group { display: flex; align-items: center; gap: 4px; padding: 0 6px; border-right: 0.5px solid #2a2a2a; }
+  .tb-group:last-child { border-right: none; margin-left: auto; }
+  .tb-btn { width: 30px; height: 30px; border-radius: 6px; border: 0.5px solid transparent; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #888; transition: all .15s; font-size: 14px; }
+  .tb-btn:hover { background: #1e1e1e; color: #ccc; border-color: #333; }
+  .tb-btn.active { background: #1a2a3a; color: #4a9eff; border-color: #2a4a6a; }
+  .tb-btn.calib { color: #f0a030; }
+  .tb-btn.calib.active { background: #2a1a00; color: #ffb940; border-color: #5a3a00; }
+  .tb-label { font-size: 11px; color: #555; padding: 0 4px; white-space: nowrap; }
 
-/* ── SURVEY BAR ── */
-#survey-bar { display: flex; align-items: center; gap: 8px; padding: 5px 12px; background: #0e0e0e; border-bottom: 0.5px solid #1e1e1e; }
-.sv-btn { height: 25px; padding: 0 12px; border-radius: 5px; border: 0.5px solid #333; background: transparent; cursor: pointer; font-size: 11px; font-weight: 500; color: #666; transition: all .15s; white-space: nowrap; }
-.sv-btn.start { border-color: #1a5a1a; color: #4aaa4a; }
-.sv-btn.start:hover { background: #0a2a0a; }
-.sv-btn.start.running { background: #0a2a0a; color: #6aee6a; border-color: #2a8a2a; cursor: default; }
-.sv-btn.pause { border-color: #5a4a00; color: #aaaa30; }
-.sv-btn.pause:hover { background: #2a2000; }
-.sv-btn.pause.paused { background: #2a2000; color: #dddd50; border-color: #8a8a00; }
-.sv-btn.stop  { border-color: #5a1a1a; color: #aa4a4a; }
-.sv-btn.stop:hover { background: #2a0a0a; }
-.sv-btn.undo  { border-color: #333; color: #666; }
-.sv-btn.undo:hover { background: #1a1a1a; color: #aaa; }
-.sv-btn:disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
-#survey-status { display: flex; align-items: center; gap: 6px; margin-left: auto; font-size: 11px; }
-.sv-dot { width: 7px; height: 7px; border-radius: 50%; background: #333; }
-.sv-dot.running { background: #3aaa3a; animation: pulse 1.4s ease-in-out infinite; }
-.sv-dot.paused  { background: #aaaa30; }
-.sv-dot.done    { background: #4a6aff; }
-@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.45} }
-#scan-indicator { font-size: 11px; color: #4a6aff; opacity: 0; transition: opacity .25s; }
-#scan-indicator.visible { opacity: 1; }
+  /* ── SURVEY TOOLBAR (linha separada) ── */
+  #survey-bar { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: #0e0e0e; border-bottom: 0.5px solid #1e1e1e; }
+  .sv-btn { height: 26px; padding: 0 14px; border-radius: 5px; border: 0.5px solid #333; background: transparent; cursor: pointer; font-size: 12px; font-weight: 500; color: #666; transition: all .15s; white-space: nowrap; }
+  .sv-btn:hover { border-color: #444; color: #999; }
+  .sv-btn.start  { border-color: #1a5a1a; color: #4aaa4a; }
+  .sv-btn.start:hover  { background: #0a2a0a; }
+  .sv-btn.start.running { background: #0a2a0a; color: #6aee6a; border-color: #2a8a2a; cursor: default; }
+  .sv-btn.pause  { border-color: #5a4a00; color: #aaaa30; }
+  .sv-btn.pause:hover  { background: #2a2000; }
+  .sv-btn.pause.paused { background: #2a2000; color: #dddd50; border-color: #8a8a00; }
+  .sv-btn.stop   { border-color: #5a1a1a; color: #aa4a4a; }
+  .sv-btn.stop:hover   { background: #2a0a0a; }
+  .sv-btn.undo   { border-color: #333; color: #666; }
+  .sv-btn.undo:hover   { background: #1a1a1a; color: #aaa; }
+  .sv-btn:disabled { opacity: .35; cursor: not-allowed; pointer-events: none; }
+  #survey-status { display: flex; align-items: center; gap: 6px; margin-left: auto; font-size: 11px; }
+  .sv-dot { width: 7px; height: 7px; border-radius: 50%; background: #333; transition: background .3s; }
+  .sv-dot.idle    { background: #333; }
+  .sv-dot.running { background: #3aaa3a; box-shadow: 0 0 4px #3aaa3a88; animation: pulse 1.4s ease-in-out infinite; }
+  .sv-dot.paused  { background: #aaaa30; }
+  .sv-dot.done    { background: #4a6aff; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  #survey-count { color: #555; font-variant-numeric: tabular-nums; }
+  #scan-indicator { font-size: 11px; color: #4a6aff; opacity: 0; transition: opacity .3s; }
+  #scan-indicator.visible { opacity: 1; }
 
-/* ── HEATMAP BAR (módulo 3) ── */
-#heatmap-bar { display: flex; align-items: center; gap: 10px; padding: 5px 12px; background: #090909; border-bottom: 0.5px solid #181818; }
-.hm-btn { height: 24px; padding: 0 12px; border-radius: 5px; border: 0.5px solid #333; background: transparent; cursor: pointer; font-size: 11px; font-weight: 500; color: #666; transition: all .15s; white-space: nowrap; }
-.hm-btn.hm-render  { border-color: #2a3a5a; color: #4a7aaa; }
-.hm-btn.hm-render:hover { background: #0e1a2a; color: #6a9acc; }
-.hm-btn.hm-render.active { background: #0e1a2a; color: #7ab4ff; border-color: #3a5a8a; }
-.hm-btn.hm-clear  { border-color: #3a2a2a; color: #7a4a4a; }
-.hm-btn.hm-clear:hover { background: #1a0a0a; color: #aa6a6a; }
-.hm-btn.hm-snap   { border-color: #2a4a2a; color: #5a8a5a; }
-.hm-btn.hm-snap:hover { background: #0a1a0a; color: #7aaa7a; }
-.hm-btn:disabled  { opacity: .3; cursor: not-allowed; pointer-events: none; }
-.hm-sep { width: 0.5px; height: 16px; background: #222; margin: 0 2px; }
-.hm-ctrl { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #444; }
-.hm-ctrl input[type=range] { width: 80px; accent-color: #4a7aaa; }
-.hm-ctrl span { min-width: 28px; color: #666; font-variant-numeric: tabular-nums; }
-/* legenda do heatmap */
-#hm-legend { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-.hm-leg-bar { width: 100px; height: 8px; border-radius: 4px; background: linear-gradient(to right, #aa2222, #cc6600, #aaaa20, #44aa44, #22cc88); }
-.hm-leg-label { font-size: 10px; color: #333; white-space: nowrap; }
+  /* ── CANVAS AREA ── */
+  #canvas-wrap { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; }
+  #canvas-wrap.tool-pencil    { cursor: crosshair; }
+  #canvas-wrap.tool-line,
+  #canvas-wrap.tool-rect,
+  #canvas-wrap.tool-circle    { cursor: crosshair; }
+  #canvas-wrap.tool-select    { cursor: default; }
+  #canvas-wrap.tool-pan       { cursor: grab; }
+  #canvas-wrap.tool-pan.panning { cursor: grabbing; }
+  #canvas-wrap.tool-calibrate { cursor: none; }
+  #canvas-wrap.tool-survey    { cursor: cell; }
+  #main-canvas    { position: absolute; top: 0; left: 0; }
+  #overlay-canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
+  #cursor-canvas  { position: absolute; top: 0; left: 0; pointer-events: none; }
 
-/* ── CANVAS AREA ── */
-#canvas-wrap { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; }
-#canvas-wrap.tool-pencil  { cursor: crosshair; }
-#canvas-wrap.tool-line, #canvas-wrap.tool-rect, #canvas-wrap.tool-circle { cursor: crosshair; }
-#canvas-wrap.tool-select  { cursor: default; }
-#canvas-wrap.tool-pan     { cursor: grab; }
-#canvas-wrap.tool-pan.panning { cursor: grabbing; }
-#canvas-wrap.tool-calibrate { cursor: none; }
-#canvas-wrap.tool-survey  { cursor: cell; }
-#main-canvas    { position: absolute; top:0; left:0; }
-#heat-canvas    { position: absolute; top:0; left:0; pointer-events: none; }
-#overlay-canvas { position: absolute; top:0; left:0; pointer-events: none; }
-#cursor-canvas  { position: absolute; top:0; left:0; pointer-events: none; }
+  /* ── INFO PANEL ── */
+  #info-panel { position: absolute; top: 10px; right: 10px; background: rgba(10,10,10,.9); border: 0.5px solid #222; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #444; min-width: 168px; pointer-events: none; }
+  #info-panel .info-row { display: flex; justify-content: space-between; gap: 16px; line-height: 1.9; }
+  #info-panel .info-val { color: #666; font-variant-numeric: tabular-nums; }
+  #info-panel .info-val.hi { color: #4aaa4a; }
+  #info-panel .info-val.warn { color: #aaaa30; }
+  #info-panel .info-val.bad { color: #aa4a4a; }
 
-/* ── INFO PANEL ── */
-#info-panel { position: absolute; top:10px; right:10px; background: rgba(8,8,8,.92); border: 0.5px solid #1e1e1e; border-radius: 8px; padding: 9px 12px; font-size: 11px; color: #444; min-width: 168px; pointer-events: none; }
-.info-row { display: flex; justify-content: space-between; gap: 14px; line-height: 1.95; }
-.info-val { color: #666; font-variant-numeric: tabular-nums; }
-.info-val.hi   { color: #4aaa4a; }
-.info-val.warn { color: #aaaa30; }
-.info-val.bad  { color: #aa4a4a; }
+  /* ── STATUS BAR ── */
+  #status-bar { display: flex; align-items: center; gap: 16px; padding: 5px 12px; background: #0e0e0e; border-top: 0.5px solid #1e1e1e; font-size: 11px; color: #444; }
+  .status-item { display: flex; align-items: center; gap: 4px; }
+  .status-val { color: #666; font-variant-numeric: tabular-nums; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #2a6a2a; }
 
-/* ── STATUS BAR ── */
-#status-bar { display: flex; align-items: center; gap: 14px; padding: 5px 12px; background: #0e0e0e; border-top: 0.5px solid #1a1a1a; font-size: 11px; color: #444; }
-.status-item { display: flex; align-items: center; gap: 4px; }
-.status-val { color: #666; font-variant-numeric: tabular-nums; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: #2a6a2a; }
+  /* ── MODALS ── */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; z-index: 999; }
+  .modal-bg.hidden { display: none; }
+  .modal-box { background: #141414; border: 0.5px solid #2a2a2a; border-radius: 12px; padding: 24px; width: 340px; }
+  .modal-box h3 { color: #ccc; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .modal-box p  { color: #555; font-size: 12px; margin-bottom: 14px; line-height: 1.5; }
+  .modal-box input, .modal-box select {
+    width: 100%; background: #0d0d0d; border: 0.5px solid #333; border-radius: 6px;
+    color: #ccc; padding: 8px 12px; font-size: 14px; margin-bottom: 12px; outline: none;
+  }
+  .modal-box input:focus, .modal-box select:focus { border-color: #4a6a8a; }
+  .modal-box .row { display: flex; gap: 8px; margin-top: 4px; }
+  .modal-box button { flex: 1; padding: 8px; border-radius: 6px; border: 0.5px solid #333; cursor: pointer; font-size: 13px; transition: all .15s; }
+  .btn-ok     { background: #1a3a5a; color: #4a9eff; border-color: #2a5a8a !important; }
+  .btn-ok:hover { background: #1e4a70; }
+  .btn-cancel { background: transparent; color: #666; }
+  .btn-cancel:hover { background: #1a1a1a; color: #888; }
+  .modal-rssi { font-size: 28px; font-weight: 500; text-align: center; margin: 8px 0 16px; letter-spacing: 1px; }
+  .rssi-bar-wrap { height: 6px; background: #1a1a1a; border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+  .rssi-bar { height: 100%; border-radius: 3px; transition: width .4s, background .4s; }
 
-/* ── MODALS ── */
-.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; z-index: 999; }
-.modal-bg.hidden { display: none; }
-.modal-box { background: #131313; border: 0.5px solid #252525; border-radius: 12px; padding: 22px 24px; width: 340px; }
-.modal-box h3 { color: #bbb; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
-.modal-box p  { color: #4a4a4a; font-size: 11px; margin-bottom: 12px; line-height: 1.5; }
-.modal-box input, .modal-box select { width:100%; background:#0d0d0d; border:0.5px solid #2a2a2a; border-radius:6px; color:#ccc; padding:7px 11px; font-size:13px; margin-bottom:10px; outline:none; }
-.modal-box input:focus, .modal-box select:focus { border-color: #3a5a7a; }
-.mrow { display:flex; gap:8px; margin-top:4px; }
-.mrow button { flex:1; padding:7px; border-radius:6px; border:0.5px solid #2a2a2a; cursor:pointer; font-size:12px; transition:all .15s; }
-.btn-ok     { background:#182a40; color:#4a9eff; border-color:#2a4a6a !important; }
-.btn-ok:hover { background:#1e3a54; }
-.btn-cancel { background:transparent; color:#555; }
-.btn-cancel:hover { background:#181818; color:#888; }
-.modal-rssi { font-size:26px; font-weight:500; text-align:center; margin:6px 0 14px; letter-spacing:1px; }
-.rssi-bar-wrap { height:5px; background:#181818; border-radius:3px; margin-bottom:14px; overflow:hidden; }
-.rssi-bar { height:100%; border-radius:3px; transition:width .4s,background .4s; }
+  /* ── LAYER BADGES ── */
+  .layer-badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 500; }
+  .layer-floor { background: #1a2a1a; color: #4a8a4a; }
+  .layer-wifi  { background: #1a1a2a; color: #4a4aaa; }
 
-/* ── BADGES ── */
-.layer-badge { font-size:10px; padding:2px 6px; border-radius:3px; font-weight:500; }
-.layer-floor { background:#1a2a1a; color:#4a8a4a; }
-.layer-wifi  { background:#1a1a2a; color:#4a4aaa; }
-
-/* ── TOAST ── */
-.sp-toast { position:absolute; background:rgba(8,8,24,.9); border:0.5px solid #4a6aff33; border-radius:5px; padding:3px 7px; font-size:11px; color:#8aaaff; pointer-events:none; white-space:nowrap; animation:toast-up 2s ease-out forwards; }
-@keyframes toast-up { 0%{opacity:1;transform:translateY(0)} 70%{opacity:1} 100%{opacity:0;transform:translateY(-30px)} }
-
-/* ── REPORT MODAL (módulo 3) ── */
-#modal-report-box { width: 380px; }
-#report-preview-wrap { width:100%; aspect-ratio:16/9; background:#0a0a0a; border:0.5px solid #222; border-radius:6px; overflow:hidden; margin-bottom:12px; }
-#report-preview { width:100%; height:100%; object-fit:contain; }
+  /* ── SCAN POINT TOAST (flutuante) ── */
+  .sp-toast { position: absolute; background: rgba(10,10,30,.88); border: 0.5px solid #4a6aff44; border-radius: 5px; padding: 3px 7px; font-size: 11px; color: #8aaaff; pointer-events: none; white-space: nowrap; animation: toast-up 1.8s ease-out forwards; }
+  @keyframes toast-up { 0%{opacity:1;transform:translateY(0)} 70%{opacity:1} 100%{opacity:0;transform:translateY(-28px)} }
 </style>
 </head>
 <body>
 <div id="app">
 
-<!-- ══ TOOLBAR PRINCIPAL (módulo 1) ══ -->
-<div id="toolbar">
-  <div class="tb-group">
-    <span class="tb-label">FERRAMENTAS</span>
-    <button class="tb-btn" id="btn-select" title="Selecionar (V)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l4 10 2-4 4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-    </button>
-    <button class="tb-btn active" id="btn-pencil" title="Lápis (P)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2-7 7-2.5.5.5-2.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-line" title="Linha (L)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="12" x2="12" y2="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-rect" title="Retângulo (R)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-circle" title="Círculo (C)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/></svg>
-    </button>
-  </div>
-  <div class="tb-group">
-    <span class="tb-label">NAVEGAÇÃO</span>
-    <button class="tb-btn" id="btn-pan" title="Mover (Space)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v2M7 10v2M2 7h2M10 7h2M4.5 4.5l1 1M8.5 8.5l1 1M8.5 4.5l-1 1M4.5 8.5l-1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-zoom-in" title="Zoom In (+)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="4" x2="6" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-zoom-out" title="Zoom Out (-)">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-fit" title="Ajustar à tela">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-  <div class="tb-group">
-    <span class="tb-label">CAMADAS</span>
-    <button class="tb-btn active" id="btn-layer-floor" title="Planta baixa"><span class="layer-badge layer-floor">PL</span></button>
-    <button class="tb-btn"        id="btn-layer-wifi"  title="Camada Wi-Fi"><span class="layer-badge layer-wifi">WF</span></button>
-  </div>
-  <div class="tb-group">
-    <button class="tb-btn calib" id="btn-calib" title="Calibrar Espaço">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="1" y1="4" x2="1" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="4" x2="13" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="5" x2="4" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="7" y1="5" x2="7" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10" y1="5" x2="10" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>
-    </button>
-    <span class="tb-label" id="calib-label">Calibrar</span>
-  </div>
-  <div class="tb-group">
-    <button class="tb-btn" id="btn-clear" title="Limpar tudo">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-    </button>
-    <button class="tb-btn" id="btn-export" title="Exportar JSON">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v2h10v-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
-
-<!-- ══ SURVEY BAR (módulo 2) ══ -->
-<div id="survey-bar">
-  <span class="tb-label">SURVEY</span>
-  <button class="sv-btn start" id="sv-start">▶ Iniciar Survey</button>
-  <button class="sv-btn pause" id="sv-pause" disabled>⏸ Pausar</button>
-  <button class="sv-btn stop"  id="sv-stop"  disabled>⏹ Finalizar</button>
-  <button class="sv-btn undo"  id="sv-undo"  disabled title="Ctrl+Z">↩ Undo</button>
-  <div id="survey-status">
-    <div class="sv-dot" id="sv-dot"></div>
-    <span id="sv-state-label" style="color:#3a3a3a;font-size:11px">Aguardando</span>
-    <span id="scan-indicator">● escaneando…</span>
-    <span id="survey-count" style="color:#3a3a3a;margin-left:8px">0 pontos</span>
-  </div>
-</div>
-
-<!-- ══ HEATMAP BAR (módulo 3) ══ -->
-<div id="heatmap-bar">
-  <span class="tb-label">HEATMAP</span>
-  <button class="hm-btn hm-render" id="hm-render" disabled>⬡ Renderizar</button>
-  <button class="hm-btn hm-clear"  id="hm-clear"  disabled>✕ Limpar</button>
-  <div class="hm-sep"></div>
-  <div class="hm-ctrl">
-    <span>Opacidade</span>
-    <input type="range" id="hm-opacity" min="10" max="100" value="55" step="5">
-    <span id="hm-opacity-val">55%</span>
-  </div>
-  <div class="hm-ctrl">
-    <span>Raio IDW</span>
-    <input type="range" id="hm-radius" min="40" max="300" value="120" step="10">
-    <span id="hm-radius-val">120px</span>
-  </div>
-  <div class="hm-ctrl">
-    <span>Potência</span>
-    <input type="range" id="hm-power" min="1" max="6" value="2" step="0.5">
-    <span id="hm-power-val">2.0</span>
-  </div>
-  <div class="hm-sep"></div>
-  <button class="hm-btn hm-snap" id="hm-snap">📷 Gerar Relatório</button>
-  <div id="hm-legend">
-    <span class="hm-leg-label" style="color:#aa2222">−90</span>
-    <div class="hm-leg-bar"></div>
-    <span class="hm-leg-label" style="color:#22cc88">−30 dBm</span>
-  </div>
-</div>
-
-<!-- ══ CANVAS STACK ══ -->
-<div id="canvas-wrap" class="tool-pencil">
-  <canvas id="main-canvas"></canvas>
-  <canvas id="heat-canvas"></canvas>
-  <canvas id="overlay-canvas"></canvas>
-  <canvas id="cursor-canvas"></canvas>
-  <div id="info-panel">
-    <div class="info-row"><span>Cursor</span><span class="info-val" id="inf-pos">0, 0</span></div>
-    <div class="info-row"><span>Zoom</span><span class="info-val" id="inf-zoom">100%</span></div>
-    <div class="info-row"><span>Escala</span><span class="info-val" id="inf-scale">—</span></div>
-    <div class="info-row"><span>Geometrias</span><span class="info-val" id="inf-geom">0</span></div>
-    <div class="info-row"><span>Pontos Wi-Fi</span><span class="info-val" id="inf-wifi">0</span></div>
-    <div class="info-row" id="inf-rssi-row" style="display:none">
-      <span>Último RSSI</span><span class="info-val" id="inf-rssi">—</span>
+  <!-- ══ TOOLBAR (módulo 1 preservado) ══ -->
+  <div id="toolbar">
+    <div class="tb-group">
+      <span class="tb-label">FERRAMENTAS</span>
+      <button class="tb-btn" id="btn-select" title="Selecionar (V)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l4 10 2-4 4-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tb-btn active" id="btn-pencil" title="Lápis (P)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2-7 7-2.5.5.5-2.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-line" title="Linha (L)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="12" x2="12" y2="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-rect" title="Retângulo (R)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-circle" title="Círculo (C)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+    </div>
+    <div class="tb-group">
+      <span class="tb-label">NAVEGAÇÃO</span>
+      <button class="tb-btn" id="btn-pan" title="Mover (Space)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v2M7 10v2M2 7h2M10 7h2M4.5 4.5l1 1M8.5 8.5l1 1M8.5 4.5l-1 1M4.5 8.5l-1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-zoom-in" title="Zoom In (+)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="4" x2="6" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-zoom-out" title="Zoom Out (-)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-fit" title="Ajustar à tela">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5V2h3M9 2h3v3M12 9v3H9M5 12H2V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="tb-group">
+      <span class="tb-label">CAMADAS</span>
+      <button class="tb-btn active" id="btn-layer-floor" title="Planta baixa">
+        <span class="layer-badge layer-floor">PL</span>
+      </button>
+      <button class="tb-btn" id="btn-layer-wifi" title="Camada Wi-Fi">
+        <span class="layer-badge layer-wifi">WF</span>
+      </button>
+    </div>
+    <div class="tb-group">
+      <button class="tb-btn calib" id="btn-calib" title="Calibrar Espaço">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="1" y1="4" x2="1" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="4" x2="13" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="5" x2="4" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="7" y1="5" x2="7" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/><line x1="10" y1="5" x2="10" y2="9" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>
+      </button>
+      <span class="tb-label" id="calib-label">Calibrar</span>
+    </div>
+    <div class="tb-group">
+      <button class="tb-btn" id="btn-clear" title="Limpar canvas">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tb-btn" id="btn-export" title="Exportar JSON">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v2h10v-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
-</div>
 
-<!-- ══ STATUS BAR ══ -->
-<div id="status-bar">
-  <div class="status-item"><div class="dot"></div><span>2GIJ v1.0</span></div>
-  <div class="status-item"><span>Camada:</span><span class="status-val" id="st-layer">Planta</span></div>
-  <div class="status-item"><span>Ferramenta:</span><span class="status-val" id="st-tool">Lápis</span></div>
-  <div class="status-item"><span>Objetos:</span><span class="status-val" id="st-count">0</span></div>
-  <div class="status-item" style="margin-left:auto"><span id="st-msg" style="color:#4a8a4a">Pronto</span></div>
-</div>
+  <!-- ══ SURVEY BAR (módulo 2 — nova barra) ══ -->
+  <div id="survey-bar">
+    <span class="tb-label">SURVEY</span>
+    <button class="sv-btn start"  id="sv-start">▶ Iniciar Survey</button>
+    <button class="sv-btn pause"  id="sv-pause"  disabled>⏸ Pausar</button>
+    <button class="sv-btn stop"   id="sv-stop"   disabled>⏹ Finalizar</button>
+    <button class="sv-btn undo"   id="sv-undo"   disabled title="Desfazer último ponto (Ctrl+Z)">↩ Undo Ponto</button>
+    <div id="survey-status">
+      <div class="sv-dot idle" id="sv-dot"></div>
+      <span id="sv-state-label" style="color:#444;font-size:11px">Aguardando</span>
+      <span id="scan-indicator">● escaneando…</span>
+      <span id="survey-count" style="margin-left:8px">0 pontos</span>
+    </div>
+  </div>
+
+  <!-- ══ CANVAS ══ -->
+  <div id="canvas-wrap" class="tool-pencil">
+    <canvas id="main-canvas"></canvas>
+    <canvas id="overlay-canvas"></canvas>
+    <canvas id="cursor-canvas"></canvas>
+    <div id="info-panel">
+      <div class="info-row"><span>Cursor</span><span class="info-val" id="inf-pos">0, 0</span></div>
+      <div class="info-row"><span>Zoom</span><span class="info-val" id="inf-zoom">100%</span></div>
+      <div class="info-row"><span>Escala</span><span class="info-val" id="inf-scale">—</span></div>
+      <div class="info-row"><span>Geometrias</span><span class="info-val" id="inf-geom">0</span></div>
+      <div class="info-row"><span>Pontos Wi-Fi</span><span class="info-val" id="inf-wifi">0</span></div>
+      <div class="info-row" id="inf-rssi-row" style="display:none">
+        <span>Último RSSI</span><span class="info-val" id="inf-rssi">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STATUS BAR ══ -->
+  <div id="status-bar">
+    <div class="status-item"><div class="dot"></div><span>2GIJ v0.2</span></div>
+    <div class="status-item"><span>Camada:</span><span class="status-val" id="st-layer">Planta</span></div>
+    <div class="status-item"><span>Ferramenta:</span><span class="status-val" id="st-tool">Lápis</span></div>
+    <div class="status-item"><span>Objetos:</span><span class="status-val" id="st-count">0</span></div>
+    <div class="status-item" style="margin-left:auto"><span id="st-msg" style="color:#4a8a4a">Pronto</span></div>
+  </div>
 </div>
 
 <!-- ══ MODAL: CALIBRAÇÃO ══ -->
 <div class="modal-bg hidden" id="modal-calib-bg">
   <div class="modal-box">
-    <h3 id="modal-calib-title">Calibrar Espaço</h3>
-    <p  id="modal-calib-desc">Distância entre os dois pontos em centímetros:</p>
+    <h3 id="modal-title">Calibrar Espaço</h3>
+    <p id="modal-desc">Distância entre os dois pontos em centímetros:</p>
     <input type="number" id="modal-calib-input" placeholder="Ex: 500" min="1" step="1">
-    <div class="mrow">
+    <div class="row">
       <button class="btn-cancel" id="modal-calib-cancel">Cancelar</button>
       <button class="btn-ok"     id="modal-calib-ok">Confirmar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: SCAN ══ -->
+<!-- ══ MODAL: SCAN / REGISTRO DE PONTO ══ -->
 <div class="modal-bg hidden" id="modal-scan-bg">
   <div class="modal-box">
     <h3>Registrar Ponto de Coleta</h3>
-    <p id="scan-modal-coord" style="color:#3a3a3a;font-size:11px;margin-bottom:10px"></p>
-    <div class="modal-rssi" id="scan-rssi-display">—</div>
-    <div class="rssi-bar-wrap"><div class="rssi-bar" id="scan-rssi-bar" style="width:0%"></div></div>
-    <p style="color:#4a4a4a;font-size:11px;margin-bottom:12px;text-align:center" id="scan-rssi-quality"></p>
-    <input type="text"   id="scan-ssid"      placeholder="SSID (ex: CORP-WIFI-5G)">
-    <input type="number" id="scan-rssi-edit" placeholder="RSSI em dBm — ajuste manual" min="-120" max="0" step="1">
+    <p id="scan-modal-coord" style="color:#444;font-size:11px;margin-bottom:12px"></p>
+
+    <!-- resultado do scan -->
+    <div id="scan-result-block">
+      <div class="modal-rssi" id="scan-rssi-display">—</div>
+      <div class="rssi-bar-wrap"><div class="rssi-bar" id="scan-rssi-bar" style="width:0%"></div></div>
+      <p style="color:#555;font-size:11px;margin-bottom:12px;text-align:center" id="scan-rssi-quality"></p>
+    </div>
+
+    <!-- campos editáveis -->
+    <input type="text"   id="scan-ssid"      placeholder="SSID (ex: MinhaRede-5G)" style="margin-bottom:8px">
+    <input type="number" id="scan-rssi-edit" placeholder="RSSI (dBm) — ajuste manual" min="-120" max="0" step="1">
     <select id="scan-band">
       <option value="">Banda — selecione</option>
       <option value="2.4GHz">2.4 GHz</option>
       <option value="5GHz">5 GHz</option>
       <option value="6GHz">6 GHz</option>
     </select>
-    <div class="mrow">
+    <div class="row">
       <button class="btn-cancel" id="modal-scan-cancel">Descartar</button>
       <button class="btn-ok"     id="modal-scan-ok">Salvar Ponto</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: RESUMO SURVEY ══ -->
+<!-- ══ MODAL: RESUMO FINAL ══ -->
 <div class="modal-bg hidden" id="modal-summary-bg">
   <div class="modal-box">
     <h3>Survey Finalizado</h3>
-    <p id="summary-text" style="line-height:1.85"></p>
-    <div id="summary-list" style="max-height:150px;overflow-y:auto;margin:10px 0;font-size:11px;color:#4a4a4a"></div>
-    <div class="mrow">
+    <p id="summary-text" style="line-height:1.8"></p>
+    <div id="summary-list" style="max-height:160px;overflow-y:auto;margin:12px 0;font-size:11px;color:#555"></div>
+    <div class="row">
       <button class="btn-cancel" id="summary-close">Fechar</button>
       <button class="btn-ok"     id="summary-export">Exportar JSON</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL: RELATÓRIO / SNAPSHOT ══ -->
-<div class="modal-bg hidden" id="modal-report-bg">
-  <div class="modal-box" id="modal-report-box">
-    <h3>Relatório de Imagem — 2GIJ</h3>
-    <p id="report-meta" style="margin-bottom:10px"></p>
-    <div id="report-preview-wrap"><img id="report-preview" alt="preview"></div>
-    <div class="mrow">
-      <button class="btn-cancel" id="report-close">Fechar</button>
-      <button class="btn-ok"     id="report-dl-png">⬇ Salvar PNG</button>
-      <button class="btn-ok"     id="report-dl-jpg" style="background:#1a2a1a;border-color:#2a4a2a;color:#4a9a4a">⬇ Salvar JPG</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// ═══════════════════════════════════════════
-// CANVAS SETUP — 4 camadas empilhadas:
-//   main  → planta + scan markers
-//   heat  → heatmap IDW (módulo 3)
-//   over  → preview de formas em construção
-//   cur   → cursor customizado (calibração)
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// CANVAS SETUP
+// ═══════════════════════════════════════════════════════
 const wrap   = document.getElementById('canvas-wrap');
 const mainC  = document.getElementById('main-canvas');
-const heatC  = document.getElementById('heat-canvas');
 const ovC    = document.getElementById('overlay-canvas');
 const curC   = document.getElementById('cursor-canvas');
 const mCtx   = mainC.getContext('2d');
-const hCtx   = heatC.getContext('2d');
 const ovCtx  = ovC.getContext('2d');
 const curCtx = curC.getContext('2d');
 
-// ═══════════════════════════════════════════
-// ESTADO GLOBAL
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// ESTADO GLOBAL — PROJETO
+// ═══════════════════════════════════════════════════════
 const state = {
   project: {
-    id: (crypto.randomUUID || (() => 'id-' + Date.now()))(),
+    id: crypto.randomUUID ? crypto.randomUUID() : '2gij-' + Date.now(),
     name: '2GIJ',
-    scaleRatio: null,
-    drawings:   [],
-    scanPoints: []
+    scaleRatio: null,   // cm/px
+    drawings:   [],     // Array<Geometry>
+    scanPoints: []      // Array<ScanPoint>
   },
-  // módulo 1
-  tool: 'pencil', layer: 'floor',
-  zoom: 1, panX: 0, panY: 0,
-  drawing: false, panning: false, lastPan: null,
-  currentPath: [], startPt: null,
-  calibMode: false, calibPts: [],
+  // --- módulo 1 ---
+  tool: 'pencil',
+  layer: 'floor',
+  zoom: 1,
+  panX: 0, panY: 0,
+  drawing: false,
+  panning: false,
+  lastPan: null,
+  currentPath: [],
+  startPt: null,
+  calibMode: false,
+  calibPts: [],
   mouseX: 0, mouseY: 0,
-  // módulo 2
-  surveyStatus: 'idle',
-  pendingPoint: null, lastRssi: null,
-  // módulo 3
-  heatmapVisible: false,
-  hmOpacity: 0.55,
-  hmRadius: 120,
-  hmPower: 2.0
+  // --- módulo 2 ---
+  surveyStatus: 'idle',   // 'idle' | 'running' | 'paused' | 'done'
+  pendingPoint: null,     // {wx, wy} — ponto aguardando confirmação do modal
+  lastRssi: null          // último valor escaneado
 };
 
-const COLORS = { floor: '#aaaaaa', wifi: '#4a6aff', calib: '#ffb940' };
+const COLORS = {
+  floor: '#aaaaaa',
+  wifi:  '#4a6aff',
+  calib: '#ffb940'
+};
 
-// ═══════════════════════════════════════════
-// MÓDULO 3 — PALETA DE CORES IDW
-// Mapeamento dBm → RGB suave (não discreto)
-// Faixa: -90 dBm (crítico) → -30 dBm (excelente)
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SCANNER ENGINE
+// Wrapper de hardware Wi-Fi.
+// Em ambiente browser/demo: simula RSSI realístico.
+// Em Electron: substitua scanWifi() pela chamada IPC ao
+// processo main que executa node-wifi ou netsh/iwlist.
+// ═══════════════════════════════════════════════════════
 
 /**
- * Converte um valor normalizado t ∈ [0,1] em [r,g,b].
- * Gradiente: vermelho escuro → laranja → amarelo → verde → ciano
- * t=0 → pior sinal;  t=1 → melhor sinal
+ * Simula leitura de RSSI enquanto não há backend Electron.
+ * Retorna uma Promise para manter a mesma interface assíncrona
+ * que a chamada real usaria.
+ *
+ * Substituição para Electron (main process):
+ *   ipcMain.handle('wifi-scan', async () => {
+ *     const wifi = require('node-wifi');
+ *     wifi.init({ iface: null });
+ *     const nets = await wifi.scan();
+ *     const cur  = nets[0]; // rede conectada no topo
+ *     return { ssid: cur.ssid, rssi: cur.signal_level, band: cur.frequency };
+ *   });
+ *
+ * E aqui no renderer:
+ *   const result = await window.electronAPI.wifiScan();
+ *
+ * Substituição para Windows sem Electron (subprocess via netsh):
+ *   const { exec } = require('child_process');
+ *   exec('netsh wlan show interfaces', (err, stdout) => {
+ *     const rssiMatch = stdout.match(/Signal\s*:\s*(\d+)%/);
+ *     const pct = rssiMatch ? parseInt(rssiMatch[1]) : 50;
+ *     const rssi = Math.round((pct / 100) * 70 - 90); // converte % → dBm
+ *   });
  */
-function heatColor(t) {
-  // stops: [t, r, g, b]
-  const stops = [
-    [0.00,  160,  20,  20],   // vermelho escuro  (crítico)
-    [0.20,  210,  50,   0],   // laranja queimado  (muito fraco)
-    [0.42,  200, 140,   0],   // âmbar             (fraco)
-    [0.62,  160, 190,  10],   // amarelo-verde     (regular)
-    [0.80,   40, 180,  60],   // verde             (bom)
-    [1.00,   20, 210, 140],   // ciano             (excelente)
-  ];
-  t = Math.max(0, Math.min(1, t));
-  let i = 0;
-  while (i < stops.length - 2 && t > stops[i+1][0]) i++;
-  const s0 = stops[i], s1 = stops[i+1];
-  const f = (t - s0[0]) / (s1[0] - s0[0]);
-  return [
-    Math.round(s0[1] + f * (s1[1] - s0[1])),
-    Math.round(s0[2] + f * (s1[2] - s0[2])),
-    Math.round(s0[3] + f * (s1[3] - s0[3]))
-  ];
-}
-
-/** Normaliza dBm para [0,1]. Faixa: -90 → -30 */
-function rssiToT(rssi) { return Math.max(0, Math.min(1, (rssi + 90) / 60)); }
-
-// ═══════════════════════════════════════════
-// MÓDULO 3 — IDW (Inverse Distance Weighting)
-// Interpolação de RSSI em pontos não amostrados.
-//
-// Para cada pixel (x,y) do canvas:
-//   valor(x,y) = Σ(wi * RSSSi) / Σ(wi)
-//   wi = 1 / dist(x,y → Pi)^power
-//
-// Usa offscreen canvas em resolução reduzida (÷4)
-// para performance, depois upscala com CSS filter:blur
-// para o efeito de nuvem fluida.
-// ═══════════════════════════════════════════
-function renderHeatmap() {
-  const pts = state.project.scanPoints;
-  if (pts.length === 0) return;
-
-  const W = heatC.width, H = heatC.height;
-
-  // ── resolução de trabalho (1/4) ──────────
-  const SCALE = 4;
-  const sw = Math.ceil(W / SCALE), sh = Math.ceil(H / SCALE);
-
-  // canvas offscreen de baixa resolução para IDW
-  const off = document.createElement('canvas');
-  off.width = sw; off.height = sh;
-  const octx = off.getContext('2d');
-  const img  = octx.createImageData(sw, sh);
-  const data = img.data;
-
-  // pré-converte pontos para coordenadas de tela
-  const screenPts = pts.map(p => {
-    const [sx, sy] = toScreen(p.x, p.y);
-    return { sx: sx / SCALE, sy: sy / SCALE, rssi: p.rssi };
-  });
-
-  const r = state.hmRadius / SCALE;  // raio de influência em coord reduzida
-  const p = state.hmPower;
-
-  for (let y = 0; y < sh; y++) {
-    for (let x = 0; x < sw; x++) {
-      let wSum = 0, vSum = 0, minDist = Infinity;
-
-      for (const pt of screenPts) {
-        const dx = x - pt.sx, dy = y - pt.sy;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 0.5) { // ponto exato
-          vSum = rssiToT(pt.rssi); wSum = 1; minDist = 0; break;
-        }
-        if (dist > r * 2.5) continue; // fora do raio de influência
-        const w = 1 / Math.pow(dist, p);
-        wSum += w; vSum += w * rssiToT(pt.rssi);
-        minDist = Math.min(minDist, dist);
-      }
-
-      if (wSum === 0) continue; // sem influência: pixel transparente
-
-      const t    = vSum / wSum;
-      const [R, G, B] = heatColor(t);
-
-      // opacidade: máxima no centro dos pontos, fade suave nas bordas
-      const edgeFade = Math.max(0, 1 - (minDist / (r * 2.5)));
-      const alpha = Math.round(edgeFade * edgeFade * 255);
-
-      const idx = (y * sw + x) * 4;
-      data[idx]   = R;
-      data[idx+1] = G;
-      data[idx+2] = B;
-      data[idx+3] = alpha;
-    }
-  }
-
-  octx.putImageData(img, 0, 0);
-
-  // ── aplica no canvas real ─────────────────
-  hCtx.clearRect(0, 0, W, H);
-  hCtx.save();
-  hCtx.globalAlpha = state.hmOpacity;
-  // filtro de blur para suavizar a borda e criar o efeito "nuvem"
-  const blurPx = Math.round(state.hmRadius * 0.18);
-  hCtx.filter = `blur(${blurPx}px)`;
-  // upscale: desenha o canvas de baixa res em tamanho real
-  hCtx.drawImage(off, 0, 0, W, H);
-  hCtx.filter = 'none';
-  hCtx.restore();
-
-  state.heatmapVisible = true;
-  document.getElementById('hm-render').classList.add('active');
-  document.getElementById('hm-clear').disabled = false;
-  setStatus(`Heatmap IDW renderizado — ${pts.length} pontos, raio ${state.hmRadius}px, p=${state.hmPower}`, '#4a7aaa');
-}
-
-function clearHeatmap() {
-  hCtx.clearRect(0, 0, heatC.width, heatC.height);
-  state.heatmapVisible = false;
-  document.getElementById('hm-render').classList.remove('active');
-  document.getElementById('hm-clear').disabled = true;
-  setStatus('Heatmap removido');
-}
-
-// ═══════════════════════════════════════════
-// MÓDULO 3 — SNAPSHOT / RELATÓRIO PNG+JPG
-// Composição: fundo preto + planta + heatmap + markers
-// Resolução 2× para alta qualidade de exportação
-// ═══════════════════════════════════════════
-function generateReport() {
-  const W = mainC.width, H = mainC.height;
-  const DPR = 2; // 2× para HQ
-
-  const out = document.createElement('canvas');
-  out.width = W * DPR; out.height = H * DPR;
-  const ctx = out.getContext('2d');
-  ctx.scale(DPR, DPR);
-
-  // 1. fundo
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(0, 0, W, H);
-
-  // 2. grid sutil
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 0.5;
-  const gSize = 50 * state.zoom;
-  const gx = state.panX % gSize, gy = state.panY % gSize;
-  for (let x = gx; x < W; x += gSize) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-  for (let y = gy; y < H; y += gSize) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-  // 3. planta (geometrias)
-  ctx.save();
-  ctx.translate(state.panX, state.panY);
-  ctx.scale(state.zoom, state.zoom);
-  state.project.drawings.forEach(g => drawGeometryCtx(ctx, g));
-  ctx.restore();
-
-  // 4. heatmap (se visível)
-  if (state.heatmapVisible) {
-    ctx.drawImage(heatC, 0, 0);
-  }
-
-  // 5. scan markers
-  state.project.scanPoints.forEach(pt => drawScanPointCtx(ctx, pt));
-
-  // 6. watermark
-  ctx.save();
-  ctx.font = '10px sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  ctx.textAlign = 'right';
-  const ts = new Date().toLocaleString('pt-BR');
-  ctx.fillText(`2GIJ Site Survey  •  ${state.project.scanPoints.length} pts  •  ${ts}`, W - 10, H - 8);
-  ctx.restore();
-
-  // exibe preview no modal
-  const dataUrl = out.toDataURL('image/png');
-  document.getElementById('report-preview').src = dataUrl;
-  const pts = state.project.scanPoints;
-  const avg = pts.length ? (pts.reduce((a,p)=>a+p.rssi,0)/pts.length).toFixed(1) : '—';
-  document.getElementById('report-meta').textContent =
-    `${pts.length} pontos  •  RSSI médio: ${avg} dBm  •  ${W}×${H}px  →  ${W*DPR}×${H*DPR}px`;
-  document.getElementById('modal-report-bg').classList.remove('hidden');
-
-  // salvar callbacks
-  window._reportCanvas = out;
-  setStatus('Relatório gerado', '#4a9a4a');
-}
-
-// ═══════════════════════════════════════════
-// RESIZE
-// ═══════════════════════════════════════════
-function resize() {
-  const r = wrap.getBoundingClientRect();
-  [mainC, heatC, ovC, curC].forEach(c => { c.width = r.width; c.height = r.height; });
-  redraw();
-  if (state.heatmapVisible) renderHeatmap();
-}
-
-// ═══════════════════════════════════════════
-// COORDENADAS
-// ═══════════════════════════════════════════
-function toWorld(cx, cy)  { return [(cx-state.panX)/state.zoom, (cy-state.panY)/state.zoom]; }
-function toScreen(wx, wy) { return [wx*state.zoom+state.panX,  wy*state.zoom+state.panY];   }
-function toCM(wx, wy) {
-  if (!state.project.scaleRatio) return [`${wx.toFixed(0)}px`,`${wy.toFixed(0)}px`];
-  return [(wx*state.project.scaleRatio).toFixed(1),(wy*state.project.scaleRatio).toFixed(1)];
-}
-
-// ═══════════════════════════════════════════
-// GRID
-// ═══════════════════════════════════════════
-function drawGrid(ctx) {
-  const gS = 50, w = ctx.canvas.width, h = ctx.canvas.height;
-  ctx.save();
-  ctx.strokeStyle = 'rgba(255,255,255,0.045)'; ctx.lineWidth = 0.5;
-  const sx = state.panX%(gS*state.zoom), sy = state.panY%(gS*state.zoom);
-  for (let x=sx;x<w;x+=gS*state.zoom){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
-  for (let y=sy;y<h;y+=gS*state.zoom){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
-  ctx.restore();
-}
-
-// ═══════════════════════════════════════════
-// GEOMETRIAS (módulo 1) — reutilizável em ctx externo
-// ═══════════════════════════════════════════
-function drawGeometryCtx(ctx, g) {
-  ctx.save();
-  ctx.strokeStyle = g.layer==='floor' ? COLORS.floor : COLORS.wifi;
-  ctx.lineWidth   = (g.layer==='floor' ? 1.5 : 2) / state.zoom;
-  ctx.lineCap='round'; ctx.lineJoin='round';
-  if (g.type==='pencil' && g.points.length>1) {
-    ctx.beginPath(); ctx.moveTo(g.points[0][0],g.points[0][1]);
-    for (let i=1;i<g.points.length;i++) ctx.lineTo(g.points[i][0],g.points[i][1]);
-    ctx.stroke();
-  } else if (g.type==='line') {
-    ctx.beginPath(); ctx.moveTo(g.x1,g.y1); ctx.lineTo(g.x2,g.y2); ctx.stroke();
-  } else if (g.type==='rect') {
-    ctx.strokeRect(g.x,g.y,g.w,g.h);
-  } else if (g.type==='circle') {
-    ctx.beginPath(); ctx.arc(g.cx,g.cy,g.r,0,Math.PI*2); ctx.stroke();
-  }
-  ctx.restore();
-}
-
-// ═══════════════════════════════════════════
-// SCAN MARKERS (módulo 2) — reutilizável
-// ═══════════════════════════════════════════
-function drawScanPointCtx(ctx, pt) {
-  const [sx,sy] = toScreen(pt.x, pt.y);
-  const r   = Math.max(4, 8*Math.min(state.zoom, 2));
-  const col = rssiQuality(pt.rssi).color;
-  ctx.save();
-  ctx.beginPath(); ctx.arc(sx,sy,r+4,0,Math.PI*2);
-  ctx.fillStyle = col+'22'; ctx.fill();
-  ctx.beginPath(); ctx.arc(sx,sy,r,0,Math.PI*2);
-  ctx.fillStyle = col+'cc'; ctx.fill();
-  ctx.strokeStyle = col; ctx.lineWidth=1; ctx.stroke();
-  ctx.beginPath(); ctx.arc(sx,sy,2,0,Math.PI*2);
-  ctx.fillStyle='#fff'; ctx.fill();
-  if (state.zoom>=0.5) {
-    ctx.font=`${Math.max(9,10*Math.min(state.zoom,1.5))}px sans-serif`;
-    ctx.fillStyle='#ccc'; ctx.textAlign='center';
-    ctx.fillText(`${pt.rssi} dBm`, sx, sy-r-5);
-    if (pt.ssid && state.zoom>=0.8) {
-      ctx.font=`${Math.max(8,9*Math.min(state.zoom,1.5))}px sans-serif`;
-      ctx.fillStyle='#555';
-      ctx.fillText(pt.ssid, sx, sy-r-15);
-    }
-  }
-  ctx.restore();
-}
-
-// ═══════════════════════════════════════════
-// REDRAW PRINCIPAL
-// ═══════════════════════════════════════════
-function redraw() {
-  const w=mainC.width, h=mainC.height;
-  mCtx.clearRect(0,0,w,h);
-  mCtx.fillStyle='#0a0a0a'; mCtx.fillRect(0,0,w,h);
-  drawGrid(mCtx);
-  mCtx.save(); mCtx.translate(state.panX,state.panY); mCtx.scale(state.zoom,state.zoom);
-  state.project.drawings.forEach(g => drawGeometryCtx(mCtx,g));
-  mCtx.restore();
-  state.project.scanPoints.forEach(pt => drawScanPointCtx(mCtx,pt));
-  updateInfo();
-}
-
-// ═══════════════════════════════════════════
-// OVERLAY (preview formas)
-// ═══════════════════════════════════════════
-function drawOverlay(wx,wy) {
-  ovCtx.clearRect(0,0,ovC.width,ovC.height);
-  if (!state.drawing || !state.startPt) return;
-  const [sx,sy]=toScreen(state.startPt[0],state.startPt[1]);
-  const [ex,ey]=toScreen(wx,wy);
-  ovCtx.save();
-  ovCtx.strokeStyle=state.layer==='floor'?COLORS.floor:COLORS.wifi;
-  ovCtx.lineWidth=1.5; ovCtx.lineCap='round'; ovCtx.lineJoin='round';
-  if (state.tool==='line'){ovCtx.beginPath();ovCtx.moveTo(sx,sy);ovCtx.lineTo(ex,ey);ovCtx.stroke();}
-  else if (state.tool==='rect'){ovCtx.strokeRect(sx,sy,ex-sx,ey-sy);}
-  else if (state.tool==='circle'){const r=Math.sqrt((ex-sx)**2+(ey-sy)**2);ovCtx.beginPath();ovCtx.arc(sx,sy,r,0,Math.PI*2);ovCtx.stroke();}
-  ovCtx.restore();
-}
-
-// ═══════════════════════════════════════════
-// CURSOR (calibração)
-// ═══════════════════════════════════════════
-function drawCursor(mx,my) {
-  curCtx.clearRect(0,0,curC.width,curC.height);
-  if (!state.calibMode) return;
-  curCtx.save();
-  curCtx.strokeStyle=COLORS.calib; curCtx.lineWidth=1; curCtx.setLineDash([4,3]);
-  curCtx.beginPath();curCtx.moveTo(mx,0);curCtx.lineTo(mx,curC.height);curCtx.stroke();
-  curCtx.beginPath();curCtx.moveTo(0,my);curCtx.lineTo(curC.width,my);curCtx.stroke();
-  curCtx.setLineDash([]);
-  curCtx.beginPath();curCtx.arc(mx,my,5,0,Math.PI*2);curCtx.stroke();
-  curCtx.restore();
-}
-
-// ═══════════════════════════════════════════
-// LINHA DE CALIBRAÇÃO
-// ═══════════════════════════════════════════
-function drawCalibLine(ctx) {
-  if (!state.calibPts.length) return;
-  ctx.save();
-  ctx.strokeStyle=COLORS.calib; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
-  const [sx,sy]=toScreen(state.calibPts[0][0],state.calibPts[0][1]);
-  ctx.beginPath(); ctx.moveTo(sx,sy);
-  if (state.calibPts.length===2){const[ex,ey]=toScreen(state.calibPts[1][0],state.calibPts[1][1]);ctx.lineTo(ex,ey);}
-  else ctx.lineTo(state.mouseX,state.mouseY);
-  ctx.stroke(); ctx.setLineDash([]);
-  state.calibPts.forEach(([px,py])=>{
-    const[scx,scy]=toScreen(px,py);
-    ctx.beginPath();ctx.arc(scx,scy,4,0,Math.PI*2);ctx.fillStyle=COLORS.calib;ctx.fill();
-  });
-  ctx.restore();
-}
-
-// ═══════════════════════════════════════════
-// RSSI UTILS
-// ═══════════════════════════════════════════
-function rssiQuality(rssi) {
-  if (rssi>=-50) return {label:'Excelente',color:'#22cc88',pct:100};
-  if (rssi>=-60) return {label:'Bom',      color:'#44aa44',pct:80 };
-  if (rssi>=-67) return {label:'Regular',  color:'#99aa20',pct:60 };
-  if (rssi>=-75) return {label:'Fraco',    color:'#cc8800',pct:40 };
-  if (rssi>=-85) return {label:'Muito fraco',color:'#dd4400',pct:20};
-  return               {label:'Crítico',  color:'#cc2222',pct:5  };
-}
-
-// ═══════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════
-function showToast(cx,cy,rssi) {
-  const q=rssiQuality(rssi);
-  const el=document.createElement('div');
-  el.className='sp-toast';
-  el.textContent=`${rssi} dBm — ${q.label}`;
-  el.style.color=q.color; el.style.borderColor=q.color+'44';
-  el.style.left=(cx-40)+'px'; el.style.top=(cy-36)+'px';
-  wrap.appendChild(el);
-  setTimeout(()=>el.remove(),2100);
-}
-
-// ═══════════════════════════════════════════
-// INFO PANEL + STATUS
-// ═══════════════════════════════════════════
-function rssiClass(r){return r>=-60?'hi':r>=-75?'warn':'bad';}
-
-function updateInfo() {
-  const[wx,wy]=toWorld(state.mouseX,state.mouseY);
-  const cm=toCM(wx,wy);
-  document.getElementById('inf-pos').textContent=
-    state.project.scaleRatio?`${cm[0]}, ${cm[1]} cm`:`${wx.toFixed(0)}, ${wy.toFixed(0)} px`;
-  document.getElementById('inf-zoom').textContent=Math.round(state.zoom*100)+'%';
-  document.getElementById('inf-scale').textContent=state.project.scaleRatio?state.project.scaleRatio.toFixed(4)+' cm/px':'—';
-  document.getElementById('inf-geom').textContent=state.project.drawings.length;
-  document.getElementById('inf-wifi').textContent=state.project.scanPoints.length;
-  document.getElementById('st-count').textContent=state.project.drawings.length;
-  if (state.lastRssi!==null) {
-    const el=document.getElementById('inf-rssi');
-    el.textContent=state.lastRssi+' dBm'; el.className='info-val '+rssiClass(state.lastRssi);
-    document.getElementById('inf-rssi-row').style.display='';
-  }
-  const cl=document.getElementById('calib-label');
-  if (state.project.scaleRatio){cl.textContent=state.project.scaleRatio.toFixed(3)+' cm/px';cl.style.color='#ffb940';}
-  else{cl.textContent='Calibrar';cl.style.color='';}
-  document.getElementById('survey-count').textContent=
-    state.project.scanPoints.length+' ponto'+(state.project.scanPoints.length!==1?'s':'');
-  // habilita botões de heatmap quando há pontos
-  const hasPts=state.project.scanPoints.length>0;
-  document.getElementById('hm-render').disabled=!hasPts;
-  document.getElementById('hm-snap').disabled=false;
-}
-
-function setStatus(msg,color){
-  const el=document.getElementById('st-msg');
-  el.textContent=msg; el.style.color=color||'#4a8a4a';
-}
-
-// ═══════════════════════════════════════════
-// MÓDULO 2 — SCANNER ENGINE
-// ═══════════════════════════════════════════
 async function scanWifi() {
-  if (window.electronAPI?.wifiScan) return await window.electronAPI.wifiScan();
-  await new Promise(r=>setTimeout(r,380));
-  const rssi=Math.round(-45-Math.random()*48);
+  // Detecta se está rodando em Electron com IPC exposta
+  if (window.electronAPI && window.electronAPI.wifiScan) {
+    return await window.electronAPI.wifiScan();
+  }
+  // SIMULAÇÃO — remove quando integrar hardware real
+  await new Promise(r => setTimeout(r, 420)); // latência realista de scan
+  const rssi = Math.round(-45 - Math.random() * 50); // -45 a -95 dBm
+  const bands = ['2.4GHz', '5GHz', '5GHz'];
+  const ssids = ['CORP-WIFI', 'CORP-WIFI-5G', 'GUEST-NET', 'IOT-NET'];
   return {
-    ssid:['CORP-WIFI','CORP-5G','GUEST-NET','IOT-FLOOR2'][Math.floor(Math.random()*4)],
-    rssi, band:['2.4GHz','5GHz','5GHz'][Math.floor(Math.random()*3)]
+    ssid: ssids[Math.floor(Math.random() * ssids.length)],
+    rssi,
+    band: bands[Math.floor(Math.random() * bands.length)]
   };
 }
 
-// ═══════════════════════════════════════════
-// SURVEY STATE MACHINE
-// ═══════════════════════════════════════════
-function setSurveyStatus(s) {
-  state.surveyStatus=s;
-  const dot=document.getElementById('sv-dot');
-  const lbl=document.getElementById('sv-state-label');
-  const bS=document.getElementById('sv-start'),bP=document.getElementById('sv-pause'),
-        bSt=document.getElementById('sv-stop'), bU=document.getElementById('sv-undo');
-  dot.className='sv-dot'; bS.classList.remove('running'); bP.classList.remove('paused');
-  if (s==='idle')   {lbl.textContent='Aguardando';lbl.style.color='#3a3a3a';bS.disabled=false;bP.disabled=true; bSt.disabled=true; bU.disabled=true; wrap.className='tool-'+state.tool;}
-  if (s==='running'){dot.classList.add('running');lbl.textContent='Coletando';lbl.style.color='#3aaa3a';bS.disabled=true;bS.classList.add('running');bP.disabled=false;bSt.disabled=false;bU.disabled=state.project.scanPoints.length===0;wrap.className='tool-survey';}
-  if (s==='paused') {dot.classList.add('paused');lbl.textContent='Pausado';lbl.style.color='#aaaa30';bS.disabled=true;bP.disabled=false;bP.classList.add('paused');bSt.disabled=false;bU.disabled=state.project.scanPoints.length===0;wrap.className='tool-'+state.tool;}
-  if (s==='done')   {dot.classList.add('done');lbl.textContent='Finalizado';lbl.style.color='#4a6aff';bS.disabled=false;bP.disabled=true;bSt.disabled=true;bU.disabled=state.project.scanPoints.length===0;wrap.className='tool-'+state.tool;}
+/** Converte RSSI (dBm) em qualidade descritiva + cor */
+function rssiQuality(rssi) {
+  if (rssi >= -55) return { label: 'Excelente', color: '#3aaa3a', pct: 100 };
+  if (rssi >= -67) return { label: 'Bom',       color: '#7aaa3a', pct: 75  };
+  if (rssi >= -75) return { label: 'Regular',   color: '#aaaa30', pct: 50  };
+  if (rssi >= -85) return { label: 'Fraco',     color: '#aa6a20', pct: 30  };
+  return            { label: 'Crítico',          color: '#aa3a3a', pct: 10  };
 }
 
-async function handleSurveyClick(cx,cy) {
-  if (state.surveyStatus!=='running') return;
-  const[wx,wy]=toWorld(cx,cy);
-  state.pendingPoint={wx,wy,cx,cy};
-  const ind=document.getElementById('scan-indicator');
+/** Cor de preenchimento do marcador no canvas baseado no RSSI */
+function rssiToColor(rssi) {
+  return rssiQuality(rssi).color;
+}
+
+// ═══════════════════════════════════════════════════════
+// RESIZE
+// ═══════════════════════════════════════════════════════
+function resize() {
+  const r = wrap.getBoundingClientRect();
+  [mainC, ovC, curC].forEach(c => { c.width = r.width; c.height = r.height; });
+  redraw();
+}
+
+// ═══════════════════════════════════════════════════════
+// SISTEMA DE COORDENADAS
+// ═══════════════════════════════════════════════════════
+function toWorld(cx, cy)  { return [(cx - state.panX) / state.zoom, (cy - state.panY) / state.zoom]; }
+function toScreen(wx, wy) { return [wx * state.zoom + state.panX,   wy * state.zoom + state.panY]; }
+function toCM(wx, wy) {
+  if (!state.project.scaleRatio) return [`${wx.toFixed(0)}px`, `${wy.toFixed(0)}px`];
+  return [(wx * state.project.scaleRatio).toFixed(1), (wy * state.project.scaleRatio).toFixed(1)];
+}
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: GRID
+// ═══════════════════════════════════════════════════════
+function drawGrid(ctx) {
+  const gridSize = 50;
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+  ctx.lineWidth = 0.5;
+  const sx = state.panX % (gridSize * state.zoom);
+  const sy = state.panY % (gridSize * state.zoom);
+  for (let x = sx; x < w; x += gridSize * state.zoom) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for (let y = sy; y < h; y += gridSize * state.zoom) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: GEOMETRIAS (módulo 1)
+// ═══════════════════════════════════════════════════════
+function drawGeometry(ctx, g) {
+  ctx.save();
+  ctx.strokeStyle = g.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+  ctx.lineWidth   = (g.layer === 'floor' ? 1.5 : 2) / state.zoom;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (g.type === 'pencil' && g.points.length > 1) {
+    ctx.beginPath();
+    ctx.moveTo(g.points[0][0], g.points[0][1]);
+    for (let i = 1; i < g.points.length; i++) ctx.lineTo(g.points[i][0], g.points[i][1]);
+    ctx.stroke();
+  } else if (g.type === 'line') {
+    ctx.beginPath(); ctx.moveTo(g.x1,g.y1); ctx.lineTo(g.x2,g.y2); ctx.stroke();
+  } else if (g.type === 'rect') {
+    ctx.strokeRect(g.x, g.y, g.w, g.h);
+  } else if (g.type === 'circle') {
+    ctx.beginPath(); ctx.arc(g.cx, g.cy, g.r, 0, Math.PI*2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: SCAN POINTS (módulo 2)
+// Marcador circular com cor por RSSI + label dBm
+// ═══════════════════════════════════════════════════════
+function drawScanPoint(ctx, pt) {
+  const [sx, sy] = toScreen(pt.x, pt.y);
+  const r = Math.max(4, 8 * Math.min(state.zoom, 2));
+  const col = rssiToColor(pt.rssi);
+  ctx.save();
+
+  // halo externo (transparência)
+  ctx.beginPath();
+  ctx.arc(sx, sy, r + 4, 0, Math.PI*2);
+  ctx.fillStyle = col + '22';
+  ctx.fill();
+
+  // círculo principal
+  ctx.beginPath();
+  ctx.arc(sx, sy, r, 0, Math.PI*2);
+  ctx.fillStyle = col + 'cc';
+  ctx.fill();
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // ponto central
+  ctx.beginPath();
+  ctx.arc(sx, sy, 2, 0, Math.PI*2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+
+  // label dBm (só visível acima de certo zoom)
+  if (state.zoom >= 0.5) {
+    ctx.font = `${Math.max(9, 10 * Math.min(state.zoom, 1.5))}px sans-serif`;
+    ctx.fillStyle = '#ccc';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${pt.rssi} dBm`, sx, sy - r - 5);
+    if (pt.ssid && state.zoom >= 0.8) {
+      ctx.font = `${Math.max(8, 9 * Math.min(state.zoom, 1.5))}px sans-serif`;
+      ctx.fillStyle = '#666';
+      ctx.fillText(pt.ssid, sx, sy - r - 15);
+    }
+  }
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// DESENHO: LINHA DE CALIBRAÇÃO
+// ═══════════════════════════════════════════════════════
+function drawCalibLine(ctx) {
+  if (state.calibPts.length === 0) return;
+  ctx.save();
+  ctx.strokeStyle = COLORS.calib; ctx.lineWidth = 1.5; ctx.setLineDash([5,3]);
+  const [sx, sy] = toScreen(state.calibPts[0][0], state.calibPts[0][1]);
+  ctx.beginPath(); ctx.moveTo(sx, sy);
+  if (state.calibPts.length === 2) {
+    const [ex, ey] = toScreen(state.calibPts[1][0], state.calibPts[1][1]);
+    ctx.lineTo(ex, ey);
+  } else { ctx.lineTo(state.mouseX, state.mouseY); }
+  ctx.stroke(); ctx.setLineDash([]);
+  state.calibPts.forEach(([px,py]) => {
+    const [scx, scy] = toScreen(px, py);
+    ctx.beginPath(); ctx.arc(scx, scy, 4, 0, Math.PI*2);
+    ctx.fillStyle = COLORS.calib; ctx.fill();
+  });
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// REDRAW COMPLETO
+// ═══════════════════════════════════════════════════════
+function redraw() {
+  const w = mainC.width, h = mainC.height;
+  mCtx.clearRect(0, 0, w, h);
+  mCtx.fillStyle = '#0a0a0a';
+  mCtx.fillRect(0, 0, w, h);
+  drawGrid(mCtx);
+  mCtx.save();
+  mCtx.translate(state.panX, state.panY);
+  mCtx.scale(state.zoom, state.zoom);
+  // camada planta
+  state.project.drawings.forEach(g => drawGeometry(mCtx, g));
+  // camada scan points (acima da planta)
+  mCtx.restore();
+  state.project.scanPoints.forEach(pt => drawScanPoint(mCtx, pt));
+  updateInfo();
+}
+
+// ═══════════════════════════════════════════════════════
+// OVERLAY (preview de formas)
+// ═══════════════════════════════════════════════════════
+function drawOverlay(wx, wy) {
+  ovCtx.clearRect(0, 0, ovC.width, ovC.height);
+  if (!state.drawing || !state.startPt) return;
+  const [sx, sy] = toScreen(state.startPt[0], state.startPt[1]);
+  const [ex, ey] = toScreen(wx, wy);
+  ovCtx.save();
+  ovCtx.strokeStyle = state.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+  ovCtx.lineWidth = 1.5; ovCtx.lineCap = 'round'; ovCtx.lineJoin = 'round';
+  if (state.tool === 'line') {
+    ovCtx.beginPath(); ovCtx.moveTo(sx,sy); ovCtx.lineTo(ex,ey); ovCtx.stroke();
+  } else if (state.tool === 'rect') {
+    ovCtx.strokeRect(sx, sy, ex-sx, ey-sy);
+  } else if (state.tool === 'circle') {
+    const r = Math.sqrt((ex-sx)**2+(ey-sy)**2);
+    ovCtx.beginPath(); ovCtx.arc(sx,sy,r,0,Math.PI*2); ovCtx.stroke();
+  }
+  ovCtx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// CURSOR CUSTOMIZADO (calibração)
+// ═══════════════════════════════════════════════════════
+function drawCursor(mx, my) {
+  curCtx.clearRect(0, 0, curC.width, curC.height);
+  if (!state.calibMode) return;
+  curCtx.save();
+  curCtx.strokeStyle = COLORS.calib; curCtx.lineWidth = 1; curCtx.setLineDash([4,3]);
+  curCtx.beginPath(); curCtx.moveTo(mx,0); curCtx.lineTo(mx,curC.height); curCtx.stroke();
+  curCtx.beginPath(); curCtx.moveTo(0,my); curCtx.lineTo(curC.width,my);  curCtx.stroke();
+  curCtx.setLineDash([]);
+  curCtx.beginPath(); curCtx.arc(mx, my, 5, 0, Math.PI*2);
+  curCtx.strokeStyle = COLORS.calib; curCtx.stroke();
+  curCtx.restore();
+}
+
+// ═══════════════════════════════════════════════════════
+// TOAST: dBm flutuante sobre o ponto
+// ═══════════════════════════════════════════════════════
+function showToast(sx, sy, rssi) {
+  const q = rssiQuality(rssi);
+  const el = document.createElement('div');
+  el.className = 'sp-toast';
+  el.textContent = `${rssi} dBm — ${q.label}`;
+  el.style.color = q.color;
+  el.style.borderColor = q.color + '44';
+  el.style.left = (sx - 40) + 'px';
+  el.style.top  = (sy - 36) + 'px';
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 1900);
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILITÁRIOS
+// ═══════════════════════════════════════════════════════
+function getPos(e) {
+  const r = wrap.getBoundingClientRect();
+  return [(e.clientX||e.touches?.[0]?.clientX||0) - r.left,
+          (e.clientY||e.touches?.[0]?.clientY||0) - r.top];
+}
+
+function rssiClass(rssi) {
+  if (rssi >= -55) return 'hi';
+  if (rssi >= -75) return 'warn';
+  return 'bad';
+}
+
+function updateInfo() {
+  const [wx,wy] = toWorld(state.mouseX, state.mouseY);
+  const cm = toCM(wx, wy);
+  document.getElementById('inf-pos').textContent = state.project.scaleRatio
+    ? `${cm[0]}, ${cm[1]} cm` : `${wx.toFixed(0)}, ${wy.toFixed(0)} px`;
+  document.getElementById('inf-zoom').textContent  = Math.round(state.zoom*100) + '%';
+  document.getElementById('inf-scale').textContent = state.project.scaleRatio
+    ? state.project.scaleRatio.toFixed(4) + ' cm/px' : '—';
+  document.getElementById('inf-geom').textContent  = state.project.drawings.length;
+  document.getElementById('inf-wifi').textContent  = state.project.scanPoints.length;
+  document.getElementById('st-count').textContent  = state.project.drawings.length;
+  if (state.lastRssi !== null) {
+    const el = document.getElementById('inf-rssi');
+    el.textContent = state.lastRssi + ' dBm';
+    el.className = 'info-val ' + rssiClass(state.lastRssi);
+    document.getElementById('inf-rssi-row').style.display = '';
+  }
+  const calibLabel = document.getElementById('calib-label');
+  if (state.project.scaleRatio) {
+    calibLabel.textContent = state.project.scaleRatio.toFixed(3) + ' cm/px';
+    calibLabel.style.color = '#ffb940';
+  } else {
+    calibLabel.textContent = 'Calibrar'; calibLabel.style.color = '';
+  }
+  document.getElementById('survey-count').textContent =
+    state.project.scanPoints.length + ' ponto' +
+    (state.project.scanPoints.length !== 1 ? 's' : '');
+}
+
+function setStatus(msg, color) {
+  const el = document.getElementById('st-msg');
+  el.textContent = msg; el.style.color = color || '#4a8a4a';
+}
+
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SURVEY: CONTROLE DE ESTADO
+// ═══════════════════════════════════════════════════════
+function setSurveyStatus(s) {
+  state.surveyStatus = s;
+  const dot   = document.getElementById('sv-dot');
+  const label = document.getElementById('sv-state-label');
+  const btnStart = document.getElementById('sv-start');
+  const btnPause = document.getElementById('sv-pause');
+  const btnStop  = document.getElementById('sv-stop');
+  const btnUndo  = document.getElementById('sv-undo');
+
+  // reset classes
+  dot.className = 'sv-dot';
+  btnStart.classList.remove('running');
+  btnPause.classList.remove('paused');
+
+  if (s === 'idle') {
+    dot.classList.add('idle');
+    label.textContent = 'Aguardando'; label.style.color = '#444';
+    btnStart.disabled = false; btnPause.disabled = true;
+    btnStop.disabled  = true;  btnUndo.disabled  = true;
+    wrap.className = 'tool-' + state.tool;
+  } else if (s === 'running') {
+    dot.classList.add('running');
+    label.textContent = 'Coletando'; label.style.color = '#3aaa3a';
+    btnStart.disabled = true; btnStart.classList.add('running');
+    btnPause.disabled = false; btnStop.disabled = false;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-survey';
+    document.getElementById('st-tool').textContent = 'Survey';
+  } else if (s === 'paused') {
+    dot.classList.add('paused');
+    label.textContent = 'Pausado'; label.style.color = '#aaaa30';
+    btnStart.disabled = true;
+    btnPause.disabled = false; btnPause.classList.add('paused');
+    btnStop.disabled  = false;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-' + state.tool;
+  } else if (s === 'done') {
+    dot.classList.add('done');
+    label.textContent = 'Finalizado'; label.style.color = '#4a6aff';
+    btnStart.disabled = false; btnPause.disabled = true;
+    btnStop.disabled  = true;
+    btnUndo.disabled  = state.project.scanPoints.length === 0;
+    wrap.className = 'tool-' + state.tool;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SURVEY: CLIQUE NO CANVAS → SCAN + MODAL
+// ═══════════════════════════════════════════════════════
+async function handleSurveyClick(cx, cy) {
+  if (state.surveyStatus !== 'running') return;
+  const [wx, wy] = toWorld(cx, cy);
+  state.pendingPoint = { wx, wy, cx, cy };
+
+  // ativa indicador de escaneamento
+  const ind = document.getElementById('scan-indicator');
   ind.classList.add('visible');
-  setStatus('Escaneando sinal Wi-Fi…','#4a6aff');
+  setStatus('Escaneando sinal Wi-Fi…', '#4a6aff');
+
   let result;
-  try { result=await scanWifi(); } catch(e){result={ssid:'ERRO',rssi:-999,band:''};}
+  try {
+    result = await scanWifi();
+  } catch(e) {
+    result = { ssid: 'ERRO', rssi: -999, band: '' };
+  }
   ind.classList.remove('visible');
-  state.lastRssi=result.rssi;
-  const q=rssiQuality(result.rssi);
-  const coordText=state.project.scaleRatio
-    ?`x: ${(wx*state.project.scaleRatio).toFixed(1)} cm, y: ${(wy*state.project.scaleRatio).toFixed(1)} cm`
-    :`x: ${wx.toFixed(1)} px, y: ${wy.toFixed(1)} px`;
-  document.getElementById('scan-modal-coord').textContent='📍 '+coordText;
-  document.getElementById('scan-rssi-display').textContent=result.rssi+' dBm';
-  document.getElementById('scan-rssi-display').style.color=q.color;
-  document.getElementById('scan-rssi-bar').style.width=q.pct+'%';
-  document.getElementById('scan-rssi-bar').style.background=q.color;
-  document.getElementById('scan-rssi-quality').textContent=q.label;
-  document.getElementById('scan-ssid').value=result.ssid||'';
-  document.getElementById('scan-rssi-edit').value=result.rssi;
-  document.getElementById('scan-band').value=result.band||'';
+
+  state.lastRssi = result.rssi;
+  const q = rssiQuality(result.rssi);
+
+  // popula o modal
+  const coordText = state.project.scaleRatio
+    ? `x: ${(wx * state.project.scaleRatio).toFixed(1)} cm, y: ${(wy * state.project.scaleRatio).toFixed(1)} cm`
+    : `x: ${wx.toFixed(1)} px, y: ${wy.toFixed(1)} px`;
+  document.getElementById('scan-modal-coord').textContent = '📍 ' + coordText;
+  document.getElementById('scan-rssi-display').textContent = result.rssi + ' dBm';
+  document.getElementById('scan-rssi-display').style.color = q.color;
+  document.getElementById('scan-rssi-bar').style.width    = q.pct + '%';
+  document.getElementById('scan-rssi-bar').style.background = q.color;
+  document.getElementById('scan-rssi-quality').textContent  = q.label;
+  document.getElementById('scan-ssid').value      = result.ssid || '';
+  document.getElementById('scan-rssi-edit').value = result.rssi;
+  document.getElementById('scan-band').value       = result.band || '';
+
   document.getElementById('modal-scan-bg').classList.remove('hidden');
 }
 
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SURVEY: SALVAR PONTO CONFIRMADO
+// ═══════════════════════════════════════════════════════
 function saveScanPoint() {
   if (!state.pendingPoint) return;
-  const rssi=parseInt(document.getElementById('scan-rssi-edit').value)||state.lastRssi||-80;
-  const ssid=document.getElementById('scan-ssid').value.trim()||'Unknown';
-  const band=document.getElementById('scan-band').value;
-  const{wx,wy,cx,cy}=state.pendingPoint;
-  state.project.scanPoints.push({id:Date.now(),x:wx,y:wy,rssi,ssid,band,timestamp:new Date().toISOString()});
-  state.pendingPoint=null; state.lastRssi=rssi;
-  document.getElementById('sv-undo').disabled=false;
-  // re-renderiza heatmap automaticamente se já estava visível
-  if (state.heatmapVisible) renderHeatmap();
-  redraw(); showToast(cx,cy,rssi);
-  setStatus(`Ponto #${state.project.scanPoints.length} — ${rssi} dBm`,rssiQuality(rssi).color);
+  const rssi = parseInt(document.getElementById('scan-rssi-edit').value) || state.lastRssi || -80;
+  const ssid = document.getElementById('scan-ssid').value.trim() || 'Unknown';
+  const band = document.getElementById('scan-band').value;
+  const { wx, wy, cx, cy } = state.pendingPoint;
+
+  const pt = {
+    id: Date.now(),
+    x: wx, y: wy,
+    rssi,
+    ssid,
+    band,
+    timestamp: new Date().toISOString()
+  };
+  state.project.scanPoints.push(pt);
+  state.pendingPoint = null;
+  state.lastRssi = rssi;
+
+  // atualiza botão undo
+  document.getElementById('sv-undo').disabled = false;
+
+  redraw();
+  showToast(cx, cy, rssi);
+  setStatus(`Ponto #${state.project.scanPoints.length} salvo — ${rssi} dBm`, rssiQuality(rssi).color);
   document.getElementById('modal-scan-bg').classList.add('hidden');
 }
 
-function undoLastPoint() {
-  if (!state.project.scanPoints.length) return;
-  const r=state.project.scanPoints.pop();
-  if (state.heatmapVisible) renderHeatmap();
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SURVEY: UNDO ÚLTIMO PONTO
+// ═══════════════════════════════════════════════════════
+function undoLastScanPoint() {
+  if (state.project.scanPoints.length === 0) return;
+  const removed = state.project.scanPoints.pop();
   redraw();
-  document.getElementById('sv-undo').disabled=state.project.scanPoints.length===0;
-  setStatus(`Ponto removido (${r.rssi} dBm)`,'#aaaa30');
+  document.getElementById('sv-undo').disabled = state.project.scanPoints.length === 0;
+  setStatus(`Ponto removido (${removed.rssi} dBm)`, '#aaaa30');
 }
 
+// ═══════════════════════════════════════════════════════
+// MÓDULO 2 — SURVEY: RESUMO FINAL
+// ═══════════════════════════════════════════════════════
 function showSurveySummary() {
-  document.getElementById('sv-pause').textContent='⏸ Pausar';
-  const pts=state.project.scanPoints;
-  if (!pts.length){setStatus('Survey finalizado sem pontos','#666');setSurveyStatus('done');return;}
-  const avg=pts.reduce((a,p)=>a+p.rssi,0)/pts.length;
-  const best=pts.reduce((a,p)=>p.rssi>a.rssi?p:a);
-  const worst=pts.reduce((a,p)=>p.rssi<a.rssi?p:a);
-  document.getElementById('summary-text').innerHTML=
-    `<b style="color:#bbb">${pts.length} pontos coletados</b><br>`+
-    `RSSI médio: <span style="color:${rssiQuality(Math.round(avg)).color}">${avg.toFixed(1)} dBm</span><br>`+
-    `Melhor: <span style="color:#22cc88">${best.rssi} dBm</span> — ${best.ssid}<br>`+
-    `Pior: <span style="color:#cc2222">${worst.rssi} dBm</span> — ${worst.ssid}`;
-  document.getElementById('summary-list').innerHTML=pts.map((p,i)=>
-    `<div style="padding:3px 0;border-bottom:0.5px solid #181818">#${i+1} `+
-    `<span style="color:${rssiQuality(p.rssi).color}">${p.rssi} dBm</span> `+
-    `${p.ssid} <span style="color:#2a2a2a">${p.band}</span> `+
-    `<span style="color:#222">${new Date(p.timestamp).toLocaleTimeString('pt-BR')}</span></div>`
+  const pts = state.project.scanPoints;
+  if (pts.length === 0) {
+    setStatus('Survey finalizado sem pontos coletados.', '#666');
+    setSurveyStatus('done'); return;
+  }
+  const avg  = pts.reduce((a,p) => a + p.rssi, 0) / pts.length;
+  const best = pts.reduce((a,p) => p.rssi > a.rssi ? p : a);
+  const worst= pts.reduce((a,p) => p.rssi < a.rssi ? p : a);
+  document.getElementById('summary-text').innerHTML =
+    `<b style="color:#ccc">${pts.length} pontos coletados</b><br>` +
+    `RSSI médio: <span style="color:${rssiQuality(Math.round(avg)).color}">${avg.toFixed(1)} dBm</span><br>` +
+    `Melhor sinal: <span style="color:#3aaa3a">${best.rssi} dBm</span> — ${best.ssid}<br>` +
+    `Pior sinal: <span style="color:#aa3a3a">${worst.rssi} dBm</span> — ${worst.ssid}`;
+  const listEl = document.getElementById('summary-list');
+  listEl.innerHTML = pts.map((p,i) =>
+    `<div style="padding:3px 0;border-bottom:0.5px solid #1a1a1a">
+      #${i+1} &nbsp;<span style="color:${rssiToColor(p.rssi)}">${p.rssi} dBm</span>
+      &nbsp;${p.ssid} &nbsp;<span style="color:#333">${p.band}</span>
+      &nbsp;<span style="color:#2a2a2a">${new Date(p.timestamp).toLocaleTimeString('pt-BR')}</span>
+    </div>`
   ).join('');
   document.getElementById('modal-summary-bg').classList.remove('hidden');
   setSurveyStatus('done');
 }
 
-// ═══════════════════════════════════════════
-// EXPORT JSON
-// ═══════════════════════════════════════════
-function exportProject() {
-  const blob=new Blob([JSON.stringify(state.project,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`2gij-${Date.now()}.json`; a.click();
-  setStatus('Projeto exportado','#4a9eff');
-}
-
-// ═══════════════════════════════════════════
-// EVENTOS DE MOUSE
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// EVENTOS DE MOUSE — CANVAS
+// ═══════════════════════════════════════════════════════
 wrap.addEventListener('mousedown', e => {
-  const[cx,cy]=getPos(e); const[wx,wy]=toWorld(cx,cy);
-  if (state.surveyStatus==='running' && e.button===0){handleSurveyClick(cx,cy);return;}
-  if (state.tool==='pan'||e.button===1){state.panning=true;state.lastPan=[cx,cy];wrap.classList.add('panning');return;}
-  if (state.calibMode){
-    state.calibPts.push([wx,wy]);
-    if (state.calibPts.length===2){
-      const dx=state.calibPts[1][0]-state.calibPts[0][0],dy=state.calibPts[1][1]-state.calibPts[0][1];
-      window._calibPx=Math.sqrt(dx*dx+dy*dy);
-      document.getElementById('modal-calib-input').value='';
-      document.getElementById('modal-calib-desc').textContent=`${window._calibPx.toFixed(1)} px medidos. Valor real em cm:`;
+  const [cx, cy] = getPos(e);
+  const [wx, wy] = toWorld(cx, cy);
+
+  // survey mode intercepta clique esquerdo
+  if (state.surveyStatus === 'running' && e.button === 0) {
+    handleSurveyClick(cx, cy);
+    return;
+  }
+
+  if (state.tool === 'pan' || e.button === 1) {
+    state.panning = true; state.lastPan = [cx, cy];
+    wrap.classList.add('panning'); return;
+  }
+
+  if (state.calibMode) {
+    state.calibPts.push([wx, wy]);
+    if (state.calibPts.length === 2) {
+      const dx = state.calibPts[1][0] - state.calibPts[0][0];
+      const dy = state.calibPts[1][1] - state.calibPts[0][1];
+      window._calibPixDist = Math.sqrt(dx*dx + dy*dy);
+      document.getElementById('modal-calib-input').value = '';
+      document.getElementById('modal-title').textContent = 'Calibrar Espaço';
+      document.getElementById('modal-desc').textContent =
+        `Distância: ${window._calibPixDist.toFixed(1)} px. Valor real em cm:`;
       document.getElementById('modal-calib-bg').classList.remove('hidden');
     }
-    ovCtx.clearRect(0,0,ovC.width,ovC.height); drawCalibLine(ovCtx); return;
+    ovCtx.clearRect(0, 0, ovC.width, ovC.height);
+    drawCalibLine(ovCtx); return;
   }
-  if (state.tool==='pencil'){state.drawing=true;state.currentPath=[[wx,wy]];}
-  else if (['line','rect','circle'].includes(state.tool)){state.drawing=true;state.startPt=[wx,wy];}
+
+  if (state.tool === 'pencil') {
+    state.drawing = true; state.currentPath = [[wx, wy]];
+  } else if (['line','rect','circle'].includes(state.tool)) {
+    state.drawing = true; state.startPt = [wx, wy];
+  }
 });
 
 wrap.addEventListener('mousemove', e => {
-  const[cx,cy]=getPos(e); state.mouseX=cx; state.mouseY=cy;
-  const[wx,wy]=toWorld(cx,cy);
-  if (state.panning&&state.lastPan){state.panX+=cx-state.lastPan[0];state.panY+=cy-state.lastPan[1];state.lastPan=[cx,cy];redraw();return;}
-  drawCursor(cx,cy); updateInfo();
-  if (state.calibMode){ovCtx.clearRect(0,0,ovC.width,ovC.height);drawCalibLine(ovCtx);return;}
+  const [cx, cy] = getPos(e);
+  state.mouseX = cx; state.mouseY = cy;
+  const [wx, wy] = toWorld(cx, cy);
+
+  if (state.panning && state.lastPan) {
+    state.panX += cx - state.lastPan[0];
+    state.panY += cy - state.lastPan[1];
+    state.lastPan = [cx, cy];
+    redraw(); return;
+  }
+  drawCursor(cx, cy);
+  updateInfo();
+  if (state.calibMode) {
+    ovCtx.clearRect(0, 0, ovC.width, ovC.height);
+    drawCalibLine(ovCtx); return;
+  }
   if (!state.drawing) return;
-  if (state.tool==='pencil'){
-    state.currentPath.push([wx,wy]);
-    mCtx.save(); mCtx.translate(state.panX,state.panY); mCtx.scale(state.zoom,state.zoom);
-    const pts=state.currentPath;
-    if (pts.length>1){mCtx.beginPath();mCtx.strokeStyle=state.layer==='floor'?COLORS.floor:COLORS.wifi;mCtx.lineWidth=1.5/state.zoom;mCtx.lineCap='round';mCtx.lineJoin='round';mCtx.moveTo(pts[pts.length-2][0],pts[pts.length-2][1]);mCtx.lineTo(pts[pts.length-1][0],pts[pts.length-1][1]);mCtx.stroke();}
+  if (state.tool === 'pencil') {
+    state.currentPath.push([wx, wy]);
+    mCtx.save();
+    mCtx.translate(state.panX, state.panY); mCtx.scale(state.zoom, state.zoom);
+    const pts = state.currentPath;
+    if (pts.length > 1) {
+      mCtx.beginPath();
+      mCtx.strokeStyle = state.layer === 'floor' ? COLORS.floor : COLORS.wifi;
+      mCtx.lineWidth = 1.5 / state.zoom;
+      mCtx.lineCap = 'round'; mCtx.lineJoin = 'round';
+      mCtx.moveTo(pts[pts.length-2][0], pts[pts.length-2][1]);
+      mCtx.lineTo(pts[pts.length-1][0], pts[pts.length-1][1]);
+      mCtx.stroke();
+    }
     mCtx.restore();
-  } else drawOverlay(wx,wy);
+  } else { drawOverlay(wx, wy); }
 });
 
 wrap.addEventListener('mouseup', e => {
-  if (state.panning){state.panning=false;wrap.classList.remove('panning');return;}
+  if (state.panning) { state.panning = false; wrap.classList.remove('panning'); return; }
   if (!state.drawing) return;
-  const[cx,cy]=getPos(e); const[wx,wy]=toWorld(cx,cy);
-  if (state.tool==='pencil'&&state.currentPath.length>1){state.project.drawings.push({id:Date.now(),type:'pencil',layer:state.layer,points:[...state.currentPath]});setStatus('Traçado adicionado');}
-  else if (state.tool==='line'&&state.startPt){state.project.drawings.push({id:Date.now(),type:'line',layer:state.layer,x1:state.startPt[0],y1:state.startPt[1],x2:wx,y2:wy});setStatus('Linha');}
-  else if (state.tool==='rect'&&state.startPt){state.project.drawings.push({id:Date.now(),type:'rect',layer:state.layer,x:state.startPt[0],y:state.startPt[1],w:wx-state.startPt[0],h:wy-state.startPt[1]});setStatus('Retângulo');}
-  else if (state.tool==='circle'&&state.startPt){const r=Math.sqrt((wx-state.startPt[0])**2+(wy-state.startPt[1])**2);state.project.drawings.push({id:Date.now(),type:'circle',layer:state.layer,cx:state.startPt[0],cy:state.startPt[1],r});setStatus('Círculo');}
-  state.drawing=false;state.currentPath=[];state.startPt=null;
-  ovCtx.clearRect(0,0,ovC.width,ovC.height); redraw();
+  const [cx, cy] = getPos(e);
+  const [wx, wy] = toWorld(cx, cy);
+
+  if (state.tool === 'pencil' && state.currentPath.length > 1) {
+    state.project.drawings.push({ id: Date.now(), type: 'pencil', layer: state.layer, points: [...state.currentPath] });
+    setStatus(`Traçado adicionado`);
+  } else if (state.tool === 'line' && state.startPt) {
+    state.project.drawings.push({ id: Date.now(), type: 'line', layer: state.layer, x1: state.startPt[0], y1: state.startPt[1], x2: wx, y2: wy });
+    setStatus('Linha adicionada');
+  } else if (state.tool === 'rect' && state.startPt) {
+    state.project.drawings.push({ id: Date.now(), type: 'rect', layer: state.layer, x: state.startPt[0], y: state.startPt[1], w: wx-state.startPt[0], h: wy-state.startPt[1] });
+    setStatus('Retângulo adicionado');
+  } else if (state.tool === 'circle' && state.startPt) {
+    const r = Math.sqrt((wx-state.startPt[0])**2+(wy-state.startPt[1])**2);
+    state.project.drawings.push({ id: Date.now(), type: 'circle', layer: state.layer, cx: state.startPt[0], cy: state.startPt[1], r });
+    setStatus('Círculo adicionado');
+  }
+  state.drawing = false; state.currentPath = []; state.startPt = null;
+  ovCtx.clearRect(0, 0, ovC.width, ovC.height);
+  redraw();
 });
 
 wrap.addEventListener('wheel', e => {
   e.preventDefault();
-  const[cx,cy]=getPos(e); const[wx,wy]=toWorld(cx,cy);
-  const d=e.deltaY>0?0.85:1.18;
-  state.zoom=Math.max(0.1,Math.min(20,state.zoom*d));
-  state.panX=cx-wx*state.zoom; state.panY=cy-wy*state.zoom;
+  const [cx, cy] = getPos(e);
+  const [wx, wy] = toWorld(cx, cy);
+  const d = e.deltaY > 0 ? 0.85 : 1.18;
+  state.zoom = Math.max(0.1, Math.min(20, state.zoom * d));
+  state.panX = cx - wx * state.zoom;
+  state.panY = cy - wy * state.zoom;
   redraw();
-  if (state.heatmapVisible) renderHeatmap();
-},{passive:false});
+}, { passive: false });
 
-wrap.addEventListener('mouseleave',()=>{state.panning=false;wrap.classList.remove('panning');curCtx.clearRect(0,0,curC.width,curC.height);});
+wrap.addEventListener('mouseleave', () => {
+  state.panning = false; wrap.classList.remove('panning');
+  curCtx.clearRect(0, 0, curC.width, curC.height);
+});
 
-function getPos(e){const r=wrap.getBoundingClientRect();return[(e.clientX||e.touches?.[0]?.clientX||0)-r.left,(e.clientY||e.touches?.[0]?.clientY||0)-r.top];}
-
-// ═══════════════════════════════════════════
-// TOOLBAR HANDLERS
-// ═══════════════════════════════════════════
-function setTool(tool,label){
-  state.tool=tool;
-  document.querySelectorAll('.tb-btn[id^=btn-]').forEach(b=>b.classList.remove('active'));
-  const m={pencil:'btn-pencil',line:'btn-line',rect:'btn-rect',circle:'btn-circle',pan:'btn-pan',select:'btn-select'};
-  if(m[tool])document.getElementById(m[tool]).classList.add('active');
-  if(state.surveyStatus!=='running')wrap.className='tool-'+tool;
-  document.getElementById('st-tool').textContent=label;
+// ═══════════════════════════════════════════════════════
+// TOOLBAR — FERRAMENTAS DE DESENHO
+// ═══════════════════════════════════════════════════════
+function setTool(tool, label) {
+  state.tool = tool;
+  document.querySelectorAll('.tb-btn[id^=btn-]').forEach(b => b.classList.remove('active'));
+  const map = { pencil:'btn-pencil', line:'btn-line', rect:'btn-rect', circle:'btn-circle', pan:'btn-pan', select:'btn-select' };
+  if (map[tool]) document.getElementById(map[tool]).classList.add('active');
+  if (state.surveyStatus !== 'running') wrap.className = 'tool-' + tool;
+  document.getElementById('st-tool').textContent = label;
 }
-document.getElementById('btn-pencil').onclick=()=>setTool('pencil','Lápis');
-document.getElementById('btn-line').onclick  =()=>setTool('line','Linha');
-document.getElementById('btn-rect').onclick  =()=>setTool('rect','Retângulo');
-document.getElementById('btn-circle').onclick=()=>setTool('circle','Círculo');
-document.getElementById('btn-select').onclick=()=>setTool('select','Seleção');
-document.getElementById('btn-pan').onclick   =()=>setTool('pan','Mover');
+document.getElementById('btn-pencil').onclick = () => setTool('pencil', 'Lápis');
+document.getElementById('btn-line').onclick   = () => setTool('line',   'Linha');
+document.getElementById('btn-rect').onclick   = () => setTool('rect',   'Retângulo');
+document.getElementById('btn-circle').onclick = () => setTool('circle', 'Círculo');
+document.getElementById('btn-select').onclick = () => setTool('select', 'Seleção');
+document.getElementById('btn-pan').onclick    = () => setTool('pan',    'Mover');
 
-document.getElementById('btn-zoom-in').onclick=()=>{const cx=mainC.width/2,cy=mainC.height/2,[wx,wy]=toWorld(cx,cy);state.zoom=Math.min(20,state.zoom*1.3);state.panX=cx-wx*state.zoom;state.panY=cy-wy*state.zoom;redraw();if(state.heatmapVisible)renderHeatmap();};
-document.getElementById('btn-zoom-out').onclick=()=>{const cx=mainC.width/2,cy=mainC.height/2,[wx,wy]=toWorld(cx,cy);state.zoom=Math.max(0.1,state.zoom*0.77);state.panX=cx-wx*state.zoom;state.panY=cy-wy*state.zoom;redraw();if(state.heatmapVisible)renderHeatmap();};
-document.getElementById('btn-fit').onclick=()=>{state.zoom=1;state.panX=0;state.panY=0;redraw();if(state.heatmapVisible)renderHeatmap();};
-
-document.getElementById('btn-layer-floor').onclick=()=>{state.layer='floor';document.getElementById('btn-layer-floor').classList.add('active');document.getElementById('btn-layer-wifi').classList.remove('active');document.getElementById('st-layer').textContent='Planta';};
-document.getElementById('btn-layer-wifi').onclick=()=>{state.layer='wifi';document.getElementById('btn-layer-wifi').classList.add('active');document.getElementById('btn-layer-floor').classList.remove('active');document.getElementById('st-layer').textContent='Wi-Fi';};
-
-document.getElementById('btn-calib').onclick=()=>{
-  state.calibMode=!state.calibMode; state.calibPts=[];
-  document.getElementById('btn-calib').classList.toggle('active',state.calibMode);
-  if(state.calibMode){wrap.classList.add('tool-calibrate');setStatus('Calibração: clique em 2 pontos','#ffb940');}
-  else{wrap.className='tool-'+state.tool;ovCtx.clearRect(0,0,ovC.width,ovC.height);curCtx.clearRect(0,0,curC.width,curC.height);}
+// ═══════════════════════════════════════════════════════
+// TOOLBAR — ZOOM / PAN
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-zoom-in').onclick = () => {
+  const cx = mainC.width/2, cy = mainC.height/2;
+  const [wx,wy] = toWorld(cx,cy);
+  state.zoom = Math.min(20, state.zoom*1.3);
+  state.panX = cx - wx*state.zoom; state.panY = cy - wy*state.zoom; redraw();
 };
-document.getElementById('btn-clear').onclick=()=>{
-  state.project.drawings=[];state.project.scanPoints=[];
-  clearHeatmap();redraw();setSurveyStatus('idle');setStatus('Canvas limpo');
+document.getElementById('btn-zoom-out').onclick = () => {
+  const cx = mainC.width/2, cy = mainC.height/2;
+  const [wx,wy] = toWorld(cx,cy);
+  state.zoom = Math.max(0.1, state.zoom*0.77);
+  state.panX = cx - wx*state.zoom; state.panY = cy - wy*state.zoom; redraw();
 };
-document.getElementById('btn-export').onclick=exportProject;
+document.getElementById('btn-fit').onclick = () => { state.zoom=1; state.panX=0; state.panY=0; redraw(); };
 
-// SURVEY
-document.getElementById('sv-start').onclick=()=>{setSurveyStatus('running');setStatus('Survey iniciado — clique para coletar pontos','#3aaa3a');};
-document.getElementById('sv-pause').onclick=()=>{
-  if(state.surveyStatus==='running'){setSurveyStatus('paused');setStatus('Pausado','#aaaa30');document.getElementById('sv-pause').textContent='▶ Retomar';}
-  else if(state.surveyStatus==='paused'){setSurveyStatus('running');setStatus('Retomado','#3aaa3a');document.getElementById('sv-pause').textContent='⏸ Pausar';}
+// ═══════════════════════════════════════════════════════
+// TOOLBAR — CAMADAS
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-layer-floor').onclick = () => {
+  state.layer = 'floor';
+  document.getElementById('btn-layer-floor').classList.add('active');
+  document.getElementById('btn-layer-wifi').classList.remove('active');
+  document.getElementById('st-layer').textContent = 'Planta';
 };
-document.getElementById('sv-stop').onclick=()=>{document.getElementById('sv-pause').textContent='⏸ Pausar';showSurveySummary();};
-document.getElementById('sv-undo').onclick=undoLastPoint;
-
-// ═══════════════════════════════════════════
-// HEATMAP BAR HANDLERS (módulo 3)
-// ═══════════════════════════════════════════
-document.getElementById('hm-render').onclick=()=>{renderHeatmap();};
-document.getElementById('hm-clear').onclick =()=>{clearHeatmap();};
-document.getElementById('hm-snap').onclick  =()=>{generateReport();};
-
-document.getElementById('hm-opacity').oninput=function(){
-  state.hmOpacity=this.value/100;
-  document.getElementById('hm-opacity-val').textContent=this.value+'%';
-  if(state.heatmapVisible)renderHeatmap();
-};
-document.getElementById('hm-radius').oninput=function(){
-  state.hmRadius=parseInt(this.value);
-  document.getElementById('hm-radius-val').textContent=this.value+'px';
-  if(state.heatmapVisible)renderHeatmap();
-};
-document.getElementById('hm-power').oninput=function(){
-  state.hmPower=parseFloat(this.value);
-  document.getElementById('hm-power-val').textContent=parseFloat(this.value).toFixed(1);
-  if(state.heatmapVisible)renderHeatmap();
+document.getElementById('btn-layer-wifi').onclick = () => {
+  state.layer = 'wifi';
+  document.getElementById('btn-layer-wifi').classList.add('active');
+  document.getElementById('btn-layer-floor').classList.remove('active');
+  document.getElementById('st-layer').textContent = 'Wi-Fi';
 };
 
-// ═══════════════════════════════════════════
-// MODAIS
-// ═══════════════════════════════════════════
-// Calibração
-document.getElementById('modal-calib-ok').onclick=()=>{
-  const val=parseFloat(document.getElementById('modal-calib-input').value);
-  if(val>0&&window._calibPx>0){state.project.scaleRatio=val/window._calibPx;setStatus(`Calibrado: 1px = ${state.project.scaleRatio.toFixed(4)} cm`,'#ffb940');}
-  document.getElementById('modal-calib-bg').classList.add('hidden');
-  state.calibMode=false;state.calibPts=[];
-  document.getElementById('btn-calib').classList.remove('active');
-  wrap.className='tool-'+state.tool;
-  ovCtx.clearRect(0,0,ovC.width,ovC.height);curCtx.clearRect(0,0,curC.width,curC.height);updateInfo();
-};
-document.getElementById('modal-calib-cancel').onclick=()=>{document.getElementById('modal-calib-bg').classList.add('hidden');state.calibPts=[];ovCtx.clearRect(0,0,ovC.width,ovC.height);};
-document.getElementById('modal-calib-input').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('modal-calib-ok').click();if(e.key==='Escape')document.getElementById('modal-calib-cancel').click();});
-
-// Scan
-document.getElementById('modal-scan-ok').onclick=saveScanPoint;
-document.getElementById('modal-scan-cancel').onclick=()=>{document.getElementById('modal-scan-bg').classList.add('hidden');state.pendingPoint=null;setStatus('Ponto descartado','#666');};
-
-// Resumo
-document.getElementById('summary-close').onclick=()=>document.getElementById('modal-summary-bg').classList.add('hidden');
-document.getElementById('summary-export').onclick=()=>{exportProject();document.getElementById('modal-summary-bg').classList.add('hidden');};
-
-// Relatório / Snapshot
-document.getElementById('report-close').onclick=()=>document.getElementById('modal-report-bg').classList.add('hidden');
-document.getElementById('report-dl-png').onclick=()=>{
-  if(!window._reportCanvas)return;
-  const a=document.createElement('a');
-  a.href=window._reportCanvas.toDataURL('image/png');
-  a.download=`2gij-survey-${Date.now()}.png`; a.click();
-};
-document.getElementById('report-dl-jpg').onclick=()=>{
-  if(!window._reportCanvas)return;
-  const a=document.createElement('a');
-  a.href=window._reportCanvas.toDataURL('image/jpeg',0.95);
-  a.download=`2gij-survey-${Date.now()}.jpg`; a.click();
-};
-
-// ═══════════════════════════════════════════
-// ATALHOS DE TECLADO
-// ═══════════════════════════════════════════
-document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
-  if(e.key==='p'||e.key==='P')setTool('pencil','Lápis');
-  if(e.key==='l'||e.key==='L')setTool('line','Linha');
-  if(e.key==='r'||e.key==='R')setTool('rect','Retângulo');
-  if(e.key==='c'||e.key==='C')setTool('circle','Círculo');
-  if(e.key==='v'||e.key==='V')setTool('select','Seleção');
-  if(e.key===' '){e.preventDefault();setTool('pan','Mover');}
-  if(e.key==='+'||e.key==='=')document.getElementById('btn-zoom-in').click();
-  if(e.key==='-')document.getElementById('btn-zoom-out').click();
-  if(e.key==='h'||e.key==='H'){if(state.project.scanPoints.length)renderHeatmap();}
-  if(e.key==='z'&&(e.ctrlKey||e.metaKey)){
-    if(state.surveyStatus==='running'||state.surveyStatus==='paused'){undoLastPoint();}
-    else if(state.project.drawings.length){state.project.drawings.pop();redraw();setStatus('Desfeito');}
+// ═══════════════════════════════════════════════════════
+// TOOLBAR — CALIBRAÇÃO
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-calib').onclick = () => {
+  state.calibMode = !state.calibMode;
+  state.calibPts = [];
+  document.getElementById('btn-calib').classList.toggle('active', state.calibMode);
+  if (state.calibMode) {
+    wrap.classList.add('tool-calibrate');
+    setStatus('Calibração: clique em 2 pontos', '#ffb940');
+  } else {
+    wrap.className = 'tool-' + state.tool;
+    ovCtx.clearRect(0,0,ovC.width,ovC.height);
+    curCtx.clearRect(0,0,curC.width,curC.height);
   }
-  if(e.key==='Escape'){
-    state.drawing=false;state.currentPath=[];state.startPt=null;
-    if(state.calibMode)document.getElementById('btn-calib').click();
+};
+
+// ═══════════════════════════════════════════════════════
+// TOOLBAR — AÇÕES GERAIS
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-clear').onclick = () => {
+  if (state.project.drawings.length + state.project.scanPoints.length === 0) return;
+  state.project.drawings = []; state.project.scanPoints = [];
+  redraw(); setSurveyStatus('idle'); setStatus('Canvas limpo');
+};
+document.getElementById('btn-export').onclick = exportProject;
+
+function exportProject() {
+  const data = JSON.stringify(state.project, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `2gij-${Date.now()}.json`;
+  a.click();
+  setStatus('Projeto exportado', '#4a9eff');
+}
+
+// ═══════════════════════════════════════════════════════
+// SURVEY BAR — BOTÕES
+// ═══════════════════════════════════════════════════════
+document.getElementById('sv-start').onclick = () => {
+  setSurveyStatus('running');
+  setStatus('Survey iniciado — clique no mapa para coletar pontos', '#3aaa3a');
+};
+document.getElementById('sv-pause').onclick = () => {
+  if (state.surveyStatus === 'running') {
+    setSurveyStatus('paused');
+    setStatus('Survey pausado', '#aaaa30');
+    document.getElementById('sv-pause').textContent = '▶ Retomar';
+  } else if (state.surveyStatus === 'paused') {
+    setSurveyStatus('running');
+    setStatus('Survey retomado — clique no mapa para coletar', '#3aaa3a');
+    document.getElementById('sv-pause').textContent = '⏸ Pausar';
+  }
+};
+document.getElementById('sv-stop').onclick  = () => {
+  document.getElementById('sv-pause').textContent = '⏸ Pausar';
+  showSurveySummary();
+};
+document.getElementById('sv-undo').onclick  = undoLastScanPoint;
+
+// ═══════════════════════════════════════════════════════
+// MODAIS
+// ═══════════════════════════════════════════════════════
+
+// Modal calibração
+document.getElementById('modal-calib-ok').onclick = () => {
+  const val = parseFloat(document.getElementById('modal-calib-input').value);
+  if (val > 0 && window._calibPixDist > 0) {
+    state.project.scaleRatio = val / window._calibPixDist;
+    setStatus(`Calibrado: 1px = ${state.project.scaleRatio.toFixed(4)} cm`, '#ffb940');
+  }
+  document.getElementById('modal-calib-bg').classList.add('hidden');
+  state.calibMode = false; state.calibPts = [];
+  document.getElementById('btn-calib').classList.remove('active');
+  wrap.className = 'tool-' + state.tool;
+  ovCtx.clearRect(0,0,ovC.width,ovC.height);
+  curCtx.clearRect(0,0,curC.width,curC.height);
+  updateInfo();
+};
+document.getElementById('modal-calib-cancel').onclick = () => {
+  document.getElementById('modal-calib-bg').classList.add('hidden');
+  state.calibPts = []; ovCtx.clearRect(0,0,ovC.width,ovC.height);
+};
+document.getElementById('modal-calib-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter')  document.getElementById('modal-calib-ok').click();
+  if (e.key === 'Escape') document.getElementById('modal-calib-cancel').click();
+});
+
+// Modal scan
+document.getElementById('modal-scan-ok').onclick     = saveScanPoint;
+document.getElementById('modal-scan-cancel').onclick = () => {
+  document.getElementById('modal-scan-bg').classList.add('hidden');
+  state.pendingPoint = null;
+  setStatus('Ponto descartado', '#666');
+};
+
+// Modal resumo
+document.getElementById('summary-close').onclick  = () => document.getElementById('modal-summary-bg').classList.add('hidden');
+document.getElementById('summary-export').onclick = () => { exportProject(); document.getElementById('modal-summary-bg').classList.add('hidden'); };
+
+// ═══════════════════════════════════════════════════════
+// ATALHOS DE TECLADO
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (e.key === 'p' || e.key === 'P') setTool('pencil','Lápis');
+  if (e.key === 'l' || e.key === 'L') setTool('line','Linha');
+  if (e.key === 'r' || e.key === 'R') setTool('rect','Retângulo');
+  if (e.key === 'c' || e.key === 'C') setTool('circle','Círculo');
+  if (e.key === 'v' || e.key === 'V') setTool('select','Seleção');
+  if (e.key === ' ') { e.preventDefault(); setTool('pan','Mover'); }
+  if (e.key === '+' || e.key === '=') document.getElementById('btn-zoom-in').click();
+  if (e.key === '-') document.getElementById('btn-zoom-out').click();
+  if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
+    // Ctrl+Z desfaz: ponto de survey se survey ativo, senão geometria
+    if (state.surveyStatus === 'running' || state.surveyStatus === 'paused') {
+      undoLastScanPoint();
+    } else {
+      if (state.project.drawings.length > 0) {
+        state.project.drawings.pop(); redraw(); setStatus('Desfeito');
+      }
+    }
+  }
+  if (e.key === 'Escape') {
+    state.drawing = false; state.currentPath = []; state.startPt = null;
+    if (state.calibMode) document.getElementById('btn-calib').click();
     ovCtx.clearRect(0,0,ovC.width,ovC.height);
     document.getElementById('modal-scan-bg').classList.add('hidden');
     document.getElementById('modal-calib-bg').classList.add('hidden');
-    document.getElementById('modal-report-bg').classList.add('hidden');
   }
 });
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════
-const ro=new ResizeObserver(resize);
+// ═══════════════════════════════════════════════════════
+const ro = new ResizeObserver(resize);
 ro.observe(wrap);
 resize();
 setSurveyStatus('idle');
-setStatus('Pronto — desenhe a planta, colete pontos e renderize o heatmap');
+setStatus('Pronto — desenhe a planta ou inicie o Survey');
 </script>
 </body>
 </html>
